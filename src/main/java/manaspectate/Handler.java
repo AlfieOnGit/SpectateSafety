@@ -1,14 +1,15 @@
 package manaspectate;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 
-public class SpectateHandler {
+public class Handler {
 
     private final ArrayList<Spectator> spectators;
 
-    public SpectateHandler () {
+    public Handler() {
         this.spectators = new ArrayList<>();
     }
 
@@ -25,6 +26,20 @@ public class SpectateHandler {
                 s.unspectate();
                 hold.add(s);
             }
+        } spectators.removeIf(hold::contains);
+    }
+
+    public void setAllSpectator () {
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            setSpectator(p);
+        }
+    }
+
+    public void unsetAllSpectator () {
+        ArrayList<Spectator> hold = new ArrayList<>();
+        for (Spectator s : spectators) {
+            s.unspectate();
+            hold.add(s);
         } spectators.removeIf(hold::contains);
     }
 }

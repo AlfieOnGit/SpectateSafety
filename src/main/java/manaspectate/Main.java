@@ -6,18 +6,18 @@ import java.util.Objects;
 
 public final class Main extends JavaPlugin {
 
-    public static SpectateHandler handler;
+    public static Handler handler;
 
     @Override
     public void onEnable() {
         Objects.requireNonNull(getCommand("spec")).setExecutor(new CommandHandler());
         Objects.requireNonNull(getCommand("unspec")).setExecutor(new CommandHandler());
-        handler = new SpectateHandler();
+        handler = new Handler();
         new ListenerHandler(this);
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        handler.unsetAllSpectator();
     }
 }
