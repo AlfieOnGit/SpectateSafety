@@ -1,0 +1,11 @@
+name: ManaSpectate
+version: ${project.version}
+main: manaspectate.ManaSpectate
+api-version: 1.16
+authors: [ AlfieJay ]
+commands:
+  spec:
+    description: Activates spectator mode
+    usage: /<command>
+    permission: manaspectate.spec
+    permission-message: Sorry, you don't have permission for that command!
