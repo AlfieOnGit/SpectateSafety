@@ -8,7 +8,8 @@ public final class ManaSpectate extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Objects.requireNonNull(getCommand("spec")).setExecutor(new SpecCommand());
+        Objects.requireNonNull(getCommand("spec")).setExecutor(new CommandHandler());
+        Objects.requireNonNull(getCommand("unspec")).setExecutor(new CommandHandler());
     }
 
     @Override

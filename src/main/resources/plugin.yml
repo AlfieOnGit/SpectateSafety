@@ -8,4 +8,9 @@ commands:
     description: Activates spectator mode
     usage: /<command>
     permission: manaspectate.spec
-    permission-message: Sorry, you don't have permission for that command!
+    permission-message: "§cSorry, you don't have permission for that command!"
+  unspec:
+    description: Deactivates spectator mode
+    usage: /<command>
+    permission: manaspectate.unspec
+    permission-message: "§cSorry, you don't have permission for that command!"
