@@ -13,7 +13,9 @@ public class SpectateHandler {
     }
 
     public void setSpectator (Player player) {
-        spectators.add(new Spectator(player));
+        for (Spectator s : spectators) {
+            if (s.getPlayer() == player) return;
+        } spectators.add(new Spectator(player));
     }
 
     public void unsetSpectator (Player player) {

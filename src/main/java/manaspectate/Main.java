@@ -13,6 +13,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("spec")).setExecutor(new CommandHandler());
         Objects.requireNonNull(getCommand("unspec")).setExecutor(new CommandHandler());
         handler = new SpectateHandler();
+        new ListenerHandler(this);
     }
 
     @Override
