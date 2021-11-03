@@ -1,6 +1,6 @@
 name: ManaSpectate
 version: ${project.version}
-main: manaspectate.ManaSpectate
+main: manaspectate.Main
 api-version: 1.16
 authors: [ AlfieJay ]
 commands:
