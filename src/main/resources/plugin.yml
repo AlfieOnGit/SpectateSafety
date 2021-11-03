@@ -6,11 +6,13 @@ authors: [ AlfieJay ]
 commands:
   spec:
     description: Activates spectator mode
+    aliases: [spectate]
     usage: /<command>
     permission: manaspectate.spec
     permission-message: "§cSorry, you don't have permission for that command!"
   unspec:
     description: Deactivates spectator mode
+    aliases: [unspectate]
     usage: /<command>
     permission: manaspectate.unspec
     permission-message: "§cSorry, you don't have permission for that command!"
