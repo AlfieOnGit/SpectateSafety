@@ -13,20 +13,23 @@ public class Handler {
         this.spectators = new ArrayList<>();
     }
 
-    public void setSpectator (Player player) {
+    public Feedback setSpectator (Player player) {
         for (Spectator s : spectators) {
-            if (s.getPlayer() == player) return;
+            if (s.getPlayer() == player) return Feedback.ALREADY_SPEC;
         } spectators.add(new Spectator(player));
+        return Feedback.SUCCESS;
     }
 
-    public void unsetSpectator (Player player) {
+    public Feedback unsetSpectator (Player player) {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) {
                 s.unspectate();
                 hold.add(s);
             }
-        } spectators.removeIf(hold::contains);
+        } if (hold.isEmpty()) return Feedback.ALREADY_UNSPEC;
+        spectators.removeIf(hold::contains);
+        return Feedback.SUCCESS;
     }
 
     public void setAllSpectator () {
