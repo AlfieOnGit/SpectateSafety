@@ -12,14 +12,14 @@ public class SpecCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("spec")) {
             if (args.length == 0) {
-                if (sender.hasPermission("manaspectate.spec")) {
+                if (sender.hasPermission("manaspectate.spectate")) {
                     Boolean feedback = Main.handler.setSpectator((Player) sender);
                     if (feedback) sender.sendMessage("Spec ran");
                     else sender.sendMessage("You're already in spec");
                     return true;
                 } sender.sendMessage("No perms to spec");
             } else {
-                if (sender.hasPermission("manaspectate.spec.others")) {
+                if (sender.hasPermission("manaspectate.spectate.others")) {
                     if (args[0].equalsIgnoreCase("*")) {
                         Integer count = Main.handler.setAllSpectator();
                         sender.sendMessage("Spec ran on " + count.toString() + " players");

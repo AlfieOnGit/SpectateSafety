@@ -3,16 +3,23 @@ version: ${project.version}
 main: manaspectate.Main
 api-version: 1.16
 authors: [ AlfieJay ]
+
 commands:
   spec:
     description: Activates spectator mode
     aliases: [spectate]
-    usage: /<command>
-    permission: manaspectate.spec
-    permission-message: "§cSorry, you don't have permission for that command!"
+    usage: /<command> [player]
   unspec:
     description: Deactivates spectator mode
     aliases: [unspectate]
-    usage: /<command>
-    permission: manaspectate.unspec
-    permission-message: "§cSorry, you don't have permission for that command!"
+    usage: /<command> [player]
+
+permissions:
+  manaspectate.spectate:
+    description: Allows the player to enter spectator mode
+  manaspectate.unspectate:
+    description: Allows the player to leave spectator mode
+  manaspectate.spectate.others:
+    description: Allows the player to put other players in spectator mode
+  manaspectate.unspectate.others:
+    description: Allows the player to take other players out of spectator mode
