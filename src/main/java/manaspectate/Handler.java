@@ -13,36 +13,39 @@ public class Handler {
         this.spectators = new ArrayList<>();
     }
 
-    public Feedback setSpectator (Player player) {
+    public Boolean setSpectator (Player player) {
         for (Spectator s : spectators) {
-            if (s.getPlayer() == player) return Feedback.ALREADY_SPEC;
+            if (s.getPlayer() == player) return false;
         } spectators.add(new Spectator(player));
-        return Feedback.SUCCESS;
+        return true;
     }
 
-    public Feedback unsetSpectator (Player player) {
+    public Boolean unsetSpectator (Player player) {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) {
                 s.unspectate();
                 hold.add(s);
             }
-        } if (hold.isEmpty()) return Feedback.ALREADY_UNSPEC;
+        } if (hold.isEmpty()) return false;
         spectators.removeIf(hold::contains);
-        return Feedback.SUCCESS;
+        return true;
     }
 
-    public void setAllSpectator () {
+    public Integer setAllSpectator () {
+        Integer output = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            setSpectator(p);
-        }
+            Boolean feedback = setSpectator(p);
+            if (feedback) output++;
+        } return output;
     }
 
-    public void unsetAllSpectator () {
+    public Integer unsetAllSpectator () {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
             s.unspectate();
             hold.add(s);
         } spectators.removeIf(hold::contains);
+        return hold.toArray().length;
     }
 }

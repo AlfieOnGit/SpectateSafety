@@ -13,20 +13,22 @@ public class UnspecCommand implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("unspec")) {
             if (args.length == 0) {
                 if (sender.hasPermission("manaspectate.unspec")) {
-                    Feedback feedback = Main.handler.unsetSpectator((Player) sender);
-                    if (feedback == Feedback.SUCCESS) { sender.sendMessage("Unspec ran"); }
+                    Boolean feedback = Main.handler.unsetSpectator((Player) sender);
+                    if (feedback) { sender.sendMessage("Unspec ran"); }
                     else { sender.sendMessage("You're not in spec"); }
                     return true;
-                }
+                } sender.sendMessage("No perms to unspec");
             } else {
                 if (sender.hasPermission("manaspectate.unspec.others")) {
                     if (args[0].equalsIgnoreCase("*")) {
-                        Main.handler.unsetAllSpectator();
+                        Integer count = Main.handler.unsetAllSpectator();
+                        sender.sendMessage("Unspec ran on " + count.toString() + " players");
                     } else {
-                        Main.handler.unsetSpectator(Utils.getPlayerFromName(args[0]));
-                        sender.sendMessage("Unspec ran on " + args[0]);
+                        Boolean feedback = Main.handler.unsetSpectator(Utils.getPlayerFromName(args[0]));
+                        if (feedback) sender.sendMessage("Unspec ran on " + args[0]);
+                        else sender.sendMessage("That player isn't in spec");
                     } return true;
-                }
+                } sender.sendMessage("No perms to unspec others");
             } return true;
         } else return false;
     }
