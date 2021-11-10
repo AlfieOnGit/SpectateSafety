@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public class UnspecCommand implements CommandExecutor {
 
     @Override
@@ -14,22 +16,28 @@ public class UnspecCommand implements CommandExecutor {
             if (args.length == 0) {
                 if (sender.hasPermission("manaspectate.unspectate")) {
                     Boolean feedback = Main.handler.unsetSpectator((Player) sender);
-                    if (feedback) { sender.sendMessage("Unspec ran"); }
-                    else { sender.sendMessage("You're not in spec"); }
+                    if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &c&lDISABLED&7!"));
+                    else sender.sendMessage(Util.formatOutput("&cYou're not currently in spectator mode!"));
                     return true;
-                } sender.sendMessage("No perms to unspec");
+                }
             } else {
                 if (sender.hasPermission("manaspectate.unspectate.others")) {
                     if (args[0].equalsIgnoreCase("*")) {
                         Integer count = Main.handler.unsetAllSpectator();
-                        sender.sendMessage("Unspec ran on " + count.toString() + " players");
+                        sender.sendMessage(Util.formatOutput("&7Disabled spectator mode for &c&l" + count.toString() + "&7 other players!"));
                     } else {
-                        Boolean feedback = Main.handler.unsetSpectator(Utils.getPlayerFromName(args[0]));
-                        if (feedback) sender.sendMessage("Unspec ran on " + args[0]);
-                        else sender.sendMessage("That player isn't in spec");
+                        if (Util.getPlayerFromName(args[0]) == null) {
+                            sender.sendMessage(Util.formatOutput("&c'" + args[0] + "' is not an online player!"));
+                            return true;
+                        }
+                        Boolean feedback = Main.handler.unsetSpectator(Util.getPlayerFromName(args[0]));
+                        String playerName = Objects.requireNonNull(Util.getPlayerFromName(args[0])).getName();
+                        if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &c&lDISABLED&7 for &f" + playerName + "&7!"));
+                        else sender.sendMessage(Util.formatOutput("&c" + playerName + " isn't currently in spectator mode!"));
                     } return true;
-                } sender.sendMessage("No perms to unspec others");
-            } return true;
+                }
+            } sender.sendMessage(Util.formatOutput("&cSorry, you don't have permission to use that command!"));
+            return true;
         } else return false;
     }
 }
