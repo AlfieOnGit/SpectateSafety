@@ -8,12 +8,12 @@ public class Spectator {
 
     private final Player player;
     private final GameMode ogGamemode;
-    private final Location ogLocation;
+    private final Location originalLocation;
 
     public Spectator (Player player) {
         this.player = player;
         this.ogGamemode = player.getGameMode();
-        this.ogLocation = player.getLocation();
+        this.originalLocation = player.getLocation();
 
         this.player.setGameMode(GameMode.SPECTATOR);
 
@@ -23,7 +23,9 @@ public class Spectator {
 
     public void unspectate () {
         this.player.setGameMode(this.ogGamemode);
-        this.player.teleport(this.ogLocation);
+        Location unspecPoint = Main.handler.getUnspecPoint();
+        if (unspecPoint != null) this.player.teleport(unspecPoint);
+        else this.player.teleport(this.originalLocation);
     }
 
     public Player getPlayer () {

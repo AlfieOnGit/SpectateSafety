@@ -13,7 +13,8 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         Objects.requireNonNull(getCommand("spec")).setExecutor(new SpecCommand());
         Objects.requireNonNull(getCommand("unspec")).setExecutor(new UnspecCommand());
-        Objects.requireNonNull(getCommand("specpoint")).setExecutor(new SpecpointCommand());
+        Objects.requireNonNull(getCommand("specpoint")).setExecutor(new SpecPointCommand());
+        Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand());
         handler = new Handler();
         new ListenerHandler(this);
     }

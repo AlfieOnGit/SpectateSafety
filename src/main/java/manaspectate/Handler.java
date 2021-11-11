@@ -10,7 +10,7 @@ public class Handler {
 
     private final ArrayList<Spectator> spectators;
 
-    private Location specPoint;
+    private Location specPoint, unspecPoint;
 
     public Handler() {
         this.spectators = new ArrayList<>();
@@ -63,7 +63,22 @@ public class Handler {
         } else return false;
     }
 
+    public void setUnspecPoint (Location unspecPoint) {
+        this.unspecPoint = unspecPoint;
+    }
+
+    public Boolean clearUnspecPoint () {
+        if (this.unspecPoint != null) {
+            this.unspecPoint = null;
+            return true;
+        } else return false;
+    }
+
     public Location getSpecPoint () {
         return specPoint;
+    }
+
+    public Location getUnspecPoint () {
+        return unspecPoint;
     }
 }
