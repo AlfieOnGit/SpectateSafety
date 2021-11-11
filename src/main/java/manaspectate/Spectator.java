@@ -16,6 +16,9 @@ public class Spectator {
         this.ogLocation = player.getLocation();
 
         this.player.setGameMode(GameMode.SPECTATOR);
+
+        Location specPoint = Main.handler.getSpecPoint();
+        if (specPoint != null) this.player.teleport(specPoint);
     }
 
     public void unspectate () {

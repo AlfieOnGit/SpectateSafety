@@ -6,13 +6,21 @@ authors: [ AlfieJay ]
 
 commands:
   spec:
-    description: Activates spectator mode
-    aliases: [spectate]
+    description: Activates spectator mode for the sender or a target player if specified
+    aliases: [ spectate ]
     usage: /<command> [player]
   unspec:
-    description: Deactivates spectator mode
-    aliases: [unspectate]
+    description: Deactivates spectator mode for the sender or a target player if specified
+    aliases: [ unspectate ]
     usage: /<command> [player]
+  specpoint:
+    description: Sets the location players will be teleported to when they enable spectator mode
+    aliases: [ spectatepoint, spectatorpoint ]
+    usage: /<command> <set/clear>
+  unspecpoint:
+    description: Sets the location players will be teleported to when they disable spectator mode
+    aliases: [ unspectatepoint, unspectatorpoint ]
+    usage: /<command> <set/clear>
 
 permissions:
   manaspectate.spectate:
@@ -23,3 +31,7 @@ permissions:
     description: Allows the player to put other players in spectator mode
   manaspectate.unspectate.others:
     description: Allows the player to take other players out of spectator mode
+  manaspectate.specpoint:
+    description: Allows the player to set or clear the spectate point
+  manaspectate.unspecpoint:
+    description: Allows the player to set or clear the unspectate point

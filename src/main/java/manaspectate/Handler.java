@@ -1,6 +1,7 @@
 package manaspectate;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 public class Handler {
 
     private final ArrayList<Spectator> spectators;
+
+    private Location specPoint;
 
     public Handler() {
         this.spectators = new ArrayList<>();
@@ -47,5 +50,20 @@ public class Handler {
             hold.add(s);
         } spectators.removeIf(hold::contains);
         return hold.toArray().length;
+    }
+
+    public void setSpecPoint (Location specPoint) {
+        this.specPoint = specPoint;
+    }
+
+    public Boolean clearSpecPoint () {
+        if (this.specPoint != null) {
+            this.specPoint = null;
+            return true;
+        } else return false;
+    }
+
+    public Location getSpecPoint () {
+        return specPoint;
     }
 }
