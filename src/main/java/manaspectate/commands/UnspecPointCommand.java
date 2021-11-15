@@ -19,12 +19,10 @@ public class UnspecPointCommand implements CommandExecutor {
                         Player p = (Player) sender;
                         Main.handler.setUnspecPoint(p.getLocation());
                         sender.sendMessage(Util.formatOutput("&aThe unspectate point has been set to your current location!"));
-                        return true;
                     } else if (args[0].equalsIgnoreCase("clear")) {
                         Boolean feedback = Main.handler.clearUnspecPoint();
                         if (feedback) sender.sendMessage(Util.formatOutput("&aThe unspectate point has been cleared!"));
                         else sender.sendMessage(Util.formatOutput("&cThere's no existing unspectate point to clear!"));
-                        return true;
                     } else sender.sendMessage(Util.formatOutput("&cValid subcommands: set, clear"));
                 } else sender.sendMessage(Util.formatOutput("&cValid subcommands: set, clear"));
             } else sender.sendMessage(Util.formatOutput("&cSorry, you don't have permission to use that command!"));

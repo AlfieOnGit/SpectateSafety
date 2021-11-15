@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 public final class Util {
 
-    private final static String tag = "&f[&3&lSPEC&f]&f";
+    private final static String tag = "&8[&f&lSPEC&8]";
 
     public static Player getPlayerFromName (String name) {
         for (Player p : Bukkit.getOnlinePlayers()) {
