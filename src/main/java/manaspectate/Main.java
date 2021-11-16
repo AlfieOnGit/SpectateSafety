@@ -11,10 +11,10 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Objects.requireNonNull(getCommand("spec")).setExecutor(new SpecCommand());
-        Objects.requireNonNull(getCommand("unspec")).setExecutor(new UnspecCommand());
+        Objects.requireNonNull(getCommand("spec")).setExecutor(new SpecCommand(this));
+        Objects.requireNonNull(getCommand("unspec")).setExecutor(new UnspecCommand(this));
         Objects.requireNonNull(getCommand("specpoint")).setExecutor(new SpecPointCommand(this));
-        Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand());
+        Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand(this));
         handler = new Handler();
         new ListenerHandler(this);
     }

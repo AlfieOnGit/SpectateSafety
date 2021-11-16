@@ -1,7 +1,6 @@
 package manaspectate.commands;
 
-import manaspectate.Main;
-import manaspectate.Util;
+import manaspectate.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
