@@ -54,24 +54,33 @@ public class Handler {
 
     public void setSpecPoint (Location specPoint) {
         this.specPoint = specPoint;
+        Main.fileHandler.saveSpecPoint(specPoint);
     }
 
     public Boolean clearSpecPoint () {
         if (this.specPoint != null) {
             this.specPoint = null;
+            Main.fileHandler.clearSpecPoint();
             return true;
         } else return false;
     }
 
     public void setUnspecPoint (Location unspecPoint) {
         this.unspecPoint = unspecPoint;
+        Main.fileHandler.saveUnspecPoint(unspecPoint);
     }
 
     public Boolean clearUnspecPoint () {
         if (this.unspecPoint != null) {
             this.unspecPoint = null;
+            Main.fileHandler.clearUnspecPoint();
             return true;
         } else return false;
+    }
+
+    public void loadSpecPoints() {
+        specPoint = Main.fileHandler.getSpecPoint();
+        unspecPoint = Main.fileHandler.getUnspecPoint();
     }
 
     public Location getSpecPoint () {

@@ -8,6 +8,7 @@ import java.util.Objects;
 public final class Main extends JavaPlugin {
 
     public static Handler handler;
+    public static FileHandler fileHandler;
 
     @Override
     public void onEnable() {
@@ -16,7 +17,9 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("specpoint")).setExecutor(new SpecPointCommand(this));
         Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand(this));
         handler = new Handler();
+        fileHandler = new FileHandler(this);
         new ListenerHandler(this);
+        handler.loadSpecPoints();
     }
 
     @Override
