@@ -1,8 +1,9 @@
-package spectatesafety;
+package spectatesafety.handlers;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import spectatesafety.Main;
 
 public class ListenerHandler implements Listener {
 

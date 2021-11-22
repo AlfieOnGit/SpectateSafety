@@ -1,4 +1,4 @@
-package spectatesafety;
+package spectatesafety.handlers;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;

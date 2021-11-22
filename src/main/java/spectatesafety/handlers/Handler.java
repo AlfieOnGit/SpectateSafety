@@ -1,8 +1,10 @@
-package spectatesafety;
+package spectatesafety.handlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import spectatesafety.Main;
+import spectatesafety.Spectator;
 
 import java.util.ArrayList;
 

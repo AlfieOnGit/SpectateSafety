@@ -1,6 +1,7 @@
 package spectatesafety;
 
 import spectatesafety.commands.*;
+import spectatesafety.handlers.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
