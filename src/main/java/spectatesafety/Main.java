@@ -1,6 +1,6 @@
-package manaspectate;
+package spectatesafety;
 
-import manaspectate.commands.*;
+import spectatesafety.commands.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;

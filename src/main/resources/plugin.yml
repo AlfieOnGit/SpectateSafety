@@ -1,6 +1,6 @@
-name: ManaSpectate
+name: SpectateSafety
 version: ${project.version}
-main: manaspectate.Main
+main: spectatesafety.Main
 api-version: 1.16
 authors: [ AlfieJay ]
 
@@ -23,15 +23,15 @@ commands:
     usage: /<command> <set/clear>
 
 permissions:
-  manaspectate.spectate:
+  spectatesafety.spectate:
     description: Allows the player to enter spectator mode
-  manaspectate.unspectate:
+  spectatesafety.unspectate:
     description: Allows the player to leave spectator mode
-  manaspectate.spectate.others:
+  spectatesafety.spectate.others:
     description: Allows the player to put other players in spectator mode
-  manaspectate.unspectate.others:
+  spectatesafety.unspectate.others:
     description: Allows the player to take other players out of spectator mode
-  manaspectate.specpoint:
+  spectatesafety.specpoint:
     description: Allows the player to set or clear the spectate point
-  manaspectate.unspecpoint:
+  spectatesafety.unspecpoint:
     description: Allows the player to set or clear the unspectate point

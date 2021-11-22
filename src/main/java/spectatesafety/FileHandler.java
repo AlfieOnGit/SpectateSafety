@@ -1,4 +1,4 @@
-package manaspectate;
+package spectatesafety;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;

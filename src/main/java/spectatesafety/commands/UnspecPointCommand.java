@@ -1,6 +1,6 @@
-package manaspectate.commands;
+package spectatesafety.commands;
 
-import manaspectate.*;
+import spectatesafety.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,27 +14,27 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class SpecPointCommand implements CommandExecutor, TabCompleter {
+public class UnspecPointCommand implements CommandExecutor, TabCompleter {
 
     private final List<String> subCommands = Arrays.asList("set", "clear");
 
-    public SpecPointCommand(Main main) {
-        Objects.requireNonNull(main.getCommand("specpoint")).setTabCompleter(this);
+    public UnspecPointCommand(Main main) {
+        Objects.requireNonNull(main.getCommand("unspecpoint")).setTabCompleter(this);
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (command.getName().equalsIgnoreCase("specpoint")) {
-            if (sender.hasPermission("manaspectate.specpoint")) {
+        if (command.getName().equalsIgnoreCase("unspecpoint")) {
+            if (sender.hasPermission("spectatesafety.unspecpoint")) {
                 if (args.length > 0) {
                     if (args[0].equalsIgnoreCase("set")) {
                         Player p = (Player) sender;
-                        Main.handler.setSpecPoint(p.getLocation());
-                        sender.sendMessage(Util.formatOutput("&aThe spectate point has been set to your current location!"));
+                        Main.handler.setUnspecPoint(p.getLocation());
+                        sender.sendMessage(Util.formatOutput("&aThe unspectate point has been set to your current location!"));
                     } else if (args[0].equalsIgnoreCase("clear")) {
-                        Boolean feedback = Main.handler.clearSpecPoint();
-                        if (feedback) sender.sendMessage(Util.formatOutput("&aThe spectate point has been cleared!"));
-                        else sender.sendMessage(Util.formatOutput("&cThere's no existing spectate point to clear!"));
+                        Boolean feedback = Main.handler.clearUnspecPoint();
+                        if (feedback) sender.sendMessage(Util.formatOutput("&aThe unspectate point has been cleared!"));
+                        else sender.sendMessage(Util.formatOutput("&cThere's no existing unspectate point to clear!"));
                     } else sender.sendMessage(Util.formatOutput("&cValid subcommands: set, clear"));
                 } else sender.sendMessage(Util.formatOutput("&cValid subcommands: set, clear"));
             } else sender.sendMessage(Util.formatOutput("&cSorry, you don't have permission to use that command!"));
