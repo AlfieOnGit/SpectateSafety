@@ -1,6 +1,7 @@
 package spectatesafety.handlers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -14,6 +15,7 @@ public class MessagesHandler {
 
     private final File file;
     private FileConfiguration config;
+    private String tag = "&8[&f&lSPEC&8]";
 
     public MessagesHandler(Plugin plugin) {
         file = new File(plugin.getDataFolder(), "messages.yml");
@@ -22,8 +24,8 @@ public class MessagesHandler {
         } else {
             try {
                 file.createNewFile();
-                config = YamlConfiguration.loadConfiguration(file);
                 loadFile(plugin);
+                config = YamlConfiguration.loadConfiguration(file);
             } catch (IOException ignored) { }
         }
     }
@@ -38,5 +40,9 @@ public class MessagesHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String get(String path) {
+        return ChatColor.translateAlternateColorCodes('&', tag + " " + config.getString(path));
     }
 }

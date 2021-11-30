@@ -1,6 +1,8 @@
 package spectatesafety.commands;
 
+import org.bukkit.ChatColor;
 import spectatesafety.Main;
+import spectatesafety.Messages;
 import spectatesafety.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -45,7 +47,7 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                     if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &a&lENABLED&7 for &f" + playerName + "&7!"));
                     else sender.sendMessage(Util.formatOutput("&c" + playerName + " is already in spectator mode!"));
                 } return true;
-            } sender.sendMessage(Util.formatOutput("&cSorry, you don't have permission to use that command!"));
+            } sender.sendMessage("" + Messages.NO_PERMISSION);
             return true;
         } else return false;
     }
