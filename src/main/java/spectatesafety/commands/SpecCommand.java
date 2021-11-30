@@ -1,6 +1,5 @@
 package spectatesafety.commands;
 
-import org.bukkit.ChatColor;
 import spectatesafety.Main;
 import spectatesafety.Messages;
 import spectatesafety.Util;
@@ -29,25 +28,25 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
             if (args.length == 0 || !sender.hasPermission("spectatesafety.spectate.others")) {
                 if (sender.hasPermission("spectatesafety.spectate")) {
                     Boolean feedback = Main.handler.setSpectator((Player) sender);
-                    if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &a&lENABLED&7!"));
-                    else sender.sendMessage(Util.formatOutput("&cYou're already in spectator mode!"));
+                    if (feedback) sender.sendMessage(Messages.ENABLED.toString());
+                    else sender.sendMessage(Messages.ALREADY_ENABLED.toString());
                     return true;
                 }
             } else {
                 if (args[0].equalsIgnoreCase("*")) {
                     Integer count = Main.handler.setAllSpectator();
-                    sender.sendMessage(Util.formatOutput("&7Enabled spectator mode for &a&l" + count.toString() + "&7 other players!"));
+                    sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%",count.toString()));
                 } else {
                     if (Util.getPlayerFromName(args[0]) == null) {
-                        sender.sendMessage(Util.formatOutput("&c'" + args[0] + "' is not an online player!"));
+                        sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%",args[0]));
                         return true;
                     }
                     Boolean feedback = Main.handler.setSpectator(Util.getPlayerFromName(args[0]));
                     String playerName = Objects.requireNonNull(Util.getPlayerFromName(args[0])).getName();
-                    if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &a&lENABLED&7 for &f" + playerName + "&7!"));
-                    else sender.sendMessage(Util.formatOutput("&c" + playerName + " is already in spectator mode!"));
+                    if (feedback) sender.sendMessage(Messages.ENABLED_FOR.toString().replace("%TARGET%", playerName));
+                    else sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("%TARGET%", playerName));
                 } return true;
-            } sender.sendMessage("" + Messages.NO_PERMISSION);
+            } sender.sendMessage(Messages.NO_PERMISSION.toString());
             return true;
         } else return false;
     }

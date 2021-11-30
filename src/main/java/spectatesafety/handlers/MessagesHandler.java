@@ -15,7 +15,7 @@ public class MessagesHandler {
 
     private final File file;
     private FileConfiguration config;
-    private String tag = "&8[&f&lSPEC&8]";
+    private final String tag;
 
     public MessagesHandler(Plugin plugin) {
         file = new File(plugin.getDataFolder(), "messages.yml");
@@ -27,7 +27,7 @@ public class MessagesHandler {
                 loadFile(plugin);
                 config = YamlConfiguration.loadConfiguration(file);
             } catch (IOException ignored) { }
-        }
+        } tag = config.getString("tag");
     }
 
     private void loadFile(Plugin plugin) {
@@ -35,6 +35,7 @@ public class MessagesHandler {
         InputStream inputStream = plugin.getResource("messages.yml");
 
         try {
+            assert inputStream != null;
             Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             inputStream.close();
         } catch (IOException e) {

@@ -16,9 +16,9 @@ public final class Util {
         } return null;
     }
 
-    public static String formatOutput(String message) {
-        String output = tag + " " + message;
-        output = ChatColor.translateAlternateColorCodes('&', output);
-        return output;
-    }
+//    public static String formatOutput(String message) {
+//        String output = tag + " " + message;
+//        output = ChatColor.translateAlternateColorCodes('&', output);
+//        return output;
+//    }
 }

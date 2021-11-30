@@ -30,14 +30,14 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
                     if (args[0].equalsIgnoreCase("set")) {
                         Player p = (Player) sender;
                         Main.handler.setSpecPoint(p.getLocation());
-                        sender.sendMessage(Util.formatOutput("&aThe spectate point has been set to your current location!"));
+                        sender.sendMessage(Messages.POINT_SET.toString());
                     } else if (args[0].equalsIgnoreCase("clear")) {
                         Boolean feedback = Main.handler.clearSpecPoint();
-                        if (feedback) sender.sendMessage(Util.formatOutput("&aThe spectate point has been cleared!"));
-                        else sender.sendMessage(Util.formatOutput("&cThere's no existing spectate point to clear!"));
-                    } else sender.sendMessage(Util.formatOutput("&cValid subcommands: set, clear"));
-                } else sender.sendMessage(Util.formatOutput("&cValid subcommands: set, clear"));
-            } else sender.sendMessage(Util.formatOutput("&cSorry, you don't have permission to use that command!"));
+                        if (feedback) sender.sendMessage(Messages.POINT_CLEARED.toString());
+                        else sender.sendMessage(Messages.NO_POINT.toString());
+                    } else sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
+                } else sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
+            } else sender.sendMessage(Messages.NO_PERMISSION.toString());
             return true;
         } else return false;
     }

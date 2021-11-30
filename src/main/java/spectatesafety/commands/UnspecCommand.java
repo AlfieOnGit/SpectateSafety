@@ -1,6 +1,7 @@
 package spectatesafety.commands;
 
 import spectatesafety.Main;
+import spectatesafety.Messages;
 import spectatesafety.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -27,25 +28,25 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
             if (args.length == 0 || !sender.hasPermission("spectatesafety.unspectate.others")) {
                 if (sender.hasPermission("spectatesafety.unspectate")) {
                     Boolean feedback = Main.handler.unsetSpectator((Player) sender);
-                    if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &c&lDISABLED&7!"));
-                    else sender.sendMessage(Util.formatOutput("&cYou're not currently in spectator mode!"));
+                    if (feedback) sender.sendMessage(Messages.DISABLED.toString());
+                    else sender.sendMessage(Messages.ALREADY_DISABLED.toString());
                     return true;
                 }
             } else {
                 if (args[0].equalsIgnoreCase("*")) {
                     Integer count = Main.handler.unsetAllSpectator();
-                    sender.sendMessage(Util.formatOutput("&7Disabled spectator mode for &c&l" + count.toString() + "&7 other players!"));
+                    sender.sendMessage(Messages.DISABLED_ALL.toString().replace("%COUNT%", count.toString()));
                 } else {
                     if (Util.getPlayerFromName(args[0]) == null) {
-                        sender.sendMessage(Util.formatOutput("&c'" + args[0] + "' is not an online player!"));
+                        sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%", args[0]));
                         return true;
                     }
                     Boolean feedback = Main.handler.unsetSpectator(Util.getPlayerFromName(args[0]));
                     String playerName = Objects.requireNonNull(Util.getPlayerFromName(args[0])).getName();
-                    if (feedback) sender.sendMessage(Util.formatOutput("&7Spectator mode &c&lDISABLED&7 for &f" + playerName + "&7!"));
-                    else sender.sendMessage(Util.formatOutput("&c" + playerName + " isn't currently in spectator mode!"));
+                    if (feedback) sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", playerName));
+                    else sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", playerName));
                 } return true;
-            } sender.sendMessage(Util.formatOutput("&cSorry, you don't have permission to use that command!"));
+            } sender.sendMessage(Messages.NO_PERMISSION.toString());
             return true;
         } else return false;
     }
