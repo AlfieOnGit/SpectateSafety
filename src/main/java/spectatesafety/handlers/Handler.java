@@ -85,6 +85,14 @@ public class Handler {
         unspecPoint = Main.fileHandler.getUnspecPoint();
     }
 
+    public Boolean checkStatus (Player p) {
+        for (Spectator s : spectators) {
+            if (s.getPlayer() == p) {
+                return true;
+            }
+        } return false;
+    }
+
     public Location getSpecPoint () {
         return specPoint;
     }

@@ -14,23 +14,25 @@ commands:
     aliases: [ unspectate ]
     usage: /<command> [player]
   specpoint:
-    description: Sets the location players will be teleported to when they enable spectator mode
+    description: Sets the location players will be teleported to when they enable spectate mode
     aliases: [ spectatepoint, spectatorpoint ]
     usage: /<command> <set/clear>
   unspecpoint:
-    description: Sets the location players will be teleported to when they disable spectator mode
+    description: Sets the location players will be teleported to when they disable spectate mode
     aliases: [ unspectatepoint, unspectatorpoint ]
     usage: /<command> <set/clear>
 
 permissions:
   spectatesafety.spectate:
-    description: Allows the player to enter spectator mode
+    description: Allows the player to enter spectate mode
   spectatesafety.unspectate:
-    description: Allows the player to leave spectator mode
+    description: Allows the player to leave spectate mode
+  spectatesafety.teleport:
+    description: Allows the player to teleport to other players while in spectate mode
   spectatesafety.spectate.others:
-    description: Allows the player to put other players in spectator mode
+    description: Allows the player to put other players in spectate mode
   spectatesafety.unspectate.others:
-    description: Allows the player to take other players out of spectator mode
+    description: Allows the player to take other players out of spectate mode
   spectatesafety.specpoint:
     description: Allows the player to set or clear the spectate point
   spectatesafety.unspecpoint:
