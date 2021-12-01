@@ -6,11 +6,11 @@ authors: [ AlfieJay ]
 
 commands:
   spec:
-    description: Activates spectator mode for the sender or a target player if specified
+    description: Activates spectate mode for the sender or a target player if specified
     aliases: [ spectate ]
     usage: /<command> [player]
   unspec:
-    description: Deactivates spectator mode for the sender or a target player if specified
+    description: Deactivates spectate mode for the sender or a target player if specified
     aliases: [ unspectate ]
     usage: /<command> [player]
   specpoint:
