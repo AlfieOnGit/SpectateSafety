@@ -1,5 +1,5 @@
 # AlfieJay's Spectate Safety  
-[Spigot](https://www.spigotmc.org/resources/spectate-safety.98654/)
+[Spigot](https://www.spigotmc.org/resources/spectate-safety.98654/) - [Discord](https://discord.gg/3CgM8nnNEY)
 
 A spectate plugin designed to add some additional security and usability to Vanilla Minecraft's spectator mode, providing servers with an easy-to-use spectate mechanic to be used for events with a playerbase. It's designed to be simple but useful in preventing exploits. I also got a bit carried away so there's a fair amount of unnecessary optimisation. Anyway enjoy and reach out if you've found this plugin useful, I'd love to hear <3
 
