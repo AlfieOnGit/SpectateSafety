@@ -1,7 +1,20 @@
-# SpectateSafety
-_By AlfieJay_
+# AlfieJay's Spectate Safety  
+[Spigot](https://www.spigotmc.org/resources/spectate-safety.98654/)
 
-A spectator plugin for events. This plugin is designed to add some security to Minecraft spectator mode to make it more suitable to be used by the playerbase. Most noteably, 1: The player's original gamemode and location can be restored when they leave spectate mode, 2: Players are automatically removed from spectate mode upon leaving the server, 3: Optional "spec points" can be set which players will be teleported to when entering or leaving spectate mode and 4: Players require permission to use the vanilla spectator teleport feature. I also got a bit carried away so there's a fair amount of unnecessary optimisation. Anyway enjoy spectating!
+A spectate plugin designed to add some additional security and usability to Vanilla Minecraft's spectator mode, providing servers with an easy-to-use spectate mechanic to be used for events with a playerbase. It's designed to be simple but useful in preventing exploits. I also got a bit carried away so there's a fair amount of unnecessary optimisation. Anyway enjoy and reach out if you've found this plugin useful, I'd love to hear <3
+
+## How it works
+**In its most basic form:**  
+A player's location and gamemode is stored when they enter spectate mode. Then, when they unspectate, it teleports them back to where they were and puts them back in their original gamemode. Additionally, players are automatically removed from spectate mode when they leave or are kicked from the server
+
+**Spectate points:**  
+Server admins also have the option to set one "spec point" and one "unspec point". If the spec point is set, any player entering spectate mode will be teleported there. And the unspec point works the same way but with players exiting spectate mode. If the respective point isn't set, then the command will work as stated in the "In it's most basic form" paragraph
+
+**For event staff:**  
+Those with the required permissions are allowed to put specified players in spectate mode or take them out of it. Their locations will still be saved and will be put back upon exiting spectate mode. Just remember, if you don't want players to be able to unspectate after staff place them in spectate, you need to remove their permission to the unspectate command
+
+**Spectate teleport:**  
+Server admins can specify whether or not they'd like players in spectate mode to be able to use the Vanilla spectator teleport feature. This is done using the `spectatesafety.teleport` permission
 
 ## Commands
 **/spec [player]** - Activates spectate mode for the sender or a target player if specified
