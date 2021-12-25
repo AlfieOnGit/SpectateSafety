@@ -21,11 +21,12 @@ public class Handler {
     /**
      * Puts the specified player in spectate mode
      * @param player Target player
+     * @param locked <code>true</code> to lock; <code>false</code> to not lock
      */
-    public Boolean setSpectator (Player player) {
+    public Boolean setSpectator (Player player, boolean locked) {
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) return false;
-        } spectators.add(new Spectator(player));
+        } spectators.add(new Spectator(player, locked));
         return true;
     }
 
@@ -48,10 +49,10 @@ public class Handler {
     /**
      * Puts all players not currently spectating in spectate mode
      */
-    public Integer setAllSpectator () {
+    public Integer setAllSpectator (boolean locked) {
         Integer output = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            Boolean feedback = setSpectator(p);
+            Boolean feedback = setSpectator(p, locked);
             if (feedback) output++;
         } return output;
     }
@@ -59,11 +60,13 @@ public class Handler {
     /**
      * Takes all currently spectating players out of spectate mode
      */
-    public Integer unsetAllSpectator () {
+    public Integer unsetAllSpectator (boolean canUnlock) {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
-            s.unspectate();
-            hold.add(s);
+            if (canUnlock || !s.isLocked()) {
+                s.unspectate();
+                hold.add(s);
+            }
         } spectators.removeIf(hold::contains);
         return hold.toArray().length;
     }
@@ -102,12 +105,23 @@ public class Handler {
      * Unsets the unspec point and deletes it from the save file
      * @return <code>true</code> if successful; <code>false</code> if there was no unspec point
      */
-    public Boolean clearUnspecPoint () {
+    public boolean clearUnspecPoint () {
         if (this.unspecPoint != null) {
             this.unspecPoint = null;
             Main.fileHandler.clearUnspecPoint();
             return true;
         } else return false;
+    }
+
+    /**
+     * Gets a Spectator object from their player
+     * @param player player
+     * @return spectator instance
+     */
+    public Spectator getSpectatorFromPlayer(Player player) {
+        for (Spectator s : spectators) {
+            if (s.getPlayer() == player) return s;
+        } return null;
     }
 
     /**

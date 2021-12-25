@@ -21,3 +21,6 @@ point-cleared: "&aThe spectate point has been cleared!"
 unpoint-cleared: "&aThe unspectate point has been cleared!"
 no-point: "&cThere's no existing spectate point to clear!"
 no-unpoint: "&cThere's no existing unspectate point to clear!"
+
+sender-locked: "&cSorry, you're not permitted to exit spectate mode right now"
+target-locked: "&cSorry, %TARGET% is currently locked in spectate mode"

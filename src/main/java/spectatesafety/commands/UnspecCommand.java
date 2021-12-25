@@ -25,26 +25,44 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("unspec")) {
+            boolean canUnlock = (sender.hasPermission("spectatesafety.bypasslocks"));
             if (args.length == 0 || !sender.hasPermission("spectatesafety.unspectate.others")) {
+
+                /* Sender unspec-ing themself */
                 if (sender.hasPermission("spectatesafety.unspectate")) {
-                    Boolean feedback = Main.handler.unsetSpectator((Player) sender);
-                    if (feedback) sender.sendMessage(Messages.DISABLED.toString());
-                    else sender.sendMessage(Messages.ALREADY_DISABLED.toString());
-                    return true;
+                    Player p = (Player) sender;
+                    if (canUnlock || !Main.handler.getSpectatorFromPlayer(p).isLocked()) {
+                        Boolean feedback = Main.handler.unsetSpectator((Player) sender);
+                        if (feedback) sender.sendMessage(Messages.DISABLED.toString());
+                        else sender.sendMessage(Messages.ALREADY_DISABLED.toString());
+                    } else {
+                        sender.sendMessage(Messages.SENDER_LOCKED.toString());
+                    } return true;
                 }
             } else {
                 if (args[0].equalsIgnoreCase("*")) {
-                    Integer count = Main.handler.unsetAllSpectator();
+
+                    /* Sender unspec-ing all */
+                    Integer count = Main.handler.unsetAllSpectator(canUnlock);
                     sender.sendMessage(Messages.DISABLED_ALL.toString().replace("%COUNT%", count.toString()));
+
                 } else {
-                    if (Util.getPlayerFromName(args[0]) == null) {
+
+                    /* Sender unspec-ing target spectator */
+                    Player p = Util.getPlayerFromName(args[0]);
+                    if (p == null) {
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%", args[0]));
                         return true;
                     }
-                    Boolean feedback = Main.handler.unsetSpectator(Util.getPlayerFromName(args[0]));
-                    String playerName = Objects.requireNonNull(Util.getPlayerFromName(args[0])).getName();
-                    if (feedback) sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", playerName));
-                    else sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", playerName));
+                    if (canUnlock || !Main.handler.getSpectatorFromPlayer(p).isLocked()) {
+                        Boolean feedback = Main.handler.unsetSpectator(p);
+                        String playerName = Objects.requireNonNull(p).getName();
+                        if (feedback) sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", playerName));
+                        else sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", playerName));
+                    } else {
+                        sender.sendMessage(Messages.TARGET_LOCKED.toString().replace("%TARGET%", p.getName()));
+                    }
+
                 } return true;
             } sender.sendMessage(Messages.NO_PERMISSION.toString());
             return true;

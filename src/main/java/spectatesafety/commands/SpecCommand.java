@@ -26,25 +26,39 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("spec")) {
             if (args.length == 0 || !sender.hasPermission("spectatesafety.spectate.others")) {
+
+                /* Sender spec-ing themself */
                 if (sender.hasPermission("spectatesafety.spectate")) {
-                    Boolean feedback = Main.handler.setSpectator((Player) sender);
+                    Boolean feedback = Main.handler.setSpectator((Player) sender, false);
                     if (feedback) sender.sendMessage(Messages.ENABLED.toString());
                     else sender.sendMessage(Messages.ALREADY_ENABLED.toString());
                     return true;
+
                 }
             } else {
                 if (args[0].equalsIgnoreCase("*")) {
-                    Integer count = Main.handler.setAllSpectator();
+
+                    /* Sender spec-ing all */
+                    boolean b = false;
+                    if (args.length > 1) { b = (args[1].equals("#l") || args[1].equals("#lock")); }
+                    Integer count = Main.handler.setAllSpectator(b);
                     sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%",count.toString()));
+
                 } else {
-                    if (Util.getPlayerFromName(args[0]) == null) {
+
+                    /* Sender spec-ing a target */
+                    Player p = Util.getPlayerFromName(args[0]);
+                    if (p == null) {
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%",args[0]));
                         return true;
                     }
-                    Boolean feedback = Main.handler.setSpectator(Util.getPlayerFromName(args[0]));
-                    String playerName = Objects.requireNonNull(Util.getPlayerFromName(args[0])).getName();
+                    boolean b = false;
+                    if (args.length > 1) { b = (args[1].equals("#l") || args[1].equals("#lock")); }
+                    Boolean feedback = Main.handler.setSpectator(p, b);
+                    String playerName = Objects.requireNonNull(p).getName();
                     if (feedback) sender.sendMessage(Messages.ENABLED_FOR.toString().replace("%TARGET%", playerName));
                     else sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("%TARGET%", playerName));
+
                 } return true;
             } sender.sendMessage(Messages.NO_PERMISSION.toString());
             return true;
@@ -60,6 +74,8 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     output.add(p.getName());
                 }
+            } else if (args.length == 2) {
+                output.add("#l");
             }
         } return output;
     }
