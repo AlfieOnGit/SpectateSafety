@@ -21,6 +21,9 @@ public class Spectator {
         if (specPoint != null) this.player.teleport(specPoint);
     }
 
+    /**
+     * Takes target out of spectate mode. Deletes Spectator instance
+     */
     public void unspectate () {
         this.player.setGameMode(this.ogGamemode);
         Location unspecPoint = Main.handler.getUnspecPoint();

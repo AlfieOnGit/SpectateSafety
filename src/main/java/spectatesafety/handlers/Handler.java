@@ -18,6 +18,10 @@ public class Handler {
         this.spectators = new ArrayList<>();
     }
 
+    /**
+     * Puts the specified player in spectate mode
+     * @param player Target player
+     */
     public Boolean setSpectator (Player player) {
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) return false;
@@ -25,6 +29,10 @@ public class Handler {
         return true;
     }
 
+    /**
+     * Takes the specified player out of spectate mode
+     * @param player Target player
+     */
     public Boolean unsetSpectator (Player player) {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
@@ -37,6 +45,9 @@ public class Handler {
         return true;
     }
 
+    /**
+     * Puts all players not currently spectating in spectate mode
+     */
     public Integer setAllSpectator () {
         Integer output = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -45,6 +56,9 @@ public class Handler {
         } return output;
     }
 
+    /**
+     * Takes all currently spectating players out of spectate mode
+     */
     public Integer unsetAllSpectator () {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
@@ -54,11 +68,19 @@ public class Handler {
         return hold.toArray().length;
     }
 
-    public void setSpecPoint (Location specPoint) {
-        this.specPoint = specPoint;
-        Main.fileHandler.saveSpecPoint(specPoint);
+    /**
+     * Sets the spec point to the specified location
+     * @param location Specified location
+     */
+    public void setSpecPoint (Location location) {
+        this.specPoint = location;
+        Main.fileHandler.saveSpecPoint(location);
     }
 
+    /**
+     * Unsets the spec point and deletes it from the save file
+     * @return <code>true</code> if successful; <code>false</code> if there was no spec point
+     */
     public Boolean clearSpecPoint () {
         if (this.specPoint != null) {
             this.specPoint = null;
@@ -67,11 +89,19 @@ public class Handler {
         } else return false;
     }
 
-    public void setUnspecPoint (Location unspecPoint) {
-        this.unspecPoint = unspecPoint;
-        Main.fileHandler.saveUnspecPoint(unspecPoint);
+    /**
+     * Sets the unspec point to the specified location
+     * @param location Specified location
+     */
+    public void setUnspecPoint (Location location) {
+        this.unspecPoint = location;
+        Main.fileHandler.saveUnspecPoint(location);
     }
 
+    /**
+     * Unsets the unspec point and deletes it from the save file
+     * @return <code>true</code> if successful; <code>false</code> if there was no unspec point
+     */
     public Boolean clearUnspecPoint () {
         if (this.unspecPoint != null) {
             this.unspecPoint = null;
@@ -80,14 +110,22 @@ public class Handler {
         } else return false;
     }
 
+    /**
+     * Loads the spec points from the save file
+     */
     public void loadSpecPoints() {
         specPoint = Main.fileHandler.getSpecPoint();
         unspecPoint = Main.fileHandler.getUnspecPoint();
     }
 
-    public Boolean checkStatus (Player p) {
+    /**
+     * Checks whether a player is in spectate mode or not
+     * @param player target of check
+     * @return <code>true</code> if player is in spectate mode; <code>false</code> if they're not
+     */
+    public Boolean checkStatus (Player player) {
         for (Spectator s : spectators) {
-            if (s.getPlayer() == p) {
+            if (s.getPlayer() == player) {
                 return true;
             }
         } return false;

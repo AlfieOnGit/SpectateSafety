@@ -31,7 +31,6 @@ public class MessagesHandler {
     }
 
     private void loadFile(Plugin plugin) {
-        Bukkit.getLogger().info("LOAD FILE CALLED");
         InputStream inputStream = plugin.getResource("messages.yml");
 
         try {
@@ -43,6 +42,11 @@ public class MessagesHandler {
         }
     }
 
+    /**
+     * Fetches a message in the message.yml file from the input path
+     * @param path message path
+     * @return formatted message
+     */
     public String get(String path) {
         return ChatColor.translateAlternateColorCodes('&', tag + " " + config.getString(path));
     }

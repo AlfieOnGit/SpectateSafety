@@ -9,7 +9,7 @@ import java.util.Objects;
 public final class Main extends JavaPlugin {
 
     public static Handler handler;
-    public static SpecPointsHandler fileHandler;
+    public static SpecPointsConfig fileHandler;
     public static MessagesHandler messagesHandler;
 
     @Override
@@ -20,7 +20,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand(this));
 
         handler = new Handler();
-        fileHandler = new SpecPointsHandler(this);
+        fileHandler = new SpecPointsConfig(this);
         messagesHandler = new MessagesHandler(this);
 
         new ListenerHandler(this);
