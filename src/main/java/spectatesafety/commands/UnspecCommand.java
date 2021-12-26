@@ -71,13 +71,18 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        ArrayList<String> output = new ArrayList<>();
+        ArrayList<String> possibleOutputs = new ArrayList<>();
         if (sender.hasPermission("spectatesafety.unspectate.others")) {
             if (args.length == 1) {
-                output.add("*");
+                possibleOutputs.add("*");
                 for (Player p : Bukkit.getOnlinePlayers()) {
-                    output.add(p.getName());
+                    possibleOutputs.add(p.getName());
                 }
+            }
+        } ArrayList<String> output = new ArrayList<>();
+        for (String s : possibleOutputs) {
+            if (s.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                output.add(s);
             }
         } return output;
     }
