@@ -40,7 +40,10 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
 
                     /* Sender spec-ing all */
                     boolean b = false;
-                    if (args.length > 1) { b = (args[1].equals("#l") || args[1].equals("#lock")); }
+                    if (args.length > 1) {
+                        b = (args[1].equals("#l") || args[1].equals("#lock"));
+                        b = (b && sender.hasPermission("spectatesafety.lock"));
+                    }
                     Integer count = Main.handler.setAllSpectator(b);
                     sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%",count.toString()));
 
@@ -53,7 +56,10 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     boolean b = false;
-                    if (args.length > 1) { b = (args[1].equals("#l") || args[1].equals("#lock")); }
+                    if (args.length > 1) {
+                        b = (args[1].equals("#l") || args[1].equals("#lock"));
+                        b = (b && sender.hasPermission("spectatesafety.lock"));
+                    }
                     Boolean feedback = Main.handler.setSpectator(p, b);
                     String playerName = Objects.requireNonNull(p).getName();
                     if (feedback) sender.sendMessage(Messages.ENABLED_FOR.toString().replace("%TARGET%", playerName));
@@ -75,7 +81,7 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                     possibleOutputs.add(p.getName());
                 }
             } else if (args.length == 2) {
-                possibleOutputs.add("#l");
+                if (sender.hasPermission("spectatesafety.lock")) possibleOutputs.add("#l");
             }
         } ArrayList<String> output = new ArrayList<>();
         for (String s : possibleOutputs) {
