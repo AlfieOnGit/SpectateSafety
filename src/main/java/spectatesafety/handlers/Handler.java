@@ -21,18 +21,18 @@ public class Handler {
     /**
      * Puts the specified player in spectate mode
      * @param player Target player
-     * @param locked <code>true</code> to lock; <code>false</code> to not lock
      */
-    public Boolean setSpectator (Player player, boolean locked) {
+    public Boolean setSpectator (Player player) {
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) return false;
-        } spectators.add(new Spectator(player, locked));
+        } spectators.add(new Spectator(player));
         return true;
     }
 
     /**
      * Takes the specified player out of spectate mode
      * @param player Target player
+     * @return <code>true</code> if successful; <code>false</code> if player not in spectate mode
      */
     public Boolean unsetSpectator (Player player) {
         ArrayList<Spectator> hold = new ArrayList<>();
@@ -49,10 +49,10 @@ public class Handler {
     /**
      * Puts all players not currently spectating in spectate mode
      */
-    public Integer setAllSpectator (boolean locked) {
+    public Integer setAllSpectator () {
         Integer output = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            Boolean feedback = setSpectator(p, locked);
+            Boolean feedback = setSpectator(p);
             if (feedback) output++;
         } return output;
     }
@@ -60,13 +60,11 @@ public class Handler {
     /**
      * Takes all currently spectating players out of spectate mode
      */
-    public Integer unsetAllSpectator (boolean canUnlock) {
+    public Integer unsetAllSpectator () {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
-            if (canUnlock || !s.isLocked()) {
-                s.unspectate();
-                hold.add(s);
-            }
+            s.unspectate();
+            hold.add(s);
         } spectators.removeIf(hold::contains);
         return hold.toArray().length;
     }

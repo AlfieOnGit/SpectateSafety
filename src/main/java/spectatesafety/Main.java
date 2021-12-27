@@ -29,6 +29,6 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        handler.unsetAllSpectator(true);
+        handler.unsetAllSpectator();
     }
 }

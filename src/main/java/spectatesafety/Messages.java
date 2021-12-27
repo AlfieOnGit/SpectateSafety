@@ -22,10 +22,7 @@ public enum Messages {
     POINT_CLEARED,
     UNPOINT_CLEARED,
     NO_POINT,
-    NO_UNPOINT,
-
-    SENDER_LOCKED,
-    TARGET_LOCKED;
+    NO_UNPOINT;
 
     private final String message;
 

@@ -25,44 +25,41 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("unspec")) {
-            boolean canUnlock = (sender.hasPermission("spectatesafety.bypasslocks"));
             if (args.length == 0 || !sender.hasPermission("spectatesafety.unspectate.others")) {
 
                 /* Sender unspec-ing themself */
                 if (sender.hasPermission("spectatesafety.unspectate")) {
                     Player p = (Player) sender;
-                    if (canUnlock || !Main.handler.getSpectatorFromPlayer(p).isLocked()) {
-                        Boolean feedback = Main.handler.unsetSpectator((Player) sender);
-                        if (feedback) sender.sendMessage(Messages.DISABLED.toString());
-                        else sender.sendMessage(Messages.ALREADY_DISABLED.toString());
-                    } else {
-                        sender.sendMessage(Messages.SENDER_LOCKED.toString());
+                    if (!Main.handler.checkStatus(p)) { /* Sender isn't in spec */
+                        sender.sendMessage(Messages.ALREADY_DISABLED.toString());
+                    } else { /* If sender can run command */
+                        Main.handler.unsetSpectator((Player) sender);
+                        sender.sendMessage(Messages.DISABLED.toString());
                     } return true;
                 }
             } else {
                 if (args[0].equalsIgnoreCase("*")) {
 
                     /* Sender unspec-ing all */
-                    Integer count = Main.handler.unsetAllSpectator(canUnlock);
+                    Integer count = Main.handler.unsetAllSpectator();
                     sender.sendMessage(Messages.DISABLED_ALL.toString().replace("%COUNT%", count.toString()));
 
                 } else {
 
                     /* Sender unspec-ing target spectator */
                     Player p = Util.getPlayerFromName(args[0]);
-                    if (p == null) {
+                    if (p == null) { /* If target isn't a player */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%", args[0]));
                         return true;
-                    }
-                    if (canUnlock || !Main.handler.getSpectatorFromPlayer(p).isLocked()) {
+                    } else { /* If sender can run command */
                         Boolean feedback = Main.handler.unsetSpectator(p);
                         String playerName = Objects.requireNonNull(p).getName();
-                        if (feedback) sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", playerName));
-                        else sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", playerName));
-                    } else {
-                        sender.sendMessage(Messages.TARGET_LOCKED.toString().replace("%TARGET%", p.getName()));
+                        if (feedback) { /* If success */
+                            sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", playerName));
+                        } else { /* If target was already in spec */
+                            sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", playerName));
+                        }
                     }
-
                 } return true;
             } sender.sendMessage(Messages.NO_PERMISSION.toString());
             return true;

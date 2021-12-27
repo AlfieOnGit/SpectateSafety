@@ -37,7 +37,3 @@ permissions:
     description: Allows the player to set or clear the spectate point
   spectatesafety.unspecpoint:
     description: Allows the player to set or clear the unspectate point
-  spectatesafety.lock:
-    description: Allows the player to lock others in spectate mode when using /spec
-  spectatesafety.bypasslocks:
-    description: Allows the player to take targets or themself out of spectate mode when locked
