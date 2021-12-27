@@ -32,18 +32,16 @@ public class Handler {
     /**
      * Takes the specified player out of spectate mode
      * @param player Target player
-     * @return <code>true</code> if successful; <code>false</code> if player not in spectate mode
      */
-    public Boolean unsetSpectator (Player player) {
+    public void unsetSpectator (Player player) {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) {
                 s.unspectate();
                 hold.add(s);
             }
-        } if (hold.isEmpty()) return false;
+        }
         spectators.removeIf(hold::contains);
-        return true;
     }
 
     /**
@@ -80,14 +78,12 @@ public class Handler {
 
     /**
      * Unsets the spec point and deletes it from the save file
-     * @return <code>true</code> if successful; <code>false</code> if there was no spec point
      */
-    public Boolean clearSpecPoint () {
+    public void clearSpecPoint () {
         if (this.specPoint != null) {
             this.specPoint = null;
             Main.fileHandler.clearSpecPoint();
-            return true;
-        } else return false;
+        }
     }
 
     /**
@@ -101,14 +97,12 @@ public class Handler {
 
     /**
      * Unsets the unspec point and deletes it from the save file
-     * @return <code>true</code> if successful; <code>false</code> if there was no unspec point
      */
-    public boolean clearUnspecPoint () {
+    public void clearUnspecPoint () {
         if (this.unspecPoint != null) {
             this.unspecPoint = null;
             Main.fileHandler.clearUnspecPoint();
-            return true;
-        } else return false;
+        }
     }
 
     /**

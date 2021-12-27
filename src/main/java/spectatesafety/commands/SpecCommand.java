@@ -2,6 +2,7 @@ package spectatesafety.commands;
 
 import spectatesafety.Main;
 import spectatesafety.Messages;
+import spectatesafety.Spectator;
 import spectatesafety.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -30,34 +31,35 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 /* Sender spec-ing themself */
                 if (!sender.hasPermission("spectatesafety.spectate")) { /* If no perms */
                     sender.sendMessage(Messages.NO_PERMISSION.toString());
-                } else { /* If sender can use command */
-                    Boolean feedback = Main.handler.setSpectator((Player) sender);
-                    if (feedback) sender.sendMessage(Messages.ENABLED.toString());
-                    else sender.sendMessage(Messages.ALREADY_ENABLED.toString());
-                    return true;
-
+                } else if (Main.handler.getSpectatorFromPlayer((Player) sender) != null) { /* If sender already in spectate mode */
+                    sender.sendMessage(Messages.ALREADY_ENABLED.toString());
+                } else { /* Command execution */
+                    Main.handler.setSpectator((Player) sender);
+                    sender.sendMessage(Messages.ENABLED.toString());
                 }
+
             } else {
-               if (args[0].equalsIgnoreCase("*") && sender.hasPermission("spectatesafety.spectate.others")) {
+                if (args[0].equalsIgnoreCase("*") && sender.hasPermission("spectatesafety.spectate.others")) {
 
                     /* Sender spec-ing all */
                     Integer count = Main.handler.setAllSpectator();
                     sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%",count.toString()));
 
-                } else if (sender.hasPermission("spectatesafety.spectate.others")){
+                } else {
 
                     /* Sender spec-ing a target */
                     Player p = Util.getPlayerFromName(args[0]);
+                    Spectator s = Main.handler.getSpectatorFromPlayer(p);
                     if (p == null) { /* If target doesn't exist */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%",args[0]));
-                        return true;
+                    } else if (s != null) { /* If target isn't in spectate mode */
+                        sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("%TARGET%", p.getName()));
+                    } else { /* Command execution */
+                        Main.handler.setSpectator(p);
+                        sender.sendMessage(Messages.ENABLED_FOR.toString().replace("%TARGET%", p.getName()));
                     }
-                    Boolean feedback = Main.handler.setSpectator(p);
-                    String playerName = Objects.requireNonNull(p).getName();
-                    if (feedback) sender.sendMessage(Messages.ENABLED_FOR.toString().replace("%TARGET%", playerName));
-                    else sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("%TARGET%", playerName));
 
-                } return true;
+                }
             } return true;
         } else return false;
     }

@@ -25,27 +25,32 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("specpoint")) {
-            if (sender.hasPermission("spectatesafety.specpoint")) {
-                if (args.length > 0) {
-                    if (args[0].equalsIgnoreCase("set")) {
-                        Player p = (Player) sender;
-                        Main.handler.setSpecPoint(p.getLocation());
-                        sender.sendMessage(Messages.POINT_SET.toString());
-                    } else if (args[0].equalsIgnoreCase("clear")) {
-                        Boolean feedback = Main.handler.clearSpecPoint();
-                        if (feedback) sender.sendMessage(Messages.POINT_CLEARED.toString());
-                        else sender.sendMessage(Messages.NO_POINT.toString());
-                    } else sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
-                } else sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
-            } else sender.sendMessage(Messages.NO_PERMISSION.toString());
-            return true;
+            if (!sender.hasPermission("spectatesafety.specpoint")) { /* If no perms */
+                sender.sendMessage(Messages.NO_PERMISSION.toString());
+            } else if (args.length == 0) { /* If no subcommands */
+                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
+            } else {
+                if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
+                    Main.handler.setSpecPoint(((Player) sender).getLocation());
+                    sender.sendMessage(Messages.POINT_SET.toString());
+                } else if (args[0].equalsIgnoreCase("clear")) {
+                    if (Main.handler.getSpecPoint() == null) { /* If no spec point to clear */
+                        sender.sendMessage(Messages.NO_POINT.toString());
+                    } else { /* CLEAR command execution */
+                        Main.handler.clearSpecPoint();
+                        sender.sendMessage(Messages.POINT_CLEARED.toString());
+                    }
+                } else { /* If invalid subcommand */
+                    sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
+                }
+            } return true;
         } else return false;
     }
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> output = new ArrayList<>();
-        if (args.length == 1) {
+        if (args.length == 1 && sender.hasPermission("spectatesafety.specpoint")) { /* "/specpoint " */
             for (String x : this.subCommands) {
                 if (x.startsWith(args[0])) {
                     output.add(x);

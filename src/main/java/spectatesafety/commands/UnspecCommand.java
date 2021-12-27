@@ -2,6 +2,7 @@ package spectatesafety.commands;
 
 import spectatesafety.Main;
 import spectatesafety.Messages;
+import spectatesafety.Spectator;
 import spectatesafety.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,15 +29,15 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
             if (args.length == 0 || !sender.hasPermission("spectatesafety.unspectate.others")) {
 
                 /* Sender unspec-ing themself */
-                if (sender.hasPermission("spectatesafety.unspectate")) {
-                    Player p = (Player) sender;
-                    if (!Main.handler.checkStatus(p)) { /* Sender isn't in spec */
-                        sender.sendMessage(Messages.ALREADY_DISABLED.toString());
-                    } else { /* If sender can run command */
-                        Main.handler.unsetSpectator((Player) sender);
-                        sender.sendMessage(Messages.DISABLED.toString());
-                    } return true;
+                if (!sender.hasPermission("spectatesafety.unspectate")) { /* If no perms */
+                    sender.sendMessage(Messages.NO_PERMISSION.toString());
+                } else if (Main.handler.getSpectatorFromPlayer((Player) sender) == null) { /* If sender not in spec */
+                    sender.sendMessage(Messages.ALREADY_DISABLED.toString());
+                } else { /* Command execution */
+                    Main.handler.unsetSpectator((Player) sender);
+                    sender.sendMessage(Messages.DISABLED.toString());
                 }
+
             } else {
                 if (args[0].equalsIgnoreCase("*")) {
 
@@ -50,19 +51,15 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                     Player p = Util.getPlayerFromName(args[0]);
                     if (p == null) { /* If target isn't a player */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%", args[0]));
-                        return true;
-                    } else { /* If sender can run command */
-                        Boolean feedback = Main.handler.unsetSpectator(p);
-                        String playerName = Objects.requireNonNull(p).getName();
-                        if (feedback) { /* If success */
-                            sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", playerName));
-                        } else { /* If target was already in spec */
-                            sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", playerName));
-                        }
+                    } else if (Main.handler.getSpectatorFromPlayer(p) == null) { /* If target not in spec */
+                        sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("%TARGET%", p.getName()));
+                    } else { /* Command execution */
+                        Main.handler.unsetSpectator(p);
+                        sender.sendMessage(Messages.DISABLED_FOR.toString().replace("%TARGET%", p.getName()));
                     }
-                } return true;
-            } sender.sendMessage(Messages.NO_PERMISSION.toString());
-            return true;
+
+                }
+            } return true;
         } else return false;
     }
 
@@ -70,13 +67,15 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> possibleOutputs = new ArrayList<>();
         if (sender.hasPermission("spectatesafety.unspectate.others")) {
-            if (args.length == 1) {
+            if (args.length == 1) { /* "/unspec " */
                 possibleOutputs.add("*");
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     possibleOutputs.add(p.getName());
                 }
             }
-        } ArrayList<String> output = new ArrayList<>();
+        }
+
+        ArrayList<String> output = new ArrayList<>();
         for (String s : possibleOutputs) {
             if (s.toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
                 output.add(s);
