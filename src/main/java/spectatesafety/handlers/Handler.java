@@ -45,7 +45,26 @@ public class Handler {
     }
 
     /**
+     * Puts all players in a group, not currently, spectating in spectate mode
+     * @param group Target group
+     * @return number of players affected
+     */
+    public Integer setGroupSpectator (String group) {
+        int count = 0;
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            for (String g : Main.permission.getPlayerGroups(p)) {
+                if (group.equals(g)) {
+                    Main.handler.setSpectator(p);
+                    count++;
+                    break;
+                }
+            }
+        } return count;
+    }
+
+    /**
      * Puts all players not currently spectating in spectate mode
+     * @return number of players affected
      */
     public Integer setAllSpectator () {
         Integer output = 0;
@@ -53,6 +72,26 @@ public class Handler {
             Boolean feedback = setSpectator(p);
             if (feedback) output++;
         } return output;
+    }
+
+    /**
+     * Takes all players in a group, currently spectating, out of spectate mode
+     * @param group Target group
+     * @return number of players affected
+     */
+    public Integer unsetGroupSpectator (String group) {
+        int count = 0;
+        ArrayList<Spectator> spectators = new ArrayList<>(Main.handler.getSpectators());
+        for (Spectator s : spectators) {
+            Player p = s.getPlayer();
+            for (String g : Main.permission.getPlayerGroups(p)) {
+                if (group.equals(g)) {
+                    Main.handler.unsetSpectator(p);
+                    count++;
+                    break;
+                }
+            }
+        } return count;
     }
 
     /**

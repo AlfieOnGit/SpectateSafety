@@ -50,18 +50,8 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                     if (!Arrays.asList(Main.permission.getGroups()).contains(group)) { /* If group doesn't exist */
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
-                        int count = 0;
-                        ArrayList<Spectator> spectators = new ArrayList<>(Main.handler.getSpectators());
-                        for (Spectator s : spectators) {
-                            Player p = s.getPlayer();
-                            for (String g : Main.permission.getPlayerGroups(p)) {
-                                if (group.equals(g)) {
-                                    Main.handler.unsetSpectator(p);
-                                    count++;
-                                    break;
-                                }
-                            }
-                        } sender.sendMessage(Messages.DISABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", Integer.toString(count)));
+                        int count = Main.handler.unsetGroupSpectator(group);
+                        sender.sendMessage(Messages.DISABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", Integer.toString(count)));
                     }
 
                 } else {
@@ -70,7 +60,7 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                     Player p = Util.getPlayerFromName(args[0]);
                     if (p == null) { /* If target isn't a player */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}", args[0]));
-                    } else if (Main.handler.getSpectatorFromPlayer(p) == null) { /* If target not in spec */
+                    } else if (!Main.handler.checkStatus(p)) { /* If target not in spec */
                         sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     } else { /* Command execution */
                         Main.handler.unsetSpectator(p);

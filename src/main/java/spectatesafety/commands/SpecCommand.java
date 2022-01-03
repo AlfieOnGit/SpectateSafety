@@ -50,26 +50,17 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                     if (!Arrays.asList(Main.permission.getGroups()).contains(group)) { /* If group doesn't exist */
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
-                        int count = 0;
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            for (String g : Main.permission.getPlayerGroups(p)) {
-                                if (group.equals(g)) {
-                                    Main.handler.setSpectator(p);
-                                    count++;
-                                    break;
-                                }
-                            }
-                        } sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", Integer.toString(count)));
+                        int count = Main.handler.setGroupSpectator(group);
+                        sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", Integer.toString(count)));
                     }
 
                 } else {
 
                     /* Sender spec-ing a target */
                     Player p = Util.getPlayerFromName(args[0]);
-                    Spectator s = Main.handler.getSpectatorFromPlayer(p);
                     if (p == null) { /* If target doesn't exist */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}",args[0]));
-                    } else if (s != null) { /* If target isn't in spectate mode */
+                    } else if (Main.handler.checkStatus(p)) { /* If target already in spectate mode */
                         sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     } else { /* Command execution */
                         Main.handler.setSpectator(p);
