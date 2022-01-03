@@ -137,11 +137,9 @@ public class Handler {
         } return false;
     }
 
-    public Location getSpecPoint () {
-        return specPoint;
-    }
+    public ArrayList<Spectator> getSpectators () { return spectators; }
 
-    public Location getUnspecPoint () {
-        return unspecPoint;
-    }
+    public Location getSpecPoint () { return specPoint; }
+
+    public Location getUnspecPoint () { return unspecPoint; }
 }

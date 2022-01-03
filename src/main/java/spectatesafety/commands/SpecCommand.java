@@ -39,11 +39,23 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 }
 
             } else {
-                if (args[0].equalsIgnoreCase("*") && sender.hasPermission("spectatesafety.spectate.others")) {
+                if (args[0].equalsIgnoreCase("*")) {
 
                     /* Sender spec-ing all */
                     Integer count = Main.handler.setAllSpectator();
                     sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%",count.toString()));
+
+                } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
+
+                    /* Sender spec-ing a group */
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        for (String g : Main.permission.getPlayerGroups(p)) {
+                            if (args[0].substring(2).equals(g)) {
+                                Main.handler.setSpectator(p);
+                                break;
+                            }
+                        }
+                    } sender.sendMessage("SUCCESS MSG");
 
                 } else {
 
@@ -67,11 +79,16 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> possibleOutputs = new ArrayList<>();
-        if (args.length == 1) { /* "/spec " */
+        if (args.length == 1) {
             if (sender.hasPermission("spectatesafety.spectate.others")) {
-                possibleOutputs.add("*");
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    possibleOutputs.add(p.getName());
+                if (args[0].startsWith("g:") && Main.permission != null) { /* "/spec g:" */
+                    for (String g : Main.permission.getGroups()) possibleOutputs.add("g:" + g);
+                } else { /* "/spec " */
+                    possibleOutputs.add("*");
+                    if (Main.permission != null) possibleOutputs.add("g:");
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        possibleOutputs.add(p.getName());
+                    }
                 }
             }
         }

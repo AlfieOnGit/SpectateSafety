@@ -1,5 +1,7 @@
 package spectatesafety;
 
+import net.milkbowl.vault.permission.Permission;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import spectatesafety.commands.*;
 import spectatesafety.handlers.*;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +13,7 @@ public final class Main extends JavaPlugin {
     public static Handler handler;
     public static SpecPointsConfig fileHandler;
     public static MessagesHandler messagesHandler;
+    public static Permission permission;
 
     @Override
     public void onEnable() {
@@ -25,10 +28,22 @@ public final class Main extends JavaPlugin {
 
         new ListenerHandler(this);
         handler.loadSpecPoints();
+
+        permission = getPermissions();
     }
 
     @Override
     public void onDisable() {
         handler.unsetAllSpectator();
+    }
+
+    private Permission getPermissions() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return null;
+        } else {
+            RegisteredServiceProvider<Permission> rsp = getServer().getServicesManager().getRegistration(Permission.class);
+            if (rsp == null) return null;
+            else return rsp.getProvider();
+        }
     }
 }

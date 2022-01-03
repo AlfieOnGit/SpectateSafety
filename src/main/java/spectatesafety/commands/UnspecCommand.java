@@ -45,6 +45,20 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                     Integer count = Main.handler.unsetAllSpectator();
                     sender.sendMessage(Messages.DISABLED_ALL.toString().replace("%COUNT%", count.toString()));
 
+                } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
+
+                    /* Sender unspec-ing a group */
+                    ArrayList<Spectator> spectators = new ArrayList<>(Main.handler.getSpectators());
+                    for (Spectator s : spectators) {
+                        Player p = s.getPlayer();
+                        for (String g : Main.permission.getPlayerGroups(p)) {
+                            if (args[0].substring(2).equals(g)) {
+                                Main.handler.unsetSpectator(p);
+                                break;
+                            }
+                        }
+                    } sender.sendMessage("SUCCESS MSG");
+
                 } else {
 
                     /* Sender unspec-ing target spectator */
@@ -66,11 +80,16 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> possibleOutputs = new ArrayList<>();
-        if (sender.hasPermission("spectatesafety.unspectate.others")) {
-            if (args.length == 1) { /* "/unspec " */
-                possibleOutputs.add("*");
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    possibleOutputs.add(p.getName());
+        if (args.length == 1) {
+            if (sender.hasPermission("spectatesafety.unspectate.others")) {
+                if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) { /* "/unspec g:" */
+                    for (String g : Main.permission.getGroups()) possibleOutputs.add("g:" + g);
+                } else { /* "/unspec " */
+                    possibleOutputs.add("*");
+                    if (Main.permission != null) possibleOutputs.add("g:");
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        possibleOutputs.add(p.getName());
+                    }
                 }
             }
         }
