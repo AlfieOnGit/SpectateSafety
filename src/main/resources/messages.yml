@@ -1,23 +1,139 @@
-tag: "&8[&f&lSPEC&8]"
+#  ###################################
+#  # Spectate Safety Messages Config #
+#  ###################################
 
-no-permission: "&cYou don't have permission for that command!"
-valid-subcommands: "&cValid subcommands: %SUBCOMMANDS%"
+#
+#    OVERVIEW
+#
 
-enabled: "&7Spectator mode &a&lENABLED&7!"
-disabled: "&7Spectator mode &c&lDISABLED&7!"
-already-enabled: "&cYou're already in spectator mode!"
-already-disabled: "&cYou're not currently in spectator mode!"
-enabled-for: "&7Spectator mode &a&lENABLED&7 for &f%TARGET%&7!"
-disabled-for: "&7Spectator mode &c&lDISABLED&7 for &f%TARGET%&7!"
-enabled-all: "&7Enabled spectator mode for &a&l%COUNT%&7 other players!"
-disabled-all: "&7Disabled spectator mode for &c&l%COUNT%&7 other players!"
-not-player: "&c'%TARGET%' is not an online player!"
-already-enabled-for: "&c%TARGET% is already in spectator mode!"
-already-disabled-for: "&c%TARGET% isn't currently in spectator mode!"
+#  This is the messages configuration file for AlfieJay's Spectate Safety. In this file you can
+#  customise command feedback
 
-point-set: "&aThe spectate point has been set to your current location!"
-unpoint-set: "&aThe unspectate point has been set to your current location!"
-point-cleared: "&aThe spectate point has been cleared!"
-unpoint-cleared: "&aThe unspectate point has been cleared!"
-no-point: "&cThere's no existing spectate point to clear!"
-no-unpoint: "&cThere's no existing unspectate point to clear!"
+
+#
+#    PLACEHOLDERS
+#
+
+#  Below are listed all the built in placeholders that'll be replaced by variables dependent on
+#  context. If you make a custom placeholder with the same name, it'll override the built in one
+
+#  Placeholder directory:
+#  {SENDER} = The username of the player executing the command
+#  {TARGET} = The username of the player who the command's being used on
+#  {GROUP} = The name of the permission group that the command's being used on
+#  {COUNT} = The number of player affected (not including targets whose gamemodes weren't changed)
+#  {SUBCOMMANDS} = A list of valid subcommands
+#  {PERMISSION} = The permission required to run the command
+
+#  You can add text placeholders here. Remember the formatting! E.G: For the placeholder "tag", you'll
+#  have to write {TAG} when you want to use it in a message (See default messages as an example)
+
+custom-placeholders:
+  tag: "&8[&f&lSPEC&8]"
+
+
+#
+#    GENERAL OUTPUT
+#
+
+#  This message shows when a player attempts the execute a command they don't have permission for
+#  Valid built in placeholders: {PERMISSION}
+no-permission: "{TAG} &cYou don't have permission for that command!"
+
+#  This message shows when a player attempts to run a command with an invalid subcommand
+#  (E.G: "/specpoint delete")
+#  Valid built in placeholders: {SUBCOMMANDS}
+valid-subcommands: "{TAG} &cValid subcommands: {SUBCOMMANDS}"
+
+
+#
+#    SPECTATE AND UNSPECTATE SUCCESS MESSAGES
+#
+
+#  This message shows when a player enables spectate mode for themself
+#  Placeholders: {SENDER}
+enabled: "{TAG} &7Spectate mode &a&lENABLED&7!"
+
+#  This message shows when a player disables spectate mode for themself
+#  Placeholders: {SENDER}
+disabled: "{TAG} &7Spectate mode &c&lDISABLED&7!"
+
+#  This message shows when a player enables spectate mode for another player
+#  Placeholders: {TARGET}
+enabled-for: "{TAG} &7Spectate mode &a&lENABLED&7 for &f{TARGET}&7!"
+
+#  This message shows when a player disables spectate mode for another player
+#  Placeholders: {TARGET}
+disabled-for: "{TAG} &7Spectate mode &c&lDISABLED&7 for &f{TARGET}&7!"
+
+#  This message shows when a player enables spectate mode for a group of players
+#  Placeholders: {GROUP}, {COUNT}
+enabled-group: "{TAG} &7Enabled spectate mode for &a&l{COUNT}&7 players in the group &f{GROUP}&7!"
+
+#  This message shows when a player disables spectate mode for a group of players
+#  Placeholders: {GROUP}, {COUNT}
+disabled-group: "{TAG} &7Disabled spectate mode for &c&l{COUNT}&7 players in the group &f{GROUP}&7!"
+
+#  This message shows when a player enables spectate mode for all players
+#  Placeholders: {COUNT}
+enabled-all: "{TAG} &7Enabled spectate mode for &a&l{COUNT}&7 players!"
+
+#  This message shows when a player disables spectate mode for all players
+#  Placeholders: {COUNT}
+disabled-all: "{TAG} &7Disabled spectate mode for &c&l{COUNT}&7 players!"
+
+
+#
+#    SPECTATE AND UNSPECTATE ERROR MESSAGES
+#
+
+#  This message shows when a player attempts to enable spectate mode for themself but is already in
+#  spectate mode
+already-enabled: "{TAG} &cYou're already in spectator mode!"
+
+#  This message shows when a player attempts to disable spectate mode for themself but isn't in
+#  spectate mode
+already-disabled: "{TAG} &cYou're not currently in spectator mode!"
+
+#  This messages shows when a player attempts to enable or disable spectate mode for a target that's
+#  not an online player
+#  Placeholders: {TARGET}
+not-player: "{TAG} &c'{TARGET}' is not an online player!"
+
+#  This messages shows when a player attempts to enable or disable spectate mode for a group that
+#  doesn't exist
+#  Placeholders: {GROUP}
+not-group: "{TAG} &c'{GROUP}' is not a valid group!"
+
+#  This message shows when a player attempts to enable spectate mode for another player who's already
+#  in spectate mode
+#  Placeholders: {TARGET}
+already-enabled-for: "{TAG} &c{TARGET} is already in spectator mode!"
+
+#  This message shows when a player attempts to disable spectate mode for another player who isn't
+#  in spectate mode
+#  Placeholders: {TARGET}
+already-disabled-for: "{TAG} &c{TARGET} isn't currently in spectator mode!"
+
+
+#
+#    SPECPOINT AND UNSPECPOINT MESSAGES
+#
+
+#  This message shows when a player sets the spec point
+point-set: "{TAG} &aThe spectate point has been set to your current location!"
+
+#  This message shows when a player sets the unspec point
+unpoint-set: "{TAG} &aThe unspectate point has been set to your current location!"
+
+#  This message shows when a player clears the spec point
+point-cleared: "{TAG} &aThe spectate point has been cleared!"
+
+#  This message shows when a player clears the unspec point
+unpoint-cleared: "{TAG} &aThe unspectate point has been cleared!"
+
+#  This message shows when a player attempts to clear the spec point but it isn't set
+no-point: "{TAG} &cThere's no existing spectate point to clear!"
+
+#  This message shows when a player attempts to clear the unspec point it isn't set
+no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"

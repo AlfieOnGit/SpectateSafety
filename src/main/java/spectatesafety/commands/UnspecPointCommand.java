@@ -26,9 +26,11 @@ public class UnspecPointCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("unspecpoint")) {
             if (!sender.hasPermission("spectatesafety.unspecpoint")) { /* If no perms */
-                sender.sendMessage(Messages.NO_PERMISSION.toString());
+                sender.sendMessage(Messages.NO_PERMISSION.toString().replace("{PERMISSION}", "spectatesafety.unspecpoint"));
             } else if (args.length == 0) { /* If no subcommands */
-                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
+                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
+            } else if (!subCommands.contains(args[0])) { /* If invalid subcommands */
+                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
             } else {
                 if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
                     Main.handler.setUnspecPoint(((Player) sender).getLocation());

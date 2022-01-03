@@ -26,9 +26,11 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("specpoint")) {
             if (!sender.hasPermission("spectatesafety.specpoint")) { /* If no perms */
-                sender.sendMessage(Messages.NO_PERMISSION.toString());
+                sender.sendMessage(Messages.NO_PERMISSION.toString().replace("{PERMISSION}", "spectatesafety.specpoint"));
             } else if (args.length == 0) { /* If no subcommands */
-                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
+                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
+            } else if (!subCommands.contains(args[0])) { /* If invalid subcommands */
+                sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
             } else {
                 if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
                     Main.handler.setSpecPoint(((Player) sender).getLocation());

@@ -22,7 +22,7 @@ public class Spectator {
     }
 
     /**
-     * Takes target out of spectate mode. Deletes Spectator instance
+     * Takes target out of spectate mode. DOES NOT DELETE SPECTATOR INSTANCE
      */
     public void unspectate () {
         this.player.setGameMode(this.ogGamemode);

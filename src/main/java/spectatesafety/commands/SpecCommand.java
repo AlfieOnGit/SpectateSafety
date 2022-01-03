@@ -1,9 +1,6 @@
 package spectatesafety.commands;
 
-import spectatesafety.Main;
-import spectatesafety.Messages;
-import spectatesafety.Spectator;
-import spectatesafety.Util;
+import spectatesafety.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,12 +28,12 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
 
                 /* Sender spec-ing themself */
                 if (!sender.hasPermission("spectatesafety.spectate")) { /* If no perms */
-                    sender.sendMessage(Messages.NO_PERMISSION.toString());
+                    sender.sendMessage(Messages.NO_PERMISSION.toString().replace("{PERMISSION}", "spectatesafety.spectate"));
                 } else if (Main.handler.getSpectatorFromPlayer((Player) sender) != null) { /* If sender already in spectate mode */
                     sender.sendMessage(Messages.ALREADY_ENABLED.toString());
                 } else { /* Command execution */
                     Main.handler.setSpectator((Player) sender);
-                    sender.sendMessage(Messages.ENABLED.toString());
+                    sender.sendMessage(Messages.ENABLED.toString().replace("{SENDER}", sender.getName()));
                 }
 
             } else {
@@ -43,21 +41,26 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
 
                     /* Sender spec-ing all */
                     Integer count = Main.handler.setAllSpectator();
-                    sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%",count.toString()));
+                    sender.sendMessage(Messages.ENABLED_ALL.toString().replace("{COUNT}",count.toString()));
 
                 } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
 
                     /* Sender spec-ing a group */
-                    int count = 0;
-                    for (Player p : Bukkit.getOnlinePlayers()) {
-                        for (String g : Main.permission.getPlayerGroups(p)) {
-                            if (args[0].substring(2).equals(g)) {
-                                Main.handler.setSpectator(p);
-                                count++;
-                                break;
+                    String group = args[0].substring(2);
+                    if (!Arrays.asList(Main.permission.getGroups()).contains(group)) { /* If group doesn't exist */
+                        sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
+                    } else { /* Command execution */
+                        int count = 0;
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            for (String g : Main.permission.getPlayerGroups(p)) {
+                                if (group.equals(g)) {
+                                    Main.handler.setSpectator(p);
+                                    count++;
+                                    break;
+                                }
                             }
-                        }
-                    } sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%", Integer.toString(count))); /* Custom message in v2.0 */
+                        } sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", Integer.toString(count)));
+                    }
 
                 } else {
 
@@ -65,12 +68,12 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                     Player p = Util.getPlayerFromName(args[0]);
                     Spectator s = Main.handler.getSpectatorFromPlayer(p);
                     if (p == null) { /* If target doesn't exist */
-                        sender.sendMessage(Messages.NOT_PLAYER.toString().replace("%TARGET%",args[0]));
+                        sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}",args[0]));
                     } else if (s != null) { /* If target isn't in spectate mode */
-                        sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("%TARGET%", p.getName()));
+                        sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     } else { /* Command execution */
                         Main.handler.setSpectator(p);
-                        sender.sendMessage(Messages.ENABLED_FOR.toString().replace("%TARGET%", p.getName()));
+                        sender.sendMessage(Messages.ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     }
 
                 }
