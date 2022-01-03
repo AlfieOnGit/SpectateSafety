@@ -7,6 +7,8 @@ import spectatesafety.Main;
 import spectatesafety.Spectator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Handler {
 
@@ -47,63 +49,66 @@ public class Handler {
     /**
      * Puts all players in a group, not currently, spectating in spectate mode
      * @param group Target group
-     * @return number of players affected
+     * @return set of players affected
      */
-    public Integer setGroupSpectator (String group) {
-        int count = 0;
+    public Set<Player> setGroupSpectator (String group) {
+        Set<Player> output = new HashSet<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             for (String g : Main.permission.getPlayerGroups(p)) {
                 if (group.equals(g)) {
                     Main.handler.setSpectator(p);
-                    count++;
+                    output.add(p);
                     break;
                 }
             }
-        } return count;
+        } return output;
     }
 
     /**
      * Puts all players not currently spectating in spectate mode
-     * @return number of players affected
+     * @return set of players affected
      */
-    public Integer setAllSpectator () {
-        Integer output = 0;
+    public Set<Player> setAllSpectator () {
+        Set<Player> output = new HashSet<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
             Boolean feedback = setSpectator(p);
-            if (feedback) output++;
+            if (feedback) output.add(p);
         } return output;
     }
 
     /**
      * Takes all players in a group, currently spectating, out of spectate mode
      * @param group Target group
-     * @return number of players affected
+     * @return set of players affected
      */
-    public Integer unsetGroupSpectator (String group) {
-        int count = 0;
+    public Set<Player> unsetGroupSpectator (String group) {
+        Set<Player> output = new HashSet<>();
         ArrayList<Spectator> spectators = new ArrayList<>(Main.handler.getSpectators());
         for (Spectator s : spectators) {
             Player p = s.getPlayer();
             for (String g : Main.permission.getPlayerGroups(p)) {
                 if (group.equals(g)) {
                     Main.handler.unsetSpectator(p);
-                    count++;
+                    output.add(p);
                     break;
                 }
             }
-        } return count;
+        } return output;
     }
 
     /**
      * Takes all currently spectating players out of spectate mode
+     * @return set of players affected
      */
-    public Integer unsetAllSpectator () {
+    public Set<Player> unsetAllSpectator () {
         ArrayList<Spectator> hold = new ArrayList<>();
         for (Spectator s : spectators) {
             s.unspectate();
             hold.add(s);
         } spectators.removeIf(hold::contains);
-        return hold.toArray().length;
+        Set<Player> output = new HashSet<>();
+        for (Spectator s : hold) output.add(s.getPlayer());
+        return output;
     }
 
     /**

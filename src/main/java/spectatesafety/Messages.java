@@ -1,6 +1,5 @@
 package spectatesafety;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.HashMap;
@@ -9,6 +8,8 @@ public enum Messages {
 
     NO_PERMISSION,
     VALID_SUBCOMMANDS,
+    FORCE_ENABLED,
+    FORCE_DISABLED,
 
     ENABLED,
     DISABLED,

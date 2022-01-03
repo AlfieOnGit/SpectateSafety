@@ -37,13 +37,21 @@ custom-placeholders:
 #
 
 #  This message shows when a player attempts the execute a command they don't have permission for
-#  Valid built in placeholders: {PERMISSION}
+#  Placeholders: {PERMISSION}
 no-permission: "{TAG} &cYou don't have permission for that command!"
 
 #  This message shows when a player attempts to run a command with an invalid subcommand
 #  (E.G: "/specpoint delete")
-#  Valid built in placeholders: {SUBCOMMANDS}
+#  Placeholders: {SUBCOMMANDS}
 valid-subcommands: "{TAG} &cValid subcommands: {SUBCOMMANDS}"
+
+#  This message is sent to players when they're put into spectate mode by a different player
+#  Placeholders: {SENDER}, {TARGET}
+force-enabled: "{TAG} &7Another player has put you in spectate mode!"
+
+#  This message is sent to players when they're put into spectate mode by a different player
+#  Placeholders: {SENDER}, {TARGET}
+force-disabled: "{TAG} &7Another player has taken you out of spectate mode!"
 
 
 #

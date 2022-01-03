@@ -10,10 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class SpecCommand implements CommandExecutor, TabCompleter {
 
@@ -40,8 +37,10 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("*")) {
 
                     /* Sender spec-ing all */
-                    Integer count = Main.handler.setAllSpectator();
-                    sender.sendMessage(Messages.ENABLED_ALL.toString().replace("{COUNT}",count.toString()));
+                    Set<Player> affected = Main.handler.setAllSpectator();
+                    for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
+                    String count = Integer.toString(affected.size());
+                    sender.sendMessage(Messages.ENABLED_ALL.toString().replace("{COUNT}",count));
 
                 } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
 
@@ -50,8 +49,10 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                     if (!Arrays.asList(Main.permission.getGroups()).contains(group)) { /* If group doesn't exist */
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
-                        int count = Main.handler.setGroupSpectator(group);
-                        sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", Integer.toString(count)));
+                        Set<Player> affected = Main.handler.setGroupSpectator(group);
+                        for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
+                        String count = Integer.toString(affected.size());
+                        sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", count));
                     }
 
                 } else {
@@ -64,6 +65,7 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     } else { /* Command execution */
                         Main.handler.setSpectator(p);
+                        p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
                         sender.sendMessage(Messages.ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     }
 
