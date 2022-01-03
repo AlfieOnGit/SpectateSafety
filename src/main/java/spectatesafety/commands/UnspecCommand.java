@@ -48,16 +48,18 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                 } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
 
                     /* Sender unspec-ing a group */
+                    int count = 0;
                     ArrayList<Spectator> spectators = new ArrayList<>(Main.handler.getSpectators());
                     for (Spectator s : spectators) {
                         Player p = s.getPlayer();
                         for (String g : Main.permission.getPlayerGroups(p)) {
                             if (args[0].substring(2).equals(g)) {
                                 Main.handler.unsetSpectator(p);
+                                count++;
                                 break;
                             }
                         }
-                    } sender.sendMessage("SUCCESS MSG");
+                    } sender.sendMessage(Messages.DISABLED_ALL.toString().replace("%COUNT%", Integer.toString(count)));
 
                 } else {
 

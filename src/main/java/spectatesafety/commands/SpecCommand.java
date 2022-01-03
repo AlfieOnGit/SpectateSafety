@@ -48,14 +48,16 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
 
                     /* Sender spec-ing a group */
+                    int count = 0;
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         for (String g : Main.permission.getPlayerGroups(p)) {
                             if (args[0].substring(2).equals(g)) {
                                 Main.handler.setSpectator(p);
+                                count++;
                                 break;
                             }
                         }
-                    } sender.sendMessage("SUCCESS MSG");
+                    } sender.sendMessage(Messages.ENABLED_ALL.toString().replace("%COUNT%", Integer.toString(count))); /* Custom message in v2.0 */
 
                 } else {
 
