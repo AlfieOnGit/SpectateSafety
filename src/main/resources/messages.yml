@@ -29,7 +29,7 @@
 #  have to write {TAG} when you want to use it in a message (See default messages as an example)
 
 custom-placeholders:
-  tag: "&8[&f&lSPEC&8]"
+  tag: "&5[&d&lSPEC&5]"
 
 
 #
