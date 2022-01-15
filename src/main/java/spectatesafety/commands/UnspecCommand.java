@@ -25,7 +25,8 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
 
                 /* Sender unspec-ing themself */
                 if (!sender.hasPermission("spectatesafety.unspectate")) { /* If no perms */
-                    sender.sendMessage(Messages.NO_PERMISSION.toString().replace("{PERMISSION}", "spectatesafety.unspectate"));
+                    sender.sendMessage(Messages.NO_PERMISSION.toString().
+                            replace("{PERMISSION}", "spectatesafety.unspectate"));
                 } else if (Main.handler.getSpectatorFromPlayer((Player) sender) == null) { /* If sender not in spec */
                     sender.sendMessage(Messages.ALREADY_DISABLED.toString());
                 } else { /* Command execution */
@@ -38,7 +39,8 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
 
                     /* Sender unspec-ing all */
                     Set<Player> affected = Main.handler.unsetAllSpectator();
-                    for (Player p : affected) p.sendMessage(Messages.FORCE_DISABLED.toString().replace("{SENDER}", sender.getName()));
+                    for (Player p : affected) p.sendMessage(Messages.FORCE_DISABLED.toString()
+                            .replace("{SENDER}", sender.getName()));
                     String count = Integer.toString(affected.size());
                     sender.sendMessage(Messages.DISABLED_ALL.toString().replace("{COUNT}", count));
 
@@ -50,9 +52,11 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
                         Set<Player> affected = Main.handler.unsetGroupSpectator(group);
-                        for (Player p : affected) p.sendMessage(Messages.FORCE_DISABLED.toString().replace("{SENDER}", sender.getName()));
+                        for (Player p : affected) p.sendMessage(Messages.FORCE_DISABLED.toString()
+                                .replace("{SENDER}", sender.getName()));
                         String count = Integer.toString(affected.size());
-                        sender.sendMessage(Messages.DISABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", count));
+                        sender.sendMessage(Messages.DISABLED_GROUP.toString().replace("{GROUP}", group).
+                                replace("{COUNT}", count));
                     }
 
                 } else {
@@ -62,7 +66,8 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                     if (p == null) { /* If target isn't a player */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}", args[0]));
                     } else if (!Main.handler.checkStatus(p)) { /* If target not in spec */
-                        sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().replace("{TARGET}", p.getName()));
+                        sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().
+                                replace("{TARGET}", p.getName()));
                     } else { /* Command execution */
                         Main.handler.unsetSpectator(p);
                         p.sendMessage(Messages.FORCE_DISABLED.toString().replace("{SENDER}", sender.getName()));

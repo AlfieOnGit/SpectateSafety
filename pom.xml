@@ -6,7 +6,7 @@
 
     <groupId>me.AlfieJay.SpectateSafety</groupId>
     <artifactId>SpectateSafety</artifactId>
-    <version>1.1.0</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>SpectateSafety</name>

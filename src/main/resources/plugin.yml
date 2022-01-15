@@ -28,6 +28,10 @@ permissions:
     description: Allows the player to enter spectate mode
   spectatesafety.unspectate:
     description: Allows the player to leave spectate mode
+  spectatesafety.help:
+    description: Allows the player to view the help page
+  spectatesafety.info:
+    description: Allows the player to view plugin and version info
   spectatesafety.teleport:
     description: Allows the player to teleport to other players while in spectate mode
   spectatesafety.spectate.others:

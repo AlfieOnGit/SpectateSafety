@@ -24,6 +24,8 @@
 #  {COUNT} = The number of player affected (not including targets whose gamemodes weren't changed)
 #  {SUBCOMMANDS} = A list of valid subcommands
 #  {PERMISSION} = The permission required to run the command
+#  {COMMAND} = The command usage
+#  {DESCRIPTION} = The command description
 
 #  You can add text placeholders here. Remember the formatting! E.G: For the placeholder "tag", you'll
 #  have to write {TAG} when you want to use it in a message (See default messages as an example)
@@ -52,6 +54,10 @@ force-enabled: "{TAG} &7Another player has put you in spectate mode!"
 #  This message is sent to players when they're put into spectate mode by a different player
 #  Placeholders: {SENDER}, {TARGET}
 force-disabled: "{TAG} &7Another player has taken you out of spectate mode!"
+
+#  This is the format commands appear in in the help command feedback
+#  Placeholders: {COMMAND}, {DESCRIPTION}
+command-help: "&d{COMMAND} &5- &7{DESCRIPTION}"
 
 
 #

@@ -10,6 +10,7 @@ public enum Messages {
     VALID_SUBCOMMANDS,
     FORCE_ENABLED,
     FORCE_DISABLED,
+    COMMAND_HELP,
 
     ENABLED,
     DISABLED,

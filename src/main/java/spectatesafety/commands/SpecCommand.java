@@ -21,11 +21,14 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (command.getName().equalsIgnoreCase("spec")) {
-            if (args.length == 0 || !sender.hasPermission("spectatesafety.spectate.others")) {
+            if (args.length == 0 || (!sender.hasPermission("spectatesafety.spectate.others")
+                    && !sender.hasPermission("spectatesafety.help")
+                    && !sender.hasPermission("spectatesafety.info"))) {
 
                 /* Sender spec-ing themself */
                 if (!sender.hasPermission("spectatesafety.spectate")) { /* If no perms */
-                    sender.sendMessage(Messages.NO_PERMISSION.toString().replace("{PERMISSION}", "spectatesafety.spectate"));
+                    sender.sendMessage(Messages.NO_PERMISSION.toString()
+                            .replace("{PERMISSION}", "spectatesafety.spectate"));
                 } else if (Main.handler.getSpectatorFromPlayer((Player) sender) != null) { /* If sender already in spectate mode */
                     sender.sendMessage(Messages.ALREADY_ENABLED.toString());
                 } else { /* Command execution */
@@ -34,11 +37,32 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 }
 
             } else {
-                if (args[0].equalsIgnoreCase("*")) {
+                if (args[0].equalsIgnoreCase("help")) {
+
+                    /* Help command */
+                    if (!sender.hasPermission("spectatesafety.help")) { /* If no perms */
+                        sender.sendMessage(Messages.NO_PERMISSION.toString().
+                                replace("{PERMISSION}", "spectatesafety.help"));
+                    } else { /* Command execution */
+                        Text.help((Player) sender);
+                    }
+
+                } else if (args[0].equalsIgnoreCase("info")) {
+
+                    /* Info command */
+                    if (!sender.hasPermission("spectatesafety.info")) { /* If no perms */
+                        sender.sendMessage(Messages.NO_PERMISSION.toString().
+                                replace("{PERMISSION}", "spectatesafety.info"));
+                    } else { /* Command execution */
+                        sender.sendMessage("INFO COMMAND HERE");
+                    }
+
+                } else if (args[0].equalsIgnoreCase("*")) {
 
                     /* Sender spec-ing all */
                     Set<Player> affected = Main.handler.setAllSpectator();
-                    for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
+                    for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString()
+                            .replace("{SENDER}", sender.getName()));
                     String count = Integer.toString(affected.size());
                     sender.sendMessage(Messages.ENABLED_ALL.toString().replace("{COUNT}",count));
 
@@ -50,23 +74,40 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
                         Set<Player> affected = Main.handler.setGroupSpectator(group);
-                        for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
+                        for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString().
+                                replace("{SENDER}", sender.getName()));
                         String count = Integer.toString(affected.size());
-                        sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group).replace("{COUNT}", count));
+                        sender.sendMessage(Messages.ENABLED_GROUP.toString().replace("{GROUP}", group)
+                                .replace("{COUNT}", count));
                     }
 
                 } else {
+                    if (!sender.hasPermission("spectatesafety.spectate.others")) {
 
-                    /* Sender spec-ing a target */
-                    Player p = Util.getPlayerFromName(args[0]);
-                    if (p == null) { /* If target doesn't exist */
-                        sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}",args[0]));
-                    } else if (Main.handler.checkStatus(p)) { /* If target already in spectate mode */
-                        sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
-                    } else { /* Command execution */
-                        Main.handler.setSpectator(p);
-                        p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
-                        sender.sendMessage(Messages.ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
+                        /* If invalid subcommand but has perms for subcommands */
+                        String subcommands = "";
+                        if (sender.hasPermission("spectatesafety.help")) {
+                            subcommands = "help, ";
+                        } if (sender.hasPermission("spectatesafety.info")) {
+                            subcommands = subcommands + "info, ";
+                        } subcommands = subcommands.substring(0, subcommands.length() - 2);
+                        sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().
+                                replace("{SUBCOMMANDS}", subcommands));
+
+                    } else {
+
+                        /* Sender spec-ing a target */
+                        Player p = Util.getPlayerFromName(args[0]);
+                        if (p == null) { /* If target doesn't exist */
+                            sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}",args[0]));
+                        } else if (Main.handler.checkStatus(p)) { /* If target already in spectate mode */
+                            sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().
+                                    replace("{TARGET}", p.getName()));
+                        } else { /* Command execution */
+                            Main.handler.setSpectator(p);
+                            p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
+                            sender.sendMessage(Messages.ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
+                        }
                     }
 
                 }
