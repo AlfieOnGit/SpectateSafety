@@ -54,7 +54,7 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.NO_PERMISSION.toString().
                                 replace("{PERMISSION}", "spectatesafety.info"));
                     } else { /* Command execution */
-                        sender.sendMessage("INFO COMMAND HERE");
+                        Text.info((Player) sender);
                     }
 
                 } else if (args[0].equalsIgnoreCase("*")) {
@@ -118,11 +118,23 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> possibleOutputs = new ArrayList<>();
-        if (args.length == 1) {
+        if (args.length == 1) { /* If player has typed "/spec " */
+
+            /* /spec help suggestion */
+            if (sender.hasPermission("spectatesafety.help")) {
+                possibleOutputs.add("help");
+            }
+
+            /* /spec info suggestion */
+            if (sender.hasPermission("spectatesafety.info")) {
+                possibleOutputs.add("info");
+            }
+
+            /* /spec <player> suggestion */
             if (sender.hasPermission("spectatesafety.spectate.others")) {
-                if (args[0].startsWith("g:") && Main.permission != null) { /* "/spec g:" */
+                if (args[0].startsWith("g:") && Main.permission != null) { /* If player has typed "/spec g:" */
                     for (String g : Main.permission.getGroups()) possibleOutputs.add("g:" + g);
-                } else { /* "/spec " */
+                } else { /* If player has typed "/spec " */
                     possibleOutputs.add("*");
                     if (Main.permission != null) possibleOutputs.add("g:");
                     for (Player p : Bukkit.getOnlinePlayers()) {

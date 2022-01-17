@@ -84,9 +84,9 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
         ArrayList<String> possibleOutputs = new ArrayList<>();
         if (args.length == 1) {
             if (sender.hasPermission("spectatesafety.unspectate.others")) {
-                if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) { /* "/unspec g:" */
+                if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) { /* If player has typed "/unspec g:" */
                     for (String g : Main.permission.getGroups()) possibleOutputs.add("g:" + g);
-                } else { /* "/unspec " */
+                } else { /* If player has typed "/unspec " */
                     possibleOutputs.add("*");
                     if (Main.permission != null) possibleOutputs.add("g:");
                     for (Player p : Bukkit.getOnlinePlayers()) {

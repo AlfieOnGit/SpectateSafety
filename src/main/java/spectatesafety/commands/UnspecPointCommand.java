@@ -52,7 +52,7 @@ public class UnspecPointCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> output = new ArrayList<>();
-        if (args.length == 1 && sender.hasPermission("spectatesafety.unspecpoint")) { /* "/unspecpoint " */
+        if (args.length == 1 && sender.hasPermission("spectatesafety.unspecpoint")) { /* If player has typed "/unspecpoint " */
             for (String x : this.subCommands) {
                 if (x.startsWith(args[0])) {
                     output.add(x);
