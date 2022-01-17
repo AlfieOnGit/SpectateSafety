@@ -14,6 +14,7 @@ public final class Main extends JavaPlugin {
     public static SpecPointsConfig fileHandler;
     public static MessagesHandler messagesHandler;
     public static Permission permission;
+    private static Main instance;
 
     @Override
     public void onEnable() {
@@ -30,6 +31,8 @@ public final class Main extends JavaPlugin {
         handler.loadSpecPoints();
 
         permission = getPermissions();
+
+        instance = this;
     }
 
     @Override
@@ -45,5 +48,9 @@ public final class Main extends JavaPlugin {
             if (rsp == null) return null;
             else return rsp.getProvider();
         }
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 }

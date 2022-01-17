@@ -18,14 +18,17 @@
 #  context. If you make a custom placeholder with the same name, it'll override the built in one
 
 #  Placeholder directory:
-#  {SENDER} = The username of the player executing the command
-#  {TARGET} = The username of the player who the command's being used on
-#  {GROUP} = The name of the permission group that the command's being used on
-#  {COUNT} = The number of player affected (not including targets whose gamemodes weren't changed)
-#  {SUBCOMMANDS} = A list of valid subcommands
-#  {PERMISSION} = The permission required to run the command
 #  {COMMAND} = The command usage
+#  {COUNT} = The number of player affected (not including targets whose gamemodes weren't changed)
+#  {DEPENDENCY} = The name of the dependency
 #  {DESCRIPTION} = The command description
+#  {FOUND} = Whether or not a dependency was found in the plugins folder
+#  {GROUP} = The name of the permission group that the command's being used on
+#  {PERMISSION} = The permission required to run the command
+#  {SENDER} = The username of the player executing the command
+#  {SUBCOMMANDS} = A list of valid subcommands
+#  {TARGET} = The username of the player who the command's being used on
+#  {VERSION} = Plugin version
 
 #  You can add text placeholders here. Remember the formatting! E.G: For the placeholder "tag", you'll
 #  have to write {TAG} when you want to use it in a message (See default messages as an example)
@@ -54,10 +57,6 @@ force-enabled: "{TAG} &7Another player has put you in spectate mode!"
 #  This message is sent to players when they're put into spectate mode by a different player
 #  Placeholders: {SENDER}, {TARGET}
 force-disabled: "{TAG} &7Another player has taken you out of spectate mode!"
-
-#  This is the format commands appear in in the help command feedback
-#  Placeholders: {COMMAND}, {DESCRIPTION}
-command-help: "&d{COMMAND} &5- &7{DESCRIPTION}"
 
 
 #
@@ -151,3 +150,21 @@ no-point: "{TAG} &cThere's no existing spectate point to clear!"
 
 #  This message shows when a player attempts to clear the unspec point it isn't set
 no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
+
+
+#
+#    HELP AND INFO MESSAGES
+#
+
+#  This is the format commands appear in in the help command feedback
+#  Placeholders: {COMMAND}, {DESCRIPTION}
+help-format: "&d{COMMAND} &5- &7{DESCRIPTION}"
+
+#  This is the format of the version message in the info command feedback
+#  Placeholders: {VERSION}
+version: "&dVersion &8- &5&l{VERSION}"
+
+#  This is the format of the message in the info command feedback that tells you whether or not a
+#  dependency has been found
+#  Placeholders: {DEPENDENCY}, {FOUND}
+dependency: "&d{DEPENDENCY} &8- &5&l{FOUND}"

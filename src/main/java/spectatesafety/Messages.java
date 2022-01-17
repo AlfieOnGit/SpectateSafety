@@ -10,7 +10,6 @@ public enum Messages {
     VALID_SUBCOMMANDS,
     FORCE_ENABLED,
     FORCE_DISABLED,
-    COMMAND_HELP,
 
     ENABLED,
     DISABLED,
@@ -33,7 +32,11 @@ public enum Messages {
     POINT_CLEARED,
     UNPOINT_CLEARED,
     NO_POINT,
-    NO_UNPOINT;
+    NO_UNPOINT,
+
+    HELP_FORMAT,
+    VERSION,
+    DEPENDENCY;
 
     private final String message;
     private final HashMap<String, String> customPlaceholders;

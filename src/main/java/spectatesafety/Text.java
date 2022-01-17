@@ -1,6 +1,5 @@
 package spectatesafety;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -48,18 +47,19 @@ public class Text {
     }
 
     public static void info (Player player) {
-        player.sendMessage(ChatColor.LIGHT_PURPLE + "Plugin version: " + ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "v1.1");
+        String version = Main.getInstance().getDescription().getVersion();
+        player.sendMessage(Messages.VERSION.toString().replace("{VERSION}", version));
 
-        String val = "NOT FOUND";
+        String found = "NOT FOUND";
         if (Main.permission != null) { /* If vault integration found */
-            val = "FOUND";
+            found = "FOUND";
         }
-        player.sendMessage(ChatColor.LIGHT_PURPLE + "Vault integration: " + ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + val);
-
+        player.sendMessage(Messages.DEPENDENCY.toString().replace("{DEPENDENCY}", "Vault")
+                .replace("{FOUND}", found));
     }
 
     private static String formatLine (String command, String description) {
-        return Messages.COMMAND_HELP.toString().replace("{COMMAND}", command)
+        return Messages.HELP_FORMAT.toString().replace("{COMMAND}", command)
                 .replace("{DESCRIPTION}", description);
     }
 
