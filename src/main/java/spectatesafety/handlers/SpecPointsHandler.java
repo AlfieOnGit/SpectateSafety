@@ -8,12 +8,12 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.IOException;
 
-public class SpecPointsConfig {
+public class SpecPointsHandler {
 
     private final File file;
     private FileConfiguration config;
 
-    public SpecPointsConfig(Plugin plugin) {
+    public SpecPointsHandler(Plugin plugin) {
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdir();
         }

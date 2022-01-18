@@ -117,7 +117,7 @@ public class Handler {
      */
     public void setSpecPoint (Location location) {
         this.specPoint = location;
-        Main.fileHandler.saveSpecPoint(location);
+        Main.specPointsHandler.saveSpecPoint(location);
     }
 
     /**
@@ -126,7 +126,7 @@ public class Handler {
     public void clearSpecPoint () {
         if (this.specPoint != null) {
             this.specPoint = null;
-            Main.fileHandler.clearSpecPoint();
+            Main.specPointsHandler.clearSpecPoint();
         }
     }
 
@@ -136,7 +136,7 @@ public class Handler {
      */
     public void setUnspecPoint (Location location) {
         this.unspecPoint = location;
-        Main.fileHandler.saveUnspecPoint(location);
+        Main.specPointsHandler.saveUnspecPoint(location);
     }
 
     /**
@@ -145,7 +145,7 @@ public class Handler {
     public void clearUnspecPoint () {
         if (this.unspecPoint != null) {
             this.unspecPoint = null;
-            Main.fileHandler.clearUnspecPoint();
+            Main.specPointsHandler.clearUnspecPoint();
         }
     }
 
@@ -164,8 +164,8 @@ public class Handler {
      * Loads the spec points from the save file
      */
     public void loadSpecPoints() {
-        specPoint = Main.fileHandler.getSpecPoint();
-        unspecPoint = Main.fileHandler.getUnspecPoint();
+        specPoint = Main.specPointsHandler.getSpecPoint();
+        unspecPoint = Main.specPointsHandler.getUnspecPoint();
     }
 
     /**

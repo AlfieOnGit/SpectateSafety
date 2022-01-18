@@ -11,10 +11,10 @@ import java.util.Objects;
 public final class Main extends JavaPlugin {
 
     public static Handler handler;
-    public static SpecPointsConfig fileHandler;
+    public static SpecPointsHandler specPointsHandler;
     public static MessagesHandler messagesHandler;
     public static Permission permission;
-    private static Main instance;
+    private static Main plugin;
 
     @Override
     public void onEnable() {
@@ -24,7 +24,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand(this));
 
         handler = new Handler();
-        fileHandler = new SpecPointsConfig(this);
+        specPointsHandler = new SpecPointsHandler(this);
         messagesHandler = new MessagesHandler(this);
 
         new ListenerHandler(this);
@@ -32,7 +32,7 @@ public final class Main extends JavaPlugin {
 
         permission = getPermissions();
 
-        instance = this;
+        plugin = this;
     }
 
     @Override
@@ -50,7 +50,19 @@ public final class Main extends JavaPlugin {
         }
     }
 
-    public static Main getInstance() {
-        return instance;
+    /**
+     * Reloads the plugin's configs
+     */
+    public void reload () {
+        messagesHandler = new MessagesHandler(this);
+
+        specPointsHandler = new SpecPointsHandler(this);
+        handler.loadSpecPoints();
+
+        Messages.reload();
+    }
+
+    public static Main getPlugin() {
+        return plugin;
     }
 }

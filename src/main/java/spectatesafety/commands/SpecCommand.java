@@ -23,7 +23,8 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
         if (command.getName().equalsIgnoreCase("spec")) {
             if (args.length == 0 || (!sender.hasPermission("spectatesafety.spectate.others")
                     && !sender.hasPermission("spectatesafety.help")
-                    && !sender.hasPermission("spectatesafety.info"))) {
+                    && !sender.hasPermission("spectatesafety.info")
+                    && !sender.hasPermission("spectatesafety.reload"))) {
 
                 /* Sender spec-ing themself */
                 if (!sender.hasPermission("spectatesafety.spectate")) { /* If no perms */
@@ -51,10 +52,21 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
 
                     /* Info command */
                     if (!sender.hasPermission("spectatesafety.info")) { /* If no perms */
-                        sender.sendMessage(Messages.NO_PERMISSION.toString().
-                                replace("{PERMISSION}", "spectatesafety.info"));
+                        sender.sendMessage(Messages.NO_PERMISSION.toString()
+                                .replace("{PERMISSION}", "spectatesafety.info"));
                     } else { /* Command execution */
                         Text.info((Player) sender);
+                    }
+
+                } else if (args[0].equalsIgnoreCase("reload")) {
+
+                    /* Reload command */
+                    if (!sender.hasPermission("spectatesafety.reload")) { /* If no perms */
+                        sender.sendMessage(Messages.NO_PERMISSION.toString()
+                                .replace("{PERMISSION}", "spectatesafety.reload"));
+                    } else { /* Command execution */
+                        Main.getPlugin().reload();
+                        sender.sendMessage(Messages.RELOAD_MESSAGE.toString());
                     }
 
                 } else if (args[0].equalsIgnoreCase("*")) {
@@ -128,6 +140,11 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
             /* /spec info suggestion */
             if (sender.hasPermission("spectatesafety.info")) {
                 possibleOutputs.add("info");
+            }
+
+            /* /spec reload suggestion */
+            if (sender.hasPermission("spectatesafety.reload")) {
+                possibleOutputs.add("reload");
             }
 
             /* /spec <player> suggestion */

@@ -44,7 +44,7 @@ public class Text {
     public static void info (Player player) {
         player.sendMessage(Messages.INFO_MESSAGE.toString());
 
-        String version = Main.getInstance().getDescription().getVersion();
+        String version = Main.getPlugin().getDescription().getVersion();
         player.sendMessage(Messages.VERSION.toString().replace("{VERSION}", version));
 
         String found = "NOT FOUND";

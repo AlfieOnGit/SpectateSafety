@@ -32,6 +32,8 @@ permissions:
     description: Allows the player to view the help page
   spectatesafety.info:
     description: Allows the player to view plugin and version info
+  spectatesafety.reload:
+    description: Allows the player to reload the plugin configs
   spectatesafety.teleport:
     description: Allows the player to teleport to other players while in spectate mode
   spectatesafety.spectate.others:

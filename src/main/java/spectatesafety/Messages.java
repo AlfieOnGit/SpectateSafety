@@ -36,12 +36,13 @@ public enum Messages {
 
     HELP_MESSAGE,
     INFO_MESSAGE,
+    RELOAD_MESSAGE,
     HELP_FORMAT,
     VERSION,
     DEPENDENCY;
 
-    private final String message;
-    private final HashMap<String, String> customPlaceholders;
+    private String message;
+    private HashMap<String, String> customPlaceholders;
 
     Messages() {
         String path = this.name().replace("_","-").toLowerCase();
@@ -57,5 +58,17 @@ public enum Messages {
             output = output.replace(cph, customPlaceholders.get(cph));
         }
         return output;
+    }
+
+    /**
+     * Updates messages
+     */
+    public static void reload() {
+        for (Messages m : values()) {
+            String path = m.name().replace("_","-").toLowerCase();
+            m.message = ChatColor.translateAlternateColorCodes('&', Main.messagesHandler.get(path));
+
+            m.customPlaceholders = Main.messagesHandler.getCustomPlaceholders();
+        }
     }
 }
