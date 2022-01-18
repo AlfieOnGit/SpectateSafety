@@ -34,6 +34,8 @@ public enum Messages {
     NO_POINT,
     NO_UNPOINT,
 
+    HELP_MESSAGE,
+    INFO_MESSAGE,
     HELP_FORMAT,
     VERSION,
     DEPENDENCY;

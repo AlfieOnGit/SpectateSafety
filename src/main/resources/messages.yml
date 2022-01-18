@@ -156,6 +156,12 @@ no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
 #    HELP AND INFO MESSAGES
 #
 
+#  This is the banner above the help command feedback
+help-message: "&5|=================[ &l&nHELP &5]=================|"
+
+#  This is the banner above the info command feedback
+info-message: "&5|====[ &l&nINFO&5 ]====|"
+
 #  This is the format commands appear in in the help command feedback
 #  Placeholders: {COMMAND}, {DESCRIPTION}
 help-format: "&d{COMMAND} &5- &7{DESCRIPTION}"
