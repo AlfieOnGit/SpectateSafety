@@ -122,11 +122,14 @@ public class Handler {
 
     /**
      * Unsets the spec point and deletes it from the save file
+     * @return <code>true</code> if existing spec point deleted; <code>false</code> if no existing specpoint
      */
-    public void clearSpecPoint () {
-        if (this.specPoint != null) {
+    public Boolean clearSpecPoint () {
+        if (this.specPoint == null) return false;
+        else {
             this.specPoint = null;
             Main.specPointsHandler.clearSpecPoint();
+            return true;
         }
     }
 
@@ -141,11 +144,14 @@ public class Handler {
 
     /**
      * Unsets the unspec point and deletes it from the save file
+     * @return <code>true</code> if existing unspec point deleted; <code>false</code> if no existing unspecpoint
      */
-    public void clearUnspecPoint () {
-        if (this.unspecPoint != null) {
+    public Boolean clearUnspecPoint () {
+        if (this.unspecPoint == null) return false;
+        else {
             this.unspecPoint = null;
             Main.specPointsHandler.clearUnspecPoint();
+            return true;
         }
     }
 
