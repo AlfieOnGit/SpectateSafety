@@ -28,6 +28,7 @@
 #  {SENDER} = The username of the player executing the command
 #  {SUBCOMMANDS} = A list of valid subcommands
 #  {TARGET} = The username of the player who the command's being used on
+#  {WORLD} = The name of the world which the command's being used on
 #  {VERSION} = Plugin version
 
 #  You can add text placeholders here. Remember the formatting! E.G: For the placeholder "tag", you'll
@@ -133,23 +134,44 @@ already-disabled-for: "{TAG} &c{TARGET} isn't currently in spectator mode!"
 #    SPECPOINT AND UNSPECPOINT MESSAGES
 #
 
-#  This message shows when a player sets the spec point
-point-set: "{TAG} &aThe spectate point has been set to your current location!"
+#  This message shows when a player sets the global spec point
+point-set: "{TAG} &aThe global spectate point has been set to your current location!"
 
-#  This message shows when a player sets the unspec point
+#  This message shows when a player sets the global unspec point
 unpoint-set: "{TAG} &aThe unspectate point has been set to your current location!"
 
-#  This message shows when a player clears the spec point
+#  This message shows when a player sets a world's spec point
+#  Placeholders: {WORLD}
+world-point-set: "{TAG} &aThe spectate point for world {WORLD} has been set to your current location"
+
+#  This message shows when a player sets a world's unspec point
+#  Placeholders: {WORLD}
+world-unpoint-set: "{TAG} &aThe unspectate point for world {WORLD} has been set to your current location"
+
+#  This message shows when a player clears the global spec point
 point-cleared: "{TAG} &aThe spectate point has been cleared!"
 
-#  This message shows when a player clears the unspec point
+#  This message shows when a player clears the global unspec point
 unpoint-cleared: "{TAG} &aThe unspectate point has been cleared!"
+
+#  This message shows when a player clears the global spec point
+#  Placeholders: {WORLD}
+world-point-cleared: "{TAG} &aThe spectate point has been cleared for world {WORLD}!"
+
+#  This message shows when a player clears the global unspec point
+#  Placeholders: {WORLD}
+world-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for world {WORLD!"
 
 #  This message shows when a player attempts to clear the spec point but it isn't set
 no-point: "{TAG} &cThere's no existing spectate point to clear!"
 
 #  This message shows when a player attempts to clear the unspec point it isn't set
 no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
+
+#  This messages shows when a player attempts to set or clear the spec/unspec point for a world
+#  that doesn't exist
+#  Placeholders: {WORLD}
+not-world: "{TAG} &cCouldn't find the world '{WORLD}'"
 
 
 #

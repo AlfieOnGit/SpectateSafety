@@ -1,10 +1,13 @@
 package spectatesafety.handlers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 
@@ -38,18 +41,29 @@ public class SpecPointsHandler {
     }
 
     /**
-     * Fetches the spec point from the specpoints.yml file
+     * Fetches the global spec point from the specpoints.yml file
      * @return spec point location
      */
     public Location getSpecPoint() {
-        if (config != null) {
-            if (!config.contains("spec-point")) return null;
-            return config.getLocation("spec-point");
-        } else return null;
+        if (config == null) return null;
+        if (!config.contains("spec-point")) return null;
+        return config.getLocation("spec-point");
     }
 
     /**
-     * Fetches the unspec point from the specpoints.yml file
+     * Fetches a specified world's spec point from the specpoints.yml file
+     * @param world specified world
+     * @return spec point location
+     */
+    public Location getSpecPoint(World world) {
+        if (config == null) return null;
+        String path = "spec-point-" + world.getName();
+        if (!config.contains(path)) return null;
+        return config.getLocation(path);
+    }
+
+    /**
+     * Fetches the global unspec point from the specpoints.yml file
      * @return unspec point location
      */
     public Location getUnspecPoint() {
@@ -60,14 +74,21 @@ public class SpecPointsHandler {
     }
 
     /**
-     * Saves specified location as the spec point in the specpoints.yml file
+     * Saves specified location as the specified world's spec point in the specpoints.yml file. If
+     * location is Null then it'll clear the location. If world is null, it'll apply it as the global
+     * spec point
      * @param location specified location
+     * @param world specified world
      */
-    public void saveSpecPoint(Location location) {
-        if (file.exists()) {
-            config.set("spec-point", location);
-            save();
+    public void saveSpecPoint(@Nullable Location location, @Nullable World world) {
+        Bukkit.getLogger().info("TEST 1");
+        if (!file.exists()) return;
+        if (world == null) config.set("spec-point", location);
+        else {
+            config.set("spec-point-" + world.getName(), location);
+            Bukkit.getLogger().info("TEST 2");
         }
+        save();
     }
 
     /**
@@ -78,18 +99,6 @@ public class SpecPointsHandler {
         if (file.exists()) {
             config.set("unspec-point", location);
             save();
-        }
-    }
-
-    /**
-     * Removes saved spec point location from the specpoints.yml file
-     */
-    public void clearSpecPoint() {
-        if (file.exists()) {
-            if (config.contains("spec-point")) {
-                config.set("spec-point", null);
-                save();
-            }
         }
     }
 

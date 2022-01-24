@@ -2,11 +2,13 @@ package spectatesafety.handlers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import spectatesafety.Main;
 import spectatesafety.Spectator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +17,7 @@ public class Handler {
     private final ArrayList<Spectator> spectators;
 
     private Location specPoint, unspecPoint;
+    private final HashMap<World, Location> localSpecPoints = new HashMap<>();
 
     public Handler() {
         this.spectators = new ArrayList<>();
@@ -117,7 +120,12 @@ public class Handler {
      */
     public void setSpecPoint (Location location) {
         this.specPoint = location;
-        Main.specPointsHandler.saveSpecPoint(location);
+        Main.specPointsHandler.saveSpecPoint(location, null);
+    }
+
+    public void setSpecPoint (Location location, World world) {
+        this.localSpecPoints.put(world, location);
+        Main.specPointsHandler.saveSpecPoint(location, world);
     }
 
     /**
@@ -128,7 +136,7 @@ public class Handler {
         if (this.specPoint == null) return false;
         else {
             this.specPoint = null;
-            Main.specPointsHandler.clearSpecPoint();
+            Main.specPointsHandler.saveSpecPoint(null, null);
             return true;
         }
     }

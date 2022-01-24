@@ -1,5 +1,7 @@
 package spectatesafety.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import spectatesafety.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,10 +32,28 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
             } else if (args.length == 0 || !subCommands.contains(args[0])) { /* If no subcommands or invalid subcommands */
                 sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
             } else {
-                if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
-                    Main.handler.setSpecPoint(((Player) sender).getLocation());
-                    sender.sendMessage(Messages.POINT_SET.toString());
-                } else if (args[0].equalsIgnoreCase("clear")) { /* CLEAR command execution */
+                if (args[0].equalsIgnoreCase("set")) {
+                    if (args.length > 1) {
+
+                        /* Sender setting a world's spec point */
+                        World world = Bukkit.getWorld(args[1]);
+                        if (world == null) { /* If world not found */
+                            sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", args[1]));
+                        } else { /* Command execution */
+                            Main.handler.setSpecPoint(((Player) sender).getLocation(), world);
+                            sender.sendMessage(Messages.WORLD_POINT_SET.toString().replace("{WORLD}", args[1]));
+                        }
+
+                    } else {
+
+                        /* Sender setting the global spec point */
+                        Main.handler.setSpecPoint(((Player) sender).getLocation());
+                        sender.sendMessage(Messages.POINT_SET.toString());
+
+                    }
+                } else if (args[0].equalsIgnoreCase("clear")) {
+
+                    /* CLEAR command execution */
                     if (Main.handler.clearSpecPoint()) sender.sendMessage(Messages.POINT_CLEARED.toString());
                     else sender.sendMessage(Messages.NO_POINT.toString());
                 } else { /* If invalid subcommand */
