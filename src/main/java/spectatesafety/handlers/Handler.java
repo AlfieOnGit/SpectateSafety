@@ -14,14 +14,12 @@ import java.util.Set;
 
 public class Handler {
 
-    private final ArrayList<Spectator> spectators;
+    private final ArrayList<Spectator> spectators = new ArrayList<>();
 
-    private Location specPoint, unspecPoint;
-    private final HashMap<World, Location> localSpecPoints = new HashMap<>();
+    private Location globalUnspecPoint;
+    private HashMap<World, Location> specPoints = new HashMap<>(); // Global spec point stored at key "null"
 
-    public Handler() {
-        this.spectators = new ArrayList<>();
-    }
+    public Handler() { }
 
     /**
      * Puts the specified player in spectate mode
@@ -115,28 +113,42 @@ public class Handler {
     }
 
     /**
-     * Sets the spec point to the specified location
+     * Sets the global spec point to the specified location
      * @param location Specified location
      */
-    public void setSpecPoint (Location location) {
-        this.specPoint = location;
-        Main.specPointsHandler.saveSpecPoint(location, null);
+    public void setGlobalSpecPoint(Location location) {
+        this.specPoints.put(null, location);
+        Main.specPointsHandler.saveSpecPoint(null, location);
     }
 
-    public void setSpecPoint (Location location, World world) {
-        this.localSpecPoints.put(world, location);
-        Main.specPointsHandler.saveSpecPoint(location, world);
+    public void setLocalSpecPoint(Location location, World world) {
+        this.specPoints.put(world, location);
+        Main.specPointsHandler.saveSpecPoint(world, location);
     }
 
     /**
-     * Unsets the spec point and deletes it from the save file
+     * Unsets the global spec point and deletes it from the save file
      * @return <code>true</code> if existing spec point deleted; <code>false</code> if no existing specpoint
      */
-    public Boolean clearSpecPoint () {
-        if (this.specPoint == null) return false;
+    public Boolean clearGlobalSpecPoint() {
+        if (this.specPoints.get(null) == null) return false;
         else {
-            this.specPoint = null;
+            this.specPoints.put(null, null);
             Main.specPointsHandler.saveSpecPoint(null, null);
+            return true;
+        }
+    }
+
+    /**
+     * Unsets a local spec point and deletes it from the save file
+     * @param world World of target local spec point
+     * @return <code>true</code> if existing spec point deleted; <code>false</code> if no existing specpoint
+     */
+    public Boolean clearLocalSpecPoint(World world) {
+        if (this.specPoints.get(world) == null) return false;
+        else {
+            this.specPoints.remove(world);
+            Main.specPointsHandler.saveSpecPoint(world, null);
             return true;
         }
     }
@@ -145,8 +157,8 @@ public class Handler {
      * Sets the unspec point to the specified location
      * @param location Specified location
      */
-    public void setUnspecPoint (Location location) {
-        this.unspecPoint = location;
+    public void setGlobalUnspecPoint(Location location) {
+        this.globalUnspecPoint = location;
         Main.specPointsHandler.saveUnspecPoint(location);
     }
 
@@ -155,9 +167,9 @@ public class Handler {
      * @return <code>true</code> if existing unspec point deleted; <code>false</code> if no existing unspecpoint
      */
     public Boolean clearUnspecPoint () {
-        if (this.unspecPoint == null) return false;
+        if (this.globalUnspecPoint == null) return false;
         else {
-            this.unspecPoint = null;
+            this.globalUnspecPoint = null;
             Main.specPointsHandler.clearUnspecPoint();
             return true;
         }
@@ -178,8 +190,8 @@ public class Handler {
      * Loads the spec points from the save file
      */
     public void loadSpecPoints() {
-        specPoint = Main.specPointsHandler.getSpecPoint();
-        unspecPoint = Main.specPointsHandler.getUnspecPoint();
+        this.specPoints = Main.specPointsHandler.getSpecPoints();
+        globalUnspecPoint = Main.specPointsHandler.getUnspecPoint();
     }
 
     /**
@@ -197,7 +209,7 @@ public class Handler {
 
     public ArrayList<Spectator> getSpectators () { return spectators; }
 
-    public Location getSpecPoint () { return specPoint; }
+    public Location getGlobalSpecPoint() { return this.specPoints.get(null); }
 
-    public Location getUnspecPoint () { return unspecPoint; }
+    public Location getGlobalUnspecPoint() { return globalUnspecPoint; }
 }

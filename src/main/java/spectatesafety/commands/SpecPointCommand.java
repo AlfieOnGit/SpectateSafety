@@ -34,28 +34,54 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
             } else {
                 if (args[0].equalsIgnoreCase("set")) {
                     if (args.length > 1) {
+                        if (args[1].startsWith("w:")) {
 
-                        /* Sender setting a world's spec point */
-                        World world = Bukkit.getWorld(args[1]);
-                        if (world == null) { /* If world not found */
-                            sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", args[1]));
-                        } else { /* Command execution */
-                            Main.handler.setSpecPoint(((Player) sender).getLocation(), world);
-                            sender.sendMessage(Messages.WORLD_POINT_SET.toString().replace("{WORLD}", args[1]));
+                            /* Sender setting a world's spec point */
+                            String worldName = args[1].substring(2);
+                            World world = Bukkit.getWorld(worldName);
+                            if (world == null) { /* If world not found */
+                                sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
+                            } else { /* Command execution */
+                                Main.handler.setLocalSpecPoint(((Player) sender).getLocation(), world);
+                                sender.sendMessage(Messages.WORLD_POINT_SET.toString().replace("{WORLD}", worldName));
+                            }
+
+                        } else { /* Invalid argument */
+                            sender.sendMessage(Messages.VALID_ARGUMENTS.toString().replace("{ARGUMENTS}", "w:<world>"));
                         }
 
                     } else {
 
                         /* Sender setting the global spec point */
-                        Main.handler.setSpecPoint(((Player) sender).getLocation());
+                        Main.handler.setGlobalSpecPoint(((Player) sender).getLocation());
                         sender.sendMessage(Messages.POINT_SET.toString());
 
                     }
                 } else if (args[0].equalsIgnoreCase("clear")) {
+                    if (args.length > 1) {
+                        if (args[1].startsWith("w:")) {
 
-                    /* CLEAR command execution */
-                    if (Main.handler.clearSpecPoint()) sender.sendMessage(Messages.POINT_CLEARED.toString());
-                    else sender.sendMessage(Messages.NO_POINT.toString());
+                            /* Sender clearing a world's spec point */
+                            String worldName = args[1].substring(2);
+                            World world = Bukkit.getWorld(worldName);
+                            if (world == null) { /* If world not found */
+                                sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
+                            } else { /* Command execution */
+                                if (Main.handler.clearLocalSpecPoint(world)) sender.sendMessage(Messages.WORLD_POINT_CLEARED.toString()
+                                        .replace("{WORLD}", worldName));
+                                else sender.sendMessage(Messages.NO_WORLD_POINT.toString().replace("{WORLD}", worldName));
+                            }
+
+                        } else { /* Invalid argument */
+                            sender.sendMessage(Messages.VALID_ARGUMENTS.toString().replace("{ARGUMENTS}", "w:<world>"));
+                        }
+                    } else {
+
+                        /* Sender clearing the global spec point */
+                        if (Main.handler.clearGlobalSpecPoint()) sender.sendMessage(Messages.POINT_CLEARED.toString());
+                        else sender.sendMessage(Messages.NO_POINT.toString());
+
+                    }
                 } else { /* If invalid subcommand */
                     sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
                 }

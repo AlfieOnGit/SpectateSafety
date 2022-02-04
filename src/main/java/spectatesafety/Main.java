@@ -57,7 +57,6 @@ public final class Main extends JavaPlugin {
         messagesHandler = new MessagesHandler(this);
 
         specPointsHandler = new SpecPointsHandler(this);
-        handler.loadSpecPoints();
 
         Messages.reload();
     }

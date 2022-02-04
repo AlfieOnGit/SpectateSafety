@@ -31,7 +31,7 @@ public class UnspecPointCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
             } else {
                 if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
-                    Main.handler.setUnspecPoint(((Player) sender).getLocation());
+                    Main.handler.setGlobalUnspecPoint(((Player) sender).getLocation());
                     sender.sendMessage(Messages.UNPOINT_SET.toString());
                 } else if (args[0].equalsIgnoreCase("clear")) { /* CLEAR command execution */
                     if (Main.handler.clearUnspecPoint()) sender.sendMessage(Messages.UNPOINT_CLEARED.toString());

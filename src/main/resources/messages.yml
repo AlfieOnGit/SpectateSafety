@@ -51,6 +51,11 @@ no-permission: "{TAG} &cYou don't have permission for that command!"
 #  Placeholders: {SUBCOMMANDS}
 valid-subcommands: "{TAG} &cValid subcommands: {SUBCOMMANDS}"
 
+#  This message shows when a player attempts to run a command with an invalid argument
+#  (E.G: "/specpoint set 123")
+#  Placeholders: {ARGUMENTS}
+valid-arguments: "{TAG} &cValid arguments: {ARGUMENTS}"
+
 #  This message is sent to players when they're put into spectate mode by a different player
 #  Placeholders: {SENDER}, {TARGET}
 force-enabled: "{TAG} &7Another player has put you in spectate mode!"
@@ -162,11 +167,19 @@ world-point-cleared: "{TAG} &aThe spectate point has been cleared for world {WOR
 #  Placeholders: {WORLD}
 world-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for world {WORLD!"
 
-#  This message shows when a player attempts to clear the spec point but it isn't set
+#  This message shows when a player attempts to clear the global spec point but it isn't set
 no-point: "{TAG} &cThere's no existing spectate point to clear!"
 
-#  This message shows when a player attempts to clear the unspec point it isn't set
+#  This message shows when a player attempts to clear a local spec point that isn't set
+#  Placeholders: {WORLD}
+no-world-point: "{TAG} &cThere's no existing spectate point to clear!"
+
+#  This message shows when a player attempts to clear the global unspec point but it isn't set
 no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
+
+#  This message shows when a player attempts to clear a local unspec point that isn't set
+#  Placeholders: {WORLD}
+no-world-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
 
 #  This messages shows when a player attempts to set or clear the spec/unspec point for a world
 #  that doesn't exist
