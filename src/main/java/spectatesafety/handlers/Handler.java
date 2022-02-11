@@ -16,14 +16,12 @@ public class Handler {
 
     private final ArrayList<Spectator> spectators = new ArrayList<>();
     private final SpectateSafety plugin;
-    private final SpecPointsHandler specPointsHandler;
 
     private Location globalUnspecPoint;
     private HashMap<World, Location> specPoints = new HashMap<>(); // Global spec point stored at key "null"
 
     public Handler(SpectateSafety plugin) {
         this.plugin = plugin;
-        this.specPointsHandler = plugin.getSpecPointsHandler();
     }
 
     /**
@@ -123,12 +121,12 @@ public class Handler {
      */
     public void setGlobalSpecPoint(Location location) {
         this.specPoints.put(null, location);
-        specPointsHandler.saveSpecPoint(null, location);
+        plugin.getSpecPointsHandler().saveSpecPoint(null, location);
     }
 
     public void setLocalSpecPoint(Location location, World world) {
         this.specPoints.put(world, location);
-        specPointsHandler.saveSpecPoint(world, location);
+        plugin.getSpecPointsHandler().saveSpecPoint(world, location);
     }
 
     /**
@@ -139,7 +137,7 @@ public class Handler {
         if (this.specPoints.get(null) == null) return false;
         else {
             this.specPoints.put(null, null);
-            specPointsHandler.saveSpecPoint(null, null);
+            plugin.getSpecPointsHandler().saveSpecPoint(null, null);
             return true;
         }
     }
@@ -153,7 +151,7 @@ public class Handler {
         if (this.specPoints.get(world) == null) return false;
         else {
             this.specPoints.remove(world);
-            specPointsHandler.saveSpecPoint(world, null);
+            plugin.getSpecPointsHandler().saveSpecPoint(world, null);
             return true;
         }
     }
@@ -164,7 +162,7 @@ public class Handler {
      */
     public void setGlobalUnspecPoint(Location location) {
         this.globalUnspecPoint = location;
-        specPointsHandler.saveUnspecPoint(location);
+        plugin.getSpecPointsHandler().saveUnspecPoint(location);
     }
 
     /**
@@ -175,7 +173,7 @@ public class Handler {
         if (this.globalUnspecPoint == null) return false;
         else {
             this.globalUnspecPoint = null;
-            specPointsHandler.clearUnspecPoint();
+            plugin.getSpecPointsHandler().clearUnspecPoint();
             return true;
         }
     }
@@ -195,8 +193,8 @@ public class Handler {
      * Loads the spec points from the save file
      */
     public void loadSpecPoints() {
-        this.specPoints = specPointsHandler.getSpecPoints();
-        globalUnspecPoint = specPointsHandler.getUnspecPoint();
+        this.specPoints = plugin.getSpecPointsHandler().getSpecPoints();
+        globalUnspecPoint = plugin.getSpecPointsHandler().getUnspecPoint();
     }
 
     /**
