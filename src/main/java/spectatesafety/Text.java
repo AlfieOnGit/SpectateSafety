@@ -41,10 +41,10 @@ public class Text {
         }
     }
 
-    public static void info (Player player) {
+    public static void info (Player player, SpectateSafety plugin) {
         player.sendMessage(Messages.INFO_MESSAGE.toString());
 
-        String version = SpectateSafety.getPlugin().getDescription().getVersion();
+        String version = plugin.getDescription().getVersion();
         player.sendMessage(Messages.VERSION.toString().replace("{VERSION}", version));
 
         String found = "NOT FOUND";

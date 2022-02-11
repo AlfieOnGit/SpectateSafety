@@ -15,10 +15,12 @@ import java.util.*;
 
 public class SpecCommand implements CommandExecutor, TabCompleter {
 
+    private final SpectateSafety plugin;
     private final Handler handler;
 
     public SpecCommand(SpectateSafety plugin) {
-        handler = plugin.getHandler();
+        this.plugin = plugin;
+        this.handler = plugin.getHandler();
         Objects.requireNonNull(plugin.getCommand("spec")).setTabCompleter(this);
     }
 
@@ -59,7 +61,7 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.NO_PERMISSION.toString()
                                 .replace("{PERMISSION}", "spectatesafety.info"));
                     } else { /* Command execution */
-                        Text.info((Player) sender);
+                        Text.info((Player) sender, plugin);
                     }
 
                 } else if (args[0].equalsIgnoreCase("reload")) {
@@ -69,7 +71,7 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.NO_PERMISSION.toString()
                                 .replace("{PERMISSION}", "spectatesafety.reload"));
                     } else { /* Command execution */
-                        SpectateSafety.getPlugin().reload();
+                        plugin.reload();
                         sender.sendMessage(Messages.RELOAD_MESSAGE.toString());
                     }
 

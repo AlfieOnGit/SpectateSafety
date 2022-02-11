@@ -11,10 +11,9 @@ import java.util.Objects;
 public final class SpectateSafety extends JavaPlugin {
 
     private Handler handler;
-    public static SpecPointsHandler specPointsHandler;
+    private SpecPointsHandler specPointsHandler;
     public static MessagesHandler messagesHandler;
     public static Permission permission;
-    private static SpectateSafety plugin;
 
     @Override
     public void onEnable() {
@@ -31,8 +30,6 @@ public final class SpectateSafety extends JavaPlugin {
         handler.loadSpecPoints();
 
         permission = getPermissions();
-
-        plugin = this;
     }
 
     @Override
@@ -61,9 +58,7 @@ public final class SpectateSafety extends JavaPlugin {
         Messages.reload();
     }
 
-    public static SpectateSafety getPlugin() {
-        return plugin;
-    }
-
     public Handler getHandler() { return handler; }
+
+    public SpecPointsHandler getSpecPointsHandler() { return specPointsHandler; }
 }
