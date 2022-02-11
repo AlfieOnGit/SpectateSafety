@@ -9,13 +9,17 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import spectatesafety.handlers.Handler;
 
 import java.util.*;
 
 public class UnspecCommand implements CommandExecutor, TabCompleter {
 
-    public UnspecCommand(Main main) {
-        Objects.requireNonNull(main.getCommand("unspec")).setTabCompleter(this);
+    private final Handler handler;
+
+    public UnspecCommand(SpectateSafety plugin) {
+        handler = plugin.getHandler();
+        Objects.requireNonNull(plugin.getCommand("unspec")).setTabCompleter(this);
     }
 
     @Override
@@ -27,10 +31,10 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                 if (!sender.hasPermission("spectatesafety.unspectate")) { /* If no perms */
                     sender.sendMessage(Messages.NO_PERMISSION.toString().
                             replace("{PERMISSION}", "spectatesafety.unspectate"));
-                } else if (Main.handler.getSpectatorFromPlayer((Player) sender) == null) { /* If sender not in spec */
+                } else if (handler.getSpectatorFromPlayer((Player) sender) == null) { /* If sender not in spec */
                     sender.sendMessage(Messages.ALREADY_DISABLED.toString());
                 } else { /* Command execution */
-                    Main.handler.unsetSpectator((Player) sender);
+                    handler.unsetSpectator((Player) sender);
                     sender.sendMessage(Messages.DISABLED.toString().replace("{SENDER}", sender.getName()));
                 }
 
@@ -38,20 +42,20 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                 if (args[0].equalsIgnoreCase("*")) {
 
                     /* Sender unspec-ing all */
-                    Set<Player> affected = Main.handler.unsetAllSpectator();
+                    Set<Player> affected = handler.unsetAllSpectator();
                     for (Player p : affected) p.sendMessage(Messages.FORCE_DISABLED.toString()
                             .replace("{SENDER}", sender.getName()));
                     String count = Integer.toString(affected.size());
                     sender.sendMessage(Messages.DISABLED_ALL.toString().replace("{COUNT}", count));
 
-                } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
+                } else if (args[0].toLowerCase().startsWith("g:") && SpectateSafety.permission != null) {
 
                     /* Sender unspec-ing a group */
                     String group = args[0].substring(2);
-                    if (!Arrays.asList(Main.permission.getGroups()).contains(group)) { /* If group doesn't exist */
+                    if (!Arrays.asList(SpectateSafety.permission.getGroups()).contains(group)) { /* If group doesn't exist */
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
-                        Set<Player> affected = Main.handler.unsetGroupSpectator(group);
+                        Set<Player> affected = handler.unsetGroupSpectator(group);
                         for (Player p : affected) p.sendMessage(Messages.FORCE_DISABLED.toString()
                                 .replace("{SENDER}", sender.getName()));
                         String count = Integer.toString(affected.size());
@@ -65,11 +69,11 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                     Player p = Util.getPlayerFromName(args[0]);
                     if (p == null) { /* If target isn't a player */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}", args[0]));
-                    } else if (!Main.handler.checkStatus(p)) { /* If target not in spec */
+                    } else if (!handler.checkStatus(p)) { /* If target not in spec */
                         sender.sendMessage(Messages.ALREADY_DISABLED_FOR.toString().
                                 replace("{TARGET}", p.getName()));
                     } else { /* Command execution */
-                        Main.handler.unsetSpectator(p);
+                        handler.unsetSpectator(p);
                         p.sendMessage(Messages.FORCE_DISABLED.toString().replace("{SENDER}", sender.getName()));
                         sender.sendMessage(Messages.DISABLED_FOR.toString().replace("{TARGET}", p.getName()));
                     }
@@ -84,11 +88,11 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
         ArrayList<String> possibleOutputs = new ArrayList<>();
         if (args.length == 1) {
             if (sender.hasPermission("spectatesafety.unspectate.others")) {
-                if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) { /* If player has typed "/unspec g:" */
-                    for (String g : Main.permission.getGroups()) possibleOutputs.add("g:" + g);
+                if (args[0].toLowerCase().startsWith("g:") && SpectateSafety.permission != null) { /* If player has typed "/unspec g:" */
+                    for (String g : SpectateSafety.permission.getGroups()) possibleOutputs.add("g:" + g);
                 } else { /* If player has typed "/unspec " */
                     possibleOutputs.add("*");
-                    if (Main.permission != null) possibleOutputs.add("g:");
+                    if (SpectateSafety.permission != null) possibleOutputs.add("g:");
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         possibleOutputs.add(p.getName());
                     }

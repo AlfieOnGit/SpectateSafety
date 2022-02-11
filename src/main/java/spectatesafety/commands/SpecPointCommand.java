@@ -10,6 +10,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import spectatesafety.handlers.Handler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,9 +20,11 @@ import java.util.Objects;
 public class SpecPointCommand implements CommandExecutor, TabCompleter {
 
     private final List<String> subCommands = Arrays.asList("set", "clear");
+    private final Handler handler;
 
-    public SpecPointCommand(Main main) {
-        Objects.requireNonNull(main.getCommand("specpoint")).setTabCompleter(this);
+    public SpecPointCommand(SpectateSafety plugin) {
+        handler = plugin.getHandler();
+        Objects.requireNonNull(plugin.getCommand("specpoint")).setTabCompleter(this);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
                             if (world == null) { /* If world not found */
                                 sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
                             } else { /* Command execution */
-                                Main.handler.setLocalSpecPoint(((Player) sender).getLocation(), world);
+                                handler.setLocalSpecPoint(((Player) sender).getLocation(), world);
                                 sender.sendMessage(Messages.WORLD_POINT_SET.toString().replace("{WORLD}", worldName));
                             }
 
@@ -53,7 +56,7 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
                     } else {
 
                         /* Sender setting the global spec point */
-                        Main.handler.setGlobalSpecPoint(((Player) sender).getLocation());
+                        handler.setGlobalSpecPoint(((Player) sender).getLocation());
                         sender.sendMessage(Messages.POINT_SET.toString());
 
                     }
@@ -67,7 +70,7 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
                             if (world == null) { /* If world not found */
                                 sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
                             } else { /* Command execution */
-                                if (Main.handler.clearLocalSpecPoint(world)) sender.sendMessage(Messages.WORLD_POINT_CLEARED.toString()
+                                if (handler.clearLocalSpecPoint(world)) sender.sendMessage(Messages.WORLD_POINT_CLEARED.toString()
                                         .replace("{WORLD}", worldName));
                                 else sender.sendMessage(Messages.NO_WORLD_POINT.toString().replace("{WORLD}", worldName));
                             }
@@ -78,7 +81,7 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
                     } else {
 
                         /* Sender clearing the global spec point */
-                        if (Main.handler.clearGlobalSpecPoint()) sender.sendMessage(Messages.POINT_CLEARED.toString());
+                        if (handler.clearGlobalSpecPoint()) sender.sendMessage(Messages.POINT_CLEARED.toString());
                         else sender.sendMessage(Messages.NO_POINT.toString());
 
                     }

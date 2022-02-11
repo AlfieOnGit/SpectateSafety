@@ -8,6 +8,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import spectatesafety.handlers.Handler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,9 +18,11 @@ import java.util.Objects;
 public class UnspecPointCommand implements CommandExecutor, TabCompleter {
 
     private final List<String> subCommands = Arrays.asList("set", "clear");
+    private final Handler handler;
 
-    public UnspecPointCommand(Main main) {
-        Objects.requireNonNull(main.getCommand("unspecpoint")).setTabCompleter(this);
+    public UnspecPointCommand(SpectateSafety plugin) {
+        handler = plugin.getHandler();
+        Objects.requireNonNull(plugin.getCommand("unspecpoint")).setTabCompleter(this);
     }
 
     @Override
@@ -31,10 +34,10 @@ public class UnspecPointCommand implements CommandExecutor, TabCompleter {
                 sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
             } else {
                 if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
-                    Main.handler.setGlobalUnspecPoint(((Player) sender).getLocation());
+                    handler.setGlobalUnspecPoint(((Player) sender).getLocation());
                     sender.sendMessage(Messages.UNPOINT_SET.toString());
                 } else if (args[0].equalsIgnoreCase("clear")) { /* CLEAR command execution */
-                    if (Main.handler.clearUnspecPoint()) sender.sendMessage(Messages.UNPOINT_CLEARED.toString());
+                    if (handler.clearUnspecPoint()) sender.sendMessage(Messages.UNPOINT_CLEARED.toString());
                     else sender.sendMessage(Messages.NO_UNPOINT.toString());
                 } else { /* If invalid subcommand */
                     sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));

@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import spectatesafety.Main;
+import spectatesafety.SpectateSafety;
 import spectatesafety.Spectator;
 
 import java.util.ArrayList;
@@ -15,11 +15,14 @@ import java.util.Set;
 public class Handler {
 
     private final ArrayList<Spectator> spectators = new ArrayList<>();
+    private final SpectateSafety plugin;
 
     private Location globalUnspecPoint;
     private HashMap<World, Location> specPoints = new HashMap<>(); // Global spec point stored at key "null"
 
-    public Handler() { }
+    public Handler(SpectateSafety plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Puts the specified player in spectate mode
@@ -28,7 +31,7 @@ public class Handler {
     public Boolean setSpectator (Player player) {
         for (Spectator s : spectators) {
             if (s.getPlayer() == player) return false;
-        } spectators.add(new Spectator(player));
+        } spectators.add(new Spectator(player, plugin));
         return true;
     }
 
@@ -55,9 +58,9 @@ public class Handler {
     public Set<Player> setGroupSpectator (String group) {
         Set<Player> output = new HashSet<>();
         for (Player p : Bukkit.getOnlinePlayers()) {
-            for (String g : Main.permission.getPlayerGroups(p)) {
+            for (String g : SpectateSafety.permission.getPlayerGroups(p)) {
                 if (group.equals(g)) {
-                    Main.handler.setSpectator(p);
+                    setSpectator(p);
                     output.add(p);
                     break;
                 }
@@ -84,12 +87,12 @@ public class Handler {
      */
     public Set<Player> unsetGroupSpectator (String group) {
         Set<Player> output = new HashSet<>();
-        ArrayList<Spectator> spectators = new ArrayList<>(Main.handler.getSpectators());
+        ArrayList<Spectator> spectators = new ArrayList<>(getSpectators());
         for (Spectator s : spectators) {
             Player p = s.getPlayer();
-            for (String g : Main.permission.getPlayerGroups(p)) {
+            for (String g : SpectateSafety.permission.getPlayerGroups(p)) {
                 if (group.equals(g)) {
-                    Main.handler.unsetSpectator(p);
+                    unsetSpectator(p);
                     output.add(p);
                     break;
                 }
@@ -118,12 +121,12 @@ public class Handler {
      */
     public void setGlobalSpecPoint(Location location) {
         this.specPoints.put(null, location);
-        Main.specPointsHandler.saveSpecPoint(null, location);
+        SpectateSafety.specPointsHandler.saveSpecPoint(null, location);
     }
 
     public void setLocalSpecPoint(Location location, World world) {
         this.specPoints.put(world, location);
-        Main.specPointsHandler.saveSpecPoint(world, location);
+        SpectateSafety.specPointsHandler.saveSpecPoint(world, location);
     }
 
     /**
@@ -134,7 +137,7 @@ public class Handler {
         if (this.specPoints.get(null) == null) return false;
         else {
             this.specPoints.put(null, null);
-            Main.specPointsHandler.saveSpecPoint(null, null);
+            SpectateSafety.specPointsHandler.saveSpecPoint(null, null);
             return true;
         }
     }
@@ -148,7 +151,7 @@ public class Handler {
         if (this.specPoints.get(world) == null) return false;
         else {
             this.specPoints.remove(world);
-            Main.specPointsHandler.saveSpecPoint(world, null);
+            SpectateSafety.specPointsHandler.saveSpecPoint(world, null);
             return true;
         }
     }
@@ -159,7 +162,7 @@ public class Handler {
      */
     public void setGlobalUnspecPoint(Location location) {
         this.globalUnspecPoint = location;
-        Main.specPointsHandler.saveUnspecPoint(location);
+        SpectateSafety.specPointsHandler.saveUnspecPoint(location);
     }
 
     /**
@@ -170,7 +173,7 @@ public class Handler {
         if (this.globalUnspecPoint == null) return false;
         else {
             this.globalUnspecPoint = null;
-            Main.specPointsHandler.clearUnspecPoint();
+            SpectateSafety.specPointsHandler.clearUnspecPoint();
             return true;
         }
     }
@@ -190,8 +193,8 @@ public class Handler {
      * Loads the spec points from the save file
      */
     public void loadSpecPoints() {
-        this.specPoints = Main.specPointsHandler.getSpecPoints();
-        globalUnspecPoint = Main.specPointsHandler.getUnspecPoint();
+        this.specPoints = SpectateSafety.specPointsHandler.getSpecPoints();
+        globalUnspecPoint = SpectateSafety.specPointsHandler.getUnspecPoint();
     }
 
     /**

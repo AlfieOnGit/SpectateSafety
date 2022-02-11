@@ -44,11 +44,11 @@ public class Text {
     public static void info (Player player) {
         player.sendMessage(Messages.INFO_MESSAGE.toString());
 
-        String version = Main.getPlugin().getDescription().getVersion();
+        String version = SpectateSafety.getPlugin().getDescription().getVersion();
         player.sendMessage(Messages.VERSION.toString().replace("{VERSION}", version));
 
         String found = "NOT FOUND";
-        if (Main.permission != null) { /* If vault integration found */
+        if (SpectateSafety.permission != null) { /* If vault integration found */
             found = "FOUND";
         }
         player.sendMessage(Messages.DEPENDENCY.toString().replace("{DEPENDENCY}", "Vault")

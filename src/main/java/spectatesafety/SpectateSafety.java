@@ -8,13 +8,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
-public final class Main extends JavaPlugin {
+public final class SpectateSafety extends JavaPlugin {
 
-    public static Handler handler;
+    private Handler handler;
     public static SpecPointsHandler specPointsHandler;
     public static MessagesHandler messagesHandler;
     public static Permission permission;
-    private static Main plugin;
+    private static SpectateSafety plugin;
 
     @Override
     public void onEnable() {
@@ -23,7 +23,7 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("specpoint")).setExecutor(new SpecPointCommand(this));
         Objects.requireNonNull(getCommand("unspecpoint")).setExecutor(new UnspecPointCommand(this));
 
-        handler = new Handler();
+        handler = new Handler(this);
         specPointsHandler = new SpecPointsHandler(this);
         messagesHandler = new MessagesHandler(this);
 
@@ -61,7 +61,9 @@ public final class Main extends JavaPlugin {
         Messages.reload();
     }
 
-    public static Main getPlugin() {
+    public static SpectateSafety getPlugin() {
         return plugin;
     }
+
+    public Handler getHandler() { return handler; }
 }

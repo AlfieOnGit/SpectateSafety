@@ -1,6 +1,6 @@
 name: SpectateSafety
 version: ${project.version}
-main: spectatesafety.Main
+main: spectatesafety.SpectateSafety
 api-version: 1.16
 authors: [ AlfieJay ]
 softdepend: [ Vault ]

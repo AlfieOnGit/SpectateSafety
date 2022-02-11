@@ -54,9 +54,9 @@ public enum Messages {
 
     Messages() {
         String path = this.name().replace("_","-").toLowerCase();
-        this.message = ChatColor.translateAlternateColorCodes('&', Main.messagesHandler.get(path));
+        this.message = ChatColor.translateAlternateColorCodes('&', SpectateSafety.messagesHandler.get(path));
 
-        this.customPlaceholders = Main.messagesHandler.getCustomPlaceholders();
+        this.customPlaceholders = SpectateSafety.messagesHandler.getCustomPlaceholders();
     }
 
     @Override
@@ -74,9 +74,9 @@ public enum Messages {
     public static void reload() {
         for (Messages m : values()) {
             String path = m.name().replace("_","-").toLowerCase();
-            m.message = ChatColor.translateAlternateColorCodes('&', Main.messagesHandler.get(path));
+            m.message = ChatColor.translateAlternateColorCodes('&', SpectateSafety.messagesHandler.get(path));
 
-            m.customPlaceholders = Main.messagesHandler.getCustomPlaceholders();
+            m.customPlaceholders = SpectateSafety.messagesHandler.getCustomPlaceholders();
         }
     }
 }

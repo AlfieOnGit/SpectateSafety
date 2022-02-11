@@ -9,13 +9,17 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import spectatesafety.handlers.Handler;
 
 import java.util.*;
 
 public class SpecCommand implements CommandExecutor, TabCompleter {
 
-    public SpecCommand(Main main) {
-        Objects.requireNonNull(main.getCommand("spec")).setTabCompleter(this);
+    private final Handler handler;
+
+    public SpecCommand(SpectateSafety plugin) {
+        handler = plugin.getHandler();
+        Objects.requireNonNull(plugin.getCommand("spec")).setTabCompleter(this);
     }
 
     @Override
@@ -30,10 +34,10 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                 if (!sender.hasPermission("spectatesafety.spectate")) { /* If no perms */
                     sender.sendMessage(Messages.NO_PERMISSION.toString()
                             .replace("{PERMISSION}", "spectatesafety.spectate"));
-                } else if (Main.handler.getSpectatorFromPlayer((Player) sender) != null) { /* If sender already in spectate mode */
+                } else if (handler.getSpectatorFromPlayer((Player) sender) != null) { /* If sender already in spectate mode */
                     sender.sendMessage(Messages.ALREADY_ENABLED.toString());
                 } else { /* Command execution */
-                    Main.handler.setSpectator((Player) sender);
+                    handler.setSpectator((Player) sender);
                     sender.sendMessage(Messages.ENABLED.toString().replace("{SENDER}", sender.getName()));
                 }
 
@@ -65,27 +69,27 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.NO_PERMISSION.toString()
                                 .replace("{PERMISSION}", "spectatesafety.reload"));
                     } else { /* Command execution */
-                        Main.getPlugin().reload();
+                        SpectateSafety.getPlugin().reload();
                         sender.sendMessage(Messages.RELOAD_MESSAGE.toString());
                     }
 
                 } else if (args[0].equalsIgnoreCase("*")) {
 
                     /* Sender spec-ing all */
-                    Set<Player> affected = Main.handler.setAllSpectator();
+                    Set<Player> affected = handler.setAllSpectator();
                     for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString()
                             .replace("{SENDER}", sender.getName()));
                     String count = Integer.toString(affected.size());
                     sender.sendMessage(Messages.ENABLED_ALL.toString().replace("{COUNT}",count));
 
-                } else if (args[0].toLowerCase().startsWith("g:") && Main.permission != null) {
+                } else if (args[0].toLowerCase().startsWith("g:") && SpectateSafety.permission != null) {
 
                     /* Sender spec-ing a group */
                     String group = args[0].substring(2);
-                    if (!Arrays.asList(Main.permission.getGroups()).contains(group)) { /* If group doesn't exist */
+                    if (!Arrays.asList(SpectateSafety.permission.getGroups()).contains(group)) { /* If group doesn't exist */
                         sender.sendMessage(Messages.NOT_GROUP.toString().replace("{GROUP}", group));
                     } else { /* Command execution */
-                        Set<Player> affected = Main.handler.setGroupSpectator(group);
+                        Set<Player> affected = handler.setGroupSpectator(group);
                         for (Player p : affected) p.sendMessage(Messages.FORCE_ENABLED.toString().
                                 replace("{SENDER}", sender.getName()));
                         String count = Integer.toString(affected.size());
@@ -112,11 +116,11 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                         Player p = Util.getPlayerFromName(args[0]);
                         if (p == null) { /* If target doesn't exist */
                             sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}",args[0]));
-                        } else if (Main.handler.checkStatus(p)) { /* If target already in spectate mode */
+                        } else if (handler.checkStatus(p)) { /* If target already in spectate mode */
                             sender.sendMessage(Messages.ALREADY_ENABLED_FOR.toString().
                                     replace("{TARGET}", p.getName()));
                         } else { /* Command execution */
-                            Main.handler.setSpectator(p);
+                            handler.setSpectator(p);
                             p.sendMessage(Messages.FORCE_ENABLED.toString().replace("{SENDER}", sender.getName()));
                             sender.sendMessage(Messages.ENABLED_FOR.toString().replace("{TARGET}", p.getName()));
                         }
@@ -149,11 +153,11 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
 
             /* /spec <player> suggestion */
             if (sender.hasPermission("spectatesafety.spectate.others")) {
-                if (args[0].startsWith("g:") && Main.permission != null) { /* If player has typed "/spec g:" */
-                    for (String g : Main.permission.getGroups()) possibleOutputs.add("g:" + g);
+                if (args[0].startsWith("g:") && SpectateSafety.permission != null) { /* If player has typed "/spec g:" */
+                    for (String g : SpectateSafety.permission.getGroups()) possibleOutputs.add("g:" + g);
                 } else { /* If player has typed "/spec " */
                     possibleOutputs.add("*");
-                    if (Main.permission != null) possibleOutputs.add("g:");
+                    if (SpectateSafety.permission != null) possibleOutputs.add("g:");
                     for (Player p : Bukkit.getOnlinePlayers()) {
                         possibleOutputs.add(p.getName());
                     }
