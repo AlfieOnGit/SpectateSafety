@@ -16,6 +16,11 @@ public class Text {
             player.sendMessage(formatCommand("/spec info", "Show plugin info page"));
         }
 
+        /* Reload command */
+        if (player.hasPermission("spectatesafety.reload")) {
+            player.sendMessage(formatCommand("/spec reload", "Reloads plugin configs"));
+        }
+
         /* Spec command */
         if (player.hasPermission("spectatesafety.spectate")) {
             player.sendMessage(formatCommand("/spec", "Enter spectate mode"));

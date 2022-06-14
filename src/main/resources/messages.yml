@@ -192,13 +192,13 @@ not-world: "{TAG} &cCouldn't find the world '{WORLD}'"
 #
 
 #  This is the banner above the help command feedback
-help-message: "&5|=================[ &l&nHELP &5]=================|"
+help-message: "&5|=================[ &l&nHELP&5 ]=================|"
 
 #  This is the banner above the info command feedback
 info-message: "&5|====[ &l&nINFO&5 ]====|"
 
 #  This message shows when a player reloads the plugin
-reload-message: "{TAG} &aSuccessfully reloaded Spectate Safety!"
+reload-message: "{TAG} &aSuccessfully reloaded configs!"
 
 #  This is the format commands appear in in the help command feedback
 #  Placeholders: {COMMAND}, {DESCRIPTION}

@@ -84,12 +84,10 @@ public class SpecPointsHandler {
      * @param location specified location
      */
     public void saveSpecPoint(@Nullable World world, @Nullable Location location) {
-        Bukkit.getLogger().info("TEST 1");
         if (!file.exists()) return;
         if (world == null) config.set("spec-point", location);
         else {
             config.set("spec-point-" + world.getName(), location);
-            Bukkit.getLogger().info("TEST 2");
         }
         save();
     }

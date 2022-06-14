@@ -17,10 +17,10 @@ public class Spectator {
         this.originalLocation = player.getLocation();
         this.plugin = plugin;
 
-        this.player.setGameMode(GameMode.SPECTATOR);
-
-        Location specPoint = plugin.getHandler().getGlobalSpecPoint();
+        Location specPoint = this.getSpecPoint();
         if (specPoint != null) this.player.teleport(specPoint);
+
+        this.player.setGameMode(GameMode.SPECTATOR);
     }
 
     /**
@@ -35,5 +35,16 @@ public class Spectator {
 
     public Player getPlayer () {
         return this.player;
+    }
+
+    /**
+     * Get the spec point most relevant to player
+     * @return specPoint or <code>null</code> if none
+     */
+    private Location getSpecPoint() {
+        Location specPoint = plugin.getHandler().getSpecPoints().get(this.player.getWorld());
+        if (specPoint != null) { return specPoint; }
+        specPoint = plugin.getHandler().getSpecPoints().get(null);
+        return specPoint;
     }
 }

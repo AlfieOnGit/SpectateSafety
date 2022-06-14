@@ -212,7 +212,7 @@ public class Handler {
 
     public ArrayList<Spectator> getSpectators () { return spectators; }
 
-    public Location getGlobalSpecPoint() { return this.specPoints.get(null); }
+    public HashMap<World, Location> getSpecPoints() { return this.specPoints; }
 
     public Location getGlobalUnspecPoint() { return globalUnspecPoint; }
 }
