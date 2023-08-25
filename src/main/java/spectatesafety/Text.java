@@ -2,7 +2,7 @@ package spectatesafety;
 
 import org.bukkit.entity.Player;
 
-public class Text {
+public final class Text {
 
     public static void help (Player player) {
 
@@ -37,12 +37,14 @@ public class Text {
 
         /* Specpoint command */
         if (player.hasPermission("spectatesafety.specpoint")) {
-            player.sendMessage(formatCommand("/specpoint <set/clear>", "Set or clear the spec point"));
+            player.sendMessage(formatCommand("/specpoint <set/clear>", "Set or clear the global spec point"));
+            player.sendMessage(formatCommand("/specpoint <set/clear> <world>", "Set or clear a world's spec point"));
         }
 
         /* Unspecpoint command */
         if (player.hasPermission("spectatesafety.unspecpoint")) {
-            player.sendMessage(formatCommand("/unspecpoint <set/clear>", "Set or clear the unspec point"));
+            player.sendMessage(formatCommand("/unspecpoint <set/clear>", "Set or clear the global unspec point"));
+            player.sendMessage(formatCommand("/unspecpoint <set/clear> <world>", "Set or clear a world's unspec point"));
         }
     }
 
@@ -64,5 +66,4 @@ public class Text {
         return Messages.HELP_FORMAT.toString().replace("{COMMAND}", command)
                 .replace("{DESCRIPTION}", description);
     }
-
 }
