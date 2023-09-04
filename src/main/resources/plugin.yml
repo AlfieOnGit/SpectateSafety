@@ -3,7 +3,7 @@ version: ${project.version}
 main: spectatesafety.SpectateSafety
 api-version: 1.16
 authors: [ AlfieJay ]
-softdepend: [ Vault ]
+softdepend: [ Vault, Multiverse-Core ]
 
 commands:
   spec:
