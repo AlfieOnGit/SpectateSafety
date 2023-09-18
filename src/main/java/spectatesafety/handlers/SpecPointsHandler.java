@@ -4,13 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 public final class SpecPointsHandler extends FileHandler {

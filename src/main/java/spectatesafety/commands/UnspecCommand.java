@@ -65,7 +65,8 @@ public class UnspecCommand implements CommandExecutor, TabCompleter {
                 } else {
 
                     /* Sender unspec-ing target spectator */
-                    Player p = Util.getPlayerFromName(args[0]);
+                    //Player p = Util.getPlayerFromName(args[0]);
+                    Player p = Bukkit.getPlayer(args[0]);
                     if (p == null) { /* If target isn't a player */
                         sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}", args[0]));
                     } else if (!plugin.getHandler().checkStatus(p)) { /* If target not in spec */

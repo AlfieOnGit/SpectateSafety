@@ -1,10 +1,8 @@
 package spectatesafety;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import spectatesafety.handlers.WorldGuardHandler;
 
 public class Spectator {
 

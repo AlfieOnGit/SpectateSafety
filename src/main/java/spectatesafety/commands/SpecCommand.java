@@ -112,7 +112,8 @@ public class SpecCommand implements CommandExecutor, TabCompleter {
                     } else {
 
                         /* Sender spec-ing a target */
-                        Player p = Util.getPlayerFromName(args[0]);
+                        //Player p = Util.getPlayerFromName(args[0]);
+                        Player p = Bukkit.getPlayer(args[0]);
                         if (p == null) { /* If target doesn't exist */
                             sender.sendMessage(Messages.NOT_PLAYER.toString().replace("{TARGET}",args[0]));
                         } else if (plugin.getHandler().checkStatus(p)) { /* If target already in spectate mode */
