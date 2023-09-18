@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Handler {
+public final class Handler {
 
     private final ArrayList<Spectator> spectators = new ArrayList<>();
     private final SpectateSafety plugin;

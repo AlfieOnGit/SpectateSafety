@@ -54,11 +54,14 @@ public final class Text {
         String version = plugin.getDescription().getVersion();
         player.sendMessage(Messages.VERSION.toString().replace("{VERSION}", version));
 
-        String found = "NOT FOUND";
-        if (SpectateSafety.permission != null) { /* If vault integration found */
-            found = "FOUND";
-        }
+        /* Vault integration check */
+        String found = (SpectateSafety.permission != null) ? "FOUND" : "NOT FOUND";
         player.sendMessage(Messages.DEPENDENCY.toString().replace("{DEPENDENCY}", "Vault")
+                .replace("{FOUND}", found));
+
+        /* World Guard integration check */
+        found = (SpectateSafety.worldGuardHandler != null) ? "FOUND" : "NOT FOUND";
+        player.sendMessage(Messages.DEPENDENCY.toString().replace("{DEPENDENCY}", "WorldGuard")
                 .replace("{FOUND}", found));
     }
 

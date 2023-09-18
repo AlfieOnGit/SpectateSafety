@@ -1,5 +1,6 @@
 package spectatesafety.commands;
 
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import spectatesafety.*;
@@ -36,17 +37,33 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
             } else {
                 if (args[0].equalsIgnoreCase("set")) {
                     if (args.length > 1) {
+                        if (args[1].startsWith("r:") && SpectateSafety.worldGuardHandler != null) {
 
-                        /* Sender setting a world's spec point */
-                        String worldName = args[1];
-                        World world = Bukkit.getWorld(worldName);
-                        if (world == null) { /* If world not found */
-                            sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
-                        } else { /* Command execution */
-                            plugin.getHandler().setLocalSpecPoint(((Player) sender).getLocation(), world);
-                            sender.sendMessage(Messages.WORLD_POINT_SET.toString().replace("{WORLD}", worldName));
+                            /* Sender setting a region's spec point */
+                            String regionName = args[1].substring(2);
+                            Player player = (Player) sender;
+                            ProtectedRegion region = SpectateSafety.worldGuardHandler
+                                    .getRegion(player.getWorld(), regionName);
+                            if (region == null) { /* If region not found */
+                                sender.sendMessage(Messages.WG_NOT_REGION.toString().replace("{REGION}", regionName));
+                            } else { /* Command execution */
+                                SpectateSafety.worldGuardHandler.saveSpecPoint(player.getWorld(), region, player.getLocation());
+                                sender.sendMessage(Messages.WG_POINT_SET.toString().replace("{REGION}", region.getId()));
+                            }
+
+                        } else {
+
+                            /* Sender setting a world's spec point */
+                            String worldName = args[1];
+                            World world = Bukkit.getWorld(worldName);
+                            if (world == null) { /* If world not found */
+                                sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
+                            } else { /* Command execution */
+                                plugin.getHandler().setLocalSpecPoint(((Player) sender).getLocation(), world);
+                                sender.sendMessage(Messages.WORLD_POINT_SET.toString().replace("{WORLD}", worldName));
+                            }
+
                         }
-
                     } else {
 
                         /* Sender setting the global spec point */

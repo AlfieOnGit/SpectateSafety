@@ -42,6 +42,10 @@ public enum Messages {
     NO_WORLD_UNPOINT,
     NOT_WORLD,
 
+    WG_NOT_FOUND,
+    WG_NOT_REGION,
+    WG_POINT_SET,
+
     HELP_MESSAGE,
     INFO_MESSAGE,
     RELOAD_MESSAGE,

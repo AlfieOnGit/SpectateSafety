@@ -13,35 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class SpecPointsHandler {
-
-    private final File file;
-    private FileConfiguration config;
+public final class SpecPointsHandler extends FileHandler {
 
     public SpecPointsHandler(Plugin plugin) {
-        if (!plugin.getDataFolder().exists()) {
-            plugin.getDataFolder().mkdir();
-        }
-        file = new File(plugin.getDataFolder(), "specpoints.yml");
-        if (file.exists()) {
-            config = YamlConfiguration.loadConfiguration(file);
-        } else {
-            try {
-                file.createNewFile();
-                config = YamlConfiguration.loadConfiguration(file);
-            } catch (IOException ignored) { }
-        }
+        super(plugin, "specpoints.yml");
     }
-
-    /**
-     * Saves the specpoints.yml file
-     */
-    private void save() {
-        try {
-            config.save(file);
-        } catch (IOException ignored) { }
-    }
-
 
     /**
      * Fetches all spec points from the specpoints.yml file

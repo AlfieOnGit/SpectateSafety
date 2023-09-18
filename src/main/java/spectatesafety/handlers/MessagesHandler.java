@@ -13,34 +13,11 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 
-public class MessagesHandler {
-
-    private final File file;
-    private FileConfiguration config;
+public final class MessagesHandler extends FileHandler {
 
     public MessagesHandler(Plugin plugin) {
-        file = new File(plugin.getDataFolder(), "messages.yml");
-        if (file.exists()) {
-            config = YamlConfiguration.loadConfiguration(file);
-        } else {
-            try {
-                file.createNewFile();
-                loadFile(plugin);
-                config = YamlConfiguration.loadConfiguration(file);
-            } catch (IOException ignored) { }
-        }
-    }
-
-    private void loadFile(Plugin plugin) {
-        InputStream inputStream = plugin.getResource("messages.yml");
-
-        try {
-            assert inputStream != null;
-            Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        super(plugin, "messages.yml");
+        loadResource();
     }
 
     /**

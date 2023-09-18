@@ -1,8 +1,10 @@
 package spectatesafety;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import spectatesafety.handlers.WorldGuardHandler;
 
 public class Spectator {
 
@@ -42,6 +44,10 @@ public class Spectator {
      * @return specPoint or <code>null</code> if none
      */
     private Location getSpecPoint() {
+        if (SpectateSafety.worldGuardHandler != null) {
+            Location regionUnspecPoint = SpectateSafety.worldGuardHandler.getSpecPoint(player);
+            if (regionUnspecPoint != null) return regionUnspecPoint;
+        }
         Location specPoint = plugin.getHandler().getSpecPoints().get(this.player.getWorld());
         if (specPoint != null) { return specPoint; }
         specPoint = plugin.getHandler().getSpecPoints().get(null);

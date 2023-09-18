@@ -14,7 +14,7 @@
 #    PLACEHOLDERS
 #
 
-#  Below are listed all the built in placeholders that'll be replaced by variables dependent on
+#  Below are listed all the built-in placeholders that'll be replaced by variables dependent on
 #  context. If you make a custom placeholder with the same name, it'll override the built in one
 
 #  Placeholder directory:
@@ -25,6 +25,7 @@
 #  {FOUND} = Whether or not a dependency was found in the plugins folder
 #  {GROUP} = The name of the permission group that the command's being used on
 #  {PERMISSION} = The permission required to run the command
+#  {REGION} = The name of the region which the command's being used on
 #  {SENDER} = The username of the player executing the command
 #  {SUBCOMMANDS} = A list of valid subcommands
 #  {TARGET} = The username of the player who the command's being used on
@@ -147,11 +148,11 @@ unpoint-set: "{TAG} &aThe unspectate point has been set to your current location
 
 #  This message shows when a player sets a world's spec point
 #  Placeholders: {WORLD}
-world-point-set: "{TAG} &aThe spectate point for world {WORLD} has been set to your current location"
+world-point-set: "{TAG} &aThe spectate point for world {WORLD} has been set to your current location!"
 
 #  This message shows when a player sets a world's unspec point
 #  Placeholders: {WORLD}
-world-unpoint-set: "{TAG} &aThe unspectate point for world {WORLD} has been set to your current location"
+world-unpoint-set: "{TAG} &aThe unspectate point for world {WORLD} has been set to your current location!"
 
 #  This message shows when a player clears the global spec point
 point-cleared: "{TAG} &aThe spectate point has been cleared!"
@@ -181,11 +182,27 @@ no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
 #  Placeholders: {WORLD}
 no-world-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
 
-#  This messages shows when a player attempts to set or clear the spec/unspec point for a world
+#  This message shows when a player attempts to set or clear the spec/unspec point for a world
 #  that doesn't exist
 #  Placeholders: {WORLD}
 not-world: "{TAG} &cCouldn't find the world '{WORLD}'"
 
+
+#
+#    WORLD GUARD MESSAGES
+#
+
+#  This message shows when a player sets a region's spec point
+#  Placeholders: {REGION}
+wg-point-set: "{TAG} &aThe spectate point for region {REGION} has been set to your current location!"
+
+#  This message shows when a player attempts to use World Guard with no implementation found
+wg-not-found: "{TAG} &cCannot use regions since World Guard wasn't found"
+
+#  This message shows when a player attempts to set or clear the spec/unspec point for a region
+#  that doesn't exist
+#  Placeholders: {REGION}
+wg-not-region: "{TAG} &cCouldn't find the region '{REGION}'"
 
 #
 #    HELP, INFO AND RELOAD MESSAGES

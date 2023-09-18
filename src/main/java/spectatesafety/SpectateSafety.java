@@ -14,6 +14,7 @@ public final class SpectateSafety extends JavaPlugin {
     private SpecPointsHandler specPointsHandler;
     public static MessagesHandler messagesHandler;
     public static Permission permission;
+    public static WorldGuardHandler worldGuardHandler;
 
     @Override
     public void onEnable() {
@@ -30,6 +31,8 @@ public final class SpectateSafety extends JavaPlugin {
         handler.loadSpecPoints();
 
         permission = getPermissions();
+        if (getServer().getPluginManager().getPlugin("WorldGuard") != null)
+            worldGuardHandler = new WorldGuardHandler(this);
     }
 
     @Override

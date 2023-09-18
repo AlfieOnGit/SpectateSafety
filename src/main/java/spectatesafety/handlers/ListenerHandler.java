@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import spectatesafety.SpectateSafety;
 
-public class ListenerHandler implements Listener {
+public final class ListenerHandler implements Listener {
 
     private final SpectateSafety plugin;
 
