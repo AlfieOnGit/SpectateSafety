@@ -166,7 +166,7 @@ world-point-cleared: "{TAG} &aThe spectate point has been cleared for world {WOR
 
 #  This message shows when a player clears the global unspec point
 #  Placeholders: {WORLD}
-world-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for world {WORLD!"
+world-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for world {WORLD}!"
 
 #  This message shows when a player attempts to clear the global spec point but it isn't set
 no-point: "{TAG} &cThere's no existing spectate point to clear!"
@@ -196,6 +196,10 @@ not-world: "{TAG} &cCouldn't find the world '{WORLD}'"
 #  Placeholders: {REGION}
 wg-point-set: "{TAG} &aThe spectate point for region {REGION} has been set to your current location!"
 
+#  This message shows when a player sets a region's unspec point
+#  Placeholders: {REGION}
+wg-unpoint-set: "{TAG} &aThe unspectate point for region {REGION} has been set to your current location!"
+
 #  This message shows when a player attempts to use World Guard with no implementation found
 wg-not-found: "{TAG} &cCannot use regions since World Guard wasn't found"
 
@@ -217,7 +221,7 @@ info-message: "&5|====[ &l&nINFO&5 ]====|"
 #  This message shows when a player reloads the plugin
 reload-message: "{TAG} &aSuccessfully reloaded configs!"
 
-#  This is the format commands appear in in the help command feedback
+#  This is the format commands appear in the help command feedback
 #  Placeholders: {COMMAND}, {DESCRIPTION}
 help-format: "&d{COMMAND} &5- &7{DESCRIPTION}"
 

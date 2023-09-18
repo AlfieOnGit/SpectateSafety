@@ -1,21 +1,23 @@
 package spectatesafety;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class Spectator {
 
     private final Player player;
-    private final GameMode ogGamemode;
-    private final Location originalLocation;
     private final SpectateSafety plugin;
+    private final GameMode ogGamemode;
+    private final Location unspecLocation;
 
     public Spectator (Player player, SpectateSafety plugin) {
         this.player = player;
-        this.ogGamemode = player.getGameMode();
-        this.originalLocation = player.getLocation();
         this.plugin = plugin;
+        this.ogGamemode = player.getGameMode();
+        this.unspecLocation = getUnspecLocation();
 
         Location specPoint = this.getSpecPoint();
         if (specPoint != null) this.player.teleport(specPoint);
@@ -28,9 +30,7 @@ public class Spectator {
      */
     public void unspectate () {
         this.player.setGameMode(this.ogGamemode);
-        Location unspecPoint = plugin.getHandler().getGlobalUnspecPoint();
-        if (unspecPoint != null) this.player.teleport(unspecPoint);
-        else this.player.teleport(this.originalLocation);
+        this.player.teleport(unspecLocation);
     }
 
     public Player getPlayer () {
@@ -43,12 +43,29 @@ public class Spectator {
      */
     private Location getSpecPoint() {
         if (SpectateSafety.worldGuardHandler != null) {
-            Location regionUnspecPoint = SpectateSafety.worldGuardHandler.getSpecPoint(player);
-            if (regionUnspecPoint != null) return regionUnspecPoint;
+            Location regionSpecPoint = SpectateSafety.worldGuardHandler.getSpecPoint(player);
+            if (regionSpecPoint != null) return regionSpecPoint;
         }
         Location specPoint = plugin.getHandler().getSpecPoints().get(this.player.getWorld());
         if (specPoint != null) { return specPoint; }
         specPoint = plugin.getHandler().getSpecPoints().get(null);
         return specPoint;
+    }
+
+    private @NotNull Location getUnspecLocation() {
+        Location out;
+        if (SpectateSafety.worldGuardHandler != null) {
+            Bukkit.broadcastMessage("TEST ONE");
+            out = SpectateSafety.worldGuardHandler.getUnspecPoint(player);
+            if (out != null) return out;
+            Bukkit.broadcastMessage("TEST TWO");
+        }
+        out = plugin.getHandler().getUnspecPoints().get(this.player.getWorld());
+        if (out != null) return out;
+        Bukkit.broadcastMessage("TEST THREE");
+        out = plugin.getHandler().getUnspecPoints().get(null);
+        if (out != null) return out;
+        Bukkit.broadcastMessage("TEST FOUR");
+        return player.getLocation();
     }
 }

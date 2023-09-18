@@ -71,7 +71,7 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
                         sender.sendMessage(Messages.POINT_SET.toString());
 
                     }
-                } else if (args[0].equalsIgnoreCase("clear")) {
+                } else if (args[0].equalsIgnoreCase("clear")) { // TODO: Add region support and add it to unspecpoint command too
                     if (args.length > 1) {
 
                         /* Sender clearing a world's spec point */
@@ -103,7 +103,7 @@ public class SpecPointCommand implements CommandExecutor, TabCompleter {
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> output = new ArrayList<>();
         if (args.length == 1 && sender.hasPermission("spectatesafety.specpoint")) { /* If player has typed "/specpoint " */
-            for (String x : this.subCommands) {
+            for (String x : this.subCommands) { // TODO: Add world suggestions and region suggestions (And on unspecpoint command too)
                 if (x.startsWith(args[0])) {
                     output.add(x);
                 }

@@ -14,11 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public final class WorldGuardHandler extends FileHandler {
 
     private RegionContainer container;
+
+    private final HashMap<Player, ProtectedRegion> specRegions = new HashMap<>();
 
     public WorldGuardHandler(Plugin plugin) {
         super(plugin, "regionpoints.yml");
@@ -76,5 +79,14 @@ public final class WorldGuardHandler extends FileHandler {
 
     public @Nullable Location getUnspecPoint(World world, ProtectedRegion region) {
         return config.getLocation(world.getName() + "." + region.getId() + ".unspec");
+    }
+
+    public @Nullable Location getUnspecPoint(Player player) {
+        World world = player.getWorld();
+        for (ProtectedRegion r : getRegions(player)) {
+            Location loc = getUnspecPoint(world, r);
+            if (loc != null) return loc;
+        }
+        return null;
     }
 }

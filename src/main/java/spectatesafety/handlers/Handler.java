@@ -17,8 +17,9 @@ public final class Handler {
     private final ArrayList<Spectator> spectators = new ArrayList<>();
     private final SpectateSafety plugin;
 
-    private Location globalUnspecPoint;
     private HashMap<World, Location> specPoints = new HashMap<>(); // Global spec point stored at key "null"
+
+    private HashMap<World, Location> unspecPoints = new HashMap<>(); // Global unspec point stored at key "null"
 
     public Handler(SpectateSafety plugin) {
         this.plugin = plugin;
@@ -124,9 +125,23 @@ public final class Handler {
         plugin.getSpecPointsHandler().saveSpecPoint(null, location);
     }
 
+    /**
+     * Sets the unspec point to the specified location
+     * @param location Specified location
+     */
+    public void setGlobalUnspecPoint(Location location) {
+        this.unspecPoints.put(null, location);
+        plugin.getSpecPointsHandler().saveUnspecPoint(null, location);
+    }
+
     public void setLocalSpecPoint(Location location, World world) {
         this.specPoints.put(world, location);
         plugin.getSpecPointsHandler().saveSpecPoint(world, location);
+    }
+
+    public void setLocalUnspecPoint(Location location, World world) {
+        this.unspecPoints.put(world, location);
+        plugin.getSpecPointsHandler().saveUnspecPoint(world, location);
     }
 
     /**
@@ -138,6 +153,19 @@ public final class Handler {
         else {
             this.specPoints.put(null, null);
             plugin.getSpecPointsHandler().saveSpecPoint(null, null);
+            return true;
+        }
+    }
+
+    /**
+     * Unsets the global unspec point and deletes it from the save file
+     * @return <code>true</code> if existing unspec point deleted; <code>false</code> if no existing unspec point
+     */
+    public Boolean clearGlobalUnspecPoint() {
+        if (this.unspecPoints.get(null) == null) return false;
+        else {
+            this.unspecPoints.put(null, null);
+            plugin.getSpecPointsHandler().saveUnspecPoint(null, null);
             return true;
         }
     }
@@ -157,23 +185,15 @@ public final class Handler {
     }
 
     /**
-     * Sets the unspec point to the specified location
-     * @param location Specified location
+     * Unsets a local unspec point and deletes it from the save file
+     * @param world World of target local unspec point
+     * @return <code>true</code> if existing unspec point deleted; <code>false</code> if no existing unspec point
      */
-    public void setGlobalUnspecPoint(Location location) {
-        this.globalUnspecPoint = location;
-        plugin.getSpecPointsHandler().saveUnspecPoint(location);
-    }
-
-    /**
-     * Unsets the unspec point and deletes it from the save file
-     * @return <code>true</code> if existing unspec point deleted; <code>false</code> if no existing unspecpoint
-     */
-    public Boolean clearUnspecPoint () {
-        if (this.globalUnspecPoint == null) return false;
+    public Boolean clearLocalUnspecPoint(World world) {
+        if (this.unspecPoints.get(world) == null) return false;
         else {
-            this.globalUnspecPoint = null;
-            plugin.getSpecPointsHandler().clearUnspecPoint();
+            this.unspecPoints.remove(world);
+            plugin.getSpecPointsHandler().saveUnspecPoint(world, null);
             return true;
         }
     }
@@ -190,11 +210,11 @@ public final class Handler {
     }
 
     /**
-     * Loads the spec points from the save file
+     * Loads the spec points and unspec points from the save file
      */
     public void loadSpecPoints() {
         this.specPoints = plugin.getSpecPointsHandler().getSpecPoints();
-        globalUnspecPoint = plugin.getSpecPointsHandler().getUnspecPoint();
+        this.unspecPoints = plugin.getSpecPointsHandler().getUnspecPoints();
     }
 
     /**
@@ -214,5 +234,5 @@ public final class Handler {
 
     public HashMap<World, Location> getSpecPoints() { return this.specPoints; }
 
-    public Location getGlobalUnspecPoint() { return globalUnspecPoint; }
+    public HashMap<World, Location> getUnspecPoints() { return this.unspecPoints; }
 }

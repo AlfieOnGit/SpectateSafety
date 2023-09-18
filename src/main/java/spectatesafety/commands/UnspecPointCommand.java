@@ -1,5 +1,8 @@
 package spectatesafety.commands;
 
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import spectatesafety.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,12 +35,63 @@ public class UnspecPointCommand implements CommandExecutor, TabCompleter {
             } else if (args.length == 0 || !subCommands.contains(args[0])) { /* If no subcommands or invalid subcommands */
                 sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("{SUBCOMMANDS}", "set, clear"));
             } else {
-                if (args[0].equalsIgnoreCase("set")) { /* SET command execution */
-                    plugin.getHandler().setGlobalUnspecPoint(((Player) sender).getLocation());
-                    sender.sendMessage(Messages.UNPOINT_SET.toString());
-                } else if (args[0].equalsIgnoreCase("clear")) { /* CLEAR command execution */
-                    if (plugin.getHandler().clearUnspecPoint()) sender.sendMessage(Messages.UNPOINT_CLEARED.toString());
-                    else sender.sendMessage(Messages.NO_UNPOINT.toString());
+                if (args[0].equalsIgnoreCase("set")) {
+                    if (args.length > 1) {
+                        if (args[1].startsWith("r:") && SpectateSafety.worldGuardHandler != null) {
+
+                            /* Sender setting a region's unspec point */
+                            String regionName = args[1].substring(2);
+                            Player player = (Player) sender;
+                            ProtectedRegion region = SpectateSafety.worldGuardHandler
+                                    .getRegion(player.getWorld(), regionName);
+                            if (region == null) { /* If region not found */
+                                sender.sendMessage(Messages.WG_NOT_REGION.toString().replace("{REGION}", regionName));
+                            } else { /* Command execution */
+                                SpectateSafety.worldGuardHandler.saveUnspecPoint(player.getWorld(), region, player.getLocation());
+                                sender.sendMessage(Messages.WG_UNPOINT_SET.toString().replace("{REGION}", region.getId()));
+                            }
+
+                        } else {
+
+                            /* Sender setting a world's unspec point */
+                            String worldName = args[1];
+                            World world = Bukkit.getWorld(worldName);
+                            if (world == null) { /* If world not found */
+                                sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
+                            } else { /* Command execution */
+                                plugin.getHandler().setLocalUnspecPoint(((Player) sender).getLocation(), world);
+                                sender.sendMessage(Messages.WORLD_UNPOINT_SET.toString().replace("{WORLD}", worldName));
+                            }
+
+                        }
+                    } else {
+
+                        /* Sender setting the global unspec point */
+                        plugin.getHandler().setGlobalUnspecPoint(((Player) sender).getLocation());
+                        sender.sendMessage(Messages.POINT_SET.toString());
+
+                    }
+                } else if (args[0].equalsIgnoreCase("clear")) {
+                    if (args.length > 1) {
+
+                        /* Sender clearing a world's unspec point */
+                        String worldName = args[1];
+                        World world = Bukkit.getWorld(worldName);
+                        if (world == null) { /* If world not found */
+                            sender.sendMessage(Messages.NOT_WORLD.toString().replace("{WORLD}", worldName));
+                        } else { /* Command execution */
+                            if (plugin.getHandler().clearLocalUnspecPoint(world)) sender.sendMessage(Messages.WORLD_UNPOINT_CLEARED.toString()
+                                    .replace("{WORLD}", worldName));
+                            else sender.sendMessage(Messages.NO_WORLD_UNPOINT.toString().replace("{WORLD}", worldName));
+                        }
+
+                    } else {
+
+                        /* Sender clearing the global unspec point */
+                        if (plugin.getHandler().clearGlobalUnspecPoint()) sender.sendMessage(Messages.UNPOINT_CLEARED.toString());
+                        else sender.sendMessage(Messages.NO_UNPOINT.toString());
+
+                    }
                 } else { /* If invalid subcommand */
                     sender.sendMessage(Messages.VALID_SUBCOMMANDS.toString().replace("%SUBCOMMANDS%", "set, clear"));
                 }

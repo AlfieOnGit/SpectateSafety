@@ -38,6 +38,28 @@ public final class SpecPointsHandler extends FileHandler {
     }
 
     /**
+     * Fetches all unspec points from the specpoints.yml file
+     * @return A hashmap of all unspecpoints
+     */
+    public HashMap<World, Location> getUnspecPoints() {
+        if (config == null) return null;
+        HashMap<World, Location> output = new HashMap<>();
+        if (config.contains("unspec-point")) {
+            output.put(null, config.getLocation("unspec-path"));
+        }
+        for (String path : config.getKeys(false)) {
+            if (path.startsWith("unspec-point-")) {
+                World world = Bukkit.getWorld(path.substring(13));
+                if (world != null) {
+                    output.put(world, config.getLocation(path));
+                } else {
+                    Bukkit.getLogger().info(ChatColor.RED + "[ERROR] INVALID WORLD " + path.substring(13) + " SAVED IN SPECPOINTS.YML");
+                }
+            }
+        } return output;
+    }
+
+    /**
      * Fetches the global unspec point from the specpoints.yml file
      * @return unspec point location
      */
@@ -68,11 +90,13 @@ public final class SpecPointsHandler extends FileHandler {
      * Saves the specified location as the unspec point in the specpoints.yml file
      * @param location specified location
      */
-    public void saveUnspecPoint(Location location) {
-        if (file.exists()) {
-            config.set("unspec-point", location);
-            save();
+    public void saveUnspecPoint(World world, Location location) {
+        if (!file.exists()) return;
+        if (world == null) config.set("unspec-point", location);
+        else {
+            config.set("unspec-point-" + world.getName(), location);
         }
+        save();
     }
 
     /**

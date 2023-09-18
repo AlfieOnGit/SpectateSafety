@@ -45,6 +45,7 @@ public enum Messages {
     WG_NOT_FOUND,
     WG_NOT_REGION,
     WG_POINT_SET,
+    WG_UNPOINT_SET,
 
     HELP_MESSAGE,
     INFO_MESSAGE,
