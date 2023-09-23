@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public final class WorldGuardHandler extends FileHandler {
+public final class WorldGuardHandler extends FileHandler { // TODO: Hold specpoints in cache
 
     private RegionContainer container;
 
@@ -88,5 +88,21 @@ public final class WorldGuardHandler extends FileHandler {
             if (loc != null) return loc;
         }
         return null;
+    }
+
+    public boolean clearSpecPoint(World world, ProtectedRegion region) {
+        String path = world.getName() + "." + region.getId() + ".spec";
+        if (config.get(path) == null) return false;
+        config.set(path, null);
+        save();
+        return true;
+    }
+
+    public boolean clearUnspecPoint(World world, ProtectedRegion region) {
+        String path = world.getName() + "." + region.getId() + ".unspec";
+        if (config.get(path) == null) return false;
+        config.set(world.getName() + "." + region.getId() + ".unspec", null);
+        save();
+        return true;
     }
 }

@@ -8,7 +8,6 @@ public enum Messages {
 
     NO_PERMISSION,
     VALID_SUBCOMMANDS,
-    VALID_ARGUMENTS,
     FORCE_ENABLED,
     FORCE_DISABLED,
 
@@ -42,10 +41,13 @@ public enum Messages {
     NO_WORLD_UNPOINT,
     NOT_WORLD,
 
-    WG_NOT_FOUND,
-    WG_NOT_REGION,
     WG_POINT_SET,
     WG_UNPOINT_SET,
+    WG_POINT_CLEARED,
+    WG_UNPOINT_CLEARED,
+    WG_NOT_REGION,
+    WG_NO_POINT,
+    WG_NO_UNPOINT,
 
     HELP_MESSAGE,
     INFO_MESSAGE,

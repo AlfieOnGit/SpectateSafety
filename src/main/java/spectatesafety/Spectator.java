@@ -1,6 +1,5 @@
 package spectatesafety;
 
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -55,17 +54,13 @@ public class Spectator {
     private @NotNull Location getUnspecLocation() {
         Location out;
         if (SpectateSafety.worldGuardHandler != null) {
-            Bukkit.broadcastMessage("TEST ONE");
             out = SpectateSafety.worldGuardHandler.getUnspecPoint(player);
             if (out != null) return out;
-            Bukkit.broadcastMessage("TEST TWO");
         }
         out = plugin.getHandler().getUnspecPoints().get(this.player.getWorld());
         if (out != null) return out;
-        Bukkit.broadcastMessage("TEST THREE");
         out = plugin.getHandler().getUnspecPoints().get(null);
         if (out != null) return out;
-        Bukkit.broadcastMessage("TEST FOUR");
         return player.getLocation();
     }
 }

@@ -52,11 +52,6 @@ no-permission: "{TAG} &cYou don't have permission for that command!"
 #  Placeholders: {SUBCOMMANDS}
 valid-subcommands: "{TAG} &cValid subcommands: {SUBCOMMANDS}"
 
-#  This message shows when a player attempts to run a command with an invalid argument
-#  (E.G: "/specpoint set 123")
-#  Placeholders: {ARGUMENTS}
-valid-arguments: "{TAG} &cValid arguments: {ARGUMENTS}"
-
 #  This message is sent to players when they're put into spectate mode by a different player
 #  Placeholders: {SENDER}, {TARGET}
 force-enabled: "{TAG} &7Another player has put you in spectate mode!"
@@ -200,13 +195,26 @@ wg-point-set: "{TAG} &aThe spectate point for region {REGION} has been set to yo
 #  Placeholders: {REGION}
 wg-unpoint-set: "{TAG} &aThe unspectate point for region {REGION} has been set to your current location!"
 
-#  This message shows when a player attempts to use World Guard with no implementation found
-wg-not-found: "{TAG} &cCannot use regions since World Guard wasn't found"
+#  This message shows when a player clears a region's spec point
+#  Placeholders: {REGION}
+wg-point-cleared: "{TAG} &aThe spectate point has been cleared for region {REGION}!"
+
+#  This message shows when a player clears a region's unspec point
+#  Placeholders: {REGION}
+wg-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for region {REGION}!"
 
 #  This message shows when a player attempts to set or clear the spec/unspec point for a region
 #  that doesn't exist
 #  Placeholders: {REGION}
 wg-not-region: "{TAG} &cCouldn't find the region '{REGION}'"
+
+#  This message shows when a player attempts to clear the global spec point but it isn't set
+#  Placeholders: {REGION}
+wg-no-point: "{TAG} &cThe region {REGION} has no existing spectate point to clear!"
+
+#  This message shows when a player attempts to clear the global unspec point but it isn't set
+#  Placeholders: {REGION}
+wg-no-unpoint: "{TAG} &cThe region {REGION} has no existing unspectate point to clear!"
 
 #
 #    HELP, INFO AND RELOAD MESSAGES
