@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
-public abstract class FileHandler {
+public abstract class FileManager {
 
     protected File file;
 
@@ -21,7 +21,7 @@ public abstract class FileHandler {
 
     protected FileConfiguration config;
 
-    public FileHandler(Plugin plugin, String fileName) {
+    public FileManager(Plugin plugin, String fileName) {
         this.plugin = plugin;
         this.fileName = fileName;
 
@@ -36,6 +36,7 @@ public abstract class FileHandler {
                 if (!file.createNewFile()) throw new RuntimeException("Could not create " + fileName);
                 plugin.getLogger().info(Component.text(fileName + " created!").color(NamedTextColor.GREEN).content());
                 config = YamlConfiguration.loadConfiguration(file);
+                loadResource();
             } catch (IOException ignored) { }
         }
     }

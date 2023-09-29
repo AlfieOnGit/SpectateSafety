@@ -1,0 +1,7 @@
+aliases:
+  spec:
+    - "spec"
+    - "spectate"
+  unspec:
+    - "unspec"
+    - "unspectate"

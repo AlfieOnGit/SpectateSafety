@@ -1,6 +1,6 @@
 package me.alfiejay.spectatesafety.message;
 
-import me.alfiejay.spectatesafety.FileHandler;
+import me.alfiejay.spectatesafety.FileManager;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -8,14 +8,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public final class MessageManager extends FileHandler {
+public final class MessageManager extends FileManager {
 
     private @NotNull static final HashMap<String, String> customPlaceholders = new HashMap<>();
     private @NotNull static final HashMap<String, String> messages = new HashMap<>();
 
     public MessageManager(Plugin plugin) {
         super(plugin, "messages.yml");
-        loadResource();
         load();
     }
 
