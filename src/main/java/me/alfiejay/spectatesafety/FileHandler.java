@@ -1,5 +1,7 @@
 package me.alfiejay.spectatesafety;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -24,25 +26,32 @@ public abstract class FileHandler {
         this.fileName = fileName;
 
         if (!plugin.getDataFolder().exists()) {
-            plugin.getDataFolder().mkdir();
+            if (!plugin.getDataFolder().mkdir()) throw new RuntimeException("Could not create plugin data folder");
         }
         file = new File(plugin.getDataFolder(), fileName);
         if (file.exists()) {
             config = YamlConfiguration.loadConfiguration(file);
         } else {
             try {
-                file.createNewFile();
+                if (!file.createNewFile()) throw new RuntimeException("Could not create " + fileName);
+                plugin.getLogger().info(Component.text(fileName + " created!").color(NamedTextColor.GREEN).content());
                 config = YamlConfiguration.loadConfiguration(file);
             } catch (IOException ignored) { }
         }
     }
 
+    /**
+     * Save configuration to yml file
+     */
     public void save() {
         try {
             config.save(file);
         } catch (IOException ignored) { }
     }
 
+    /**
+     * Load resource file content into file
+     */
     public void loadResource() {
         InputStream inputStream = plugin.getResource(fileName);
 
