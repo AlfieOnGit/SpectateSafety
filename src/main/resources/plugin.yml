@@ -1,0 +1,4 @@
+name: SpectateSafety
+version: '${project.version}'
+main: me.alfiejay.spectatesafety.SpectateSafety
+api-version: '1.20'

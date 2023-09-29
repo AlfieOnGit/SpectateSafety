@@ -1,0 +1,243 @@
+#  ###################################
+#  # Spectate Safety Messages Config #
+#  ###################################
+
+#
+#    OVERVIEW
+#
+
+#  This is the messages configuration file for AlfieJay's Spectate Safety. In this file you can
+#  customise command feedback
+
+
+#
+#    PLACEHOLDERS
+#
+
+#  Below are listed all the built-in placeholders that'll be replaced by variables dependent on
+#  context. If you make a custom placeholder with the same name, it'll override the built in one
+
+#  Placeholder directory:
+#  {COMMAND} = The command usage
+#  {COUNT} = The number of player affected (not including targets whose gamemodes weren't changed)
+#  {DEPENDENCY} = The name of the dependency
+#  {DESCRIPTION} = The command description
+#  {FOUND} = Whether or not a dependency was found in the plugins folder
+#  {GROUP} = The name of the permission group that the command's being used on
+#  {PERMISSION} = The permission required to run the command
+#  {REGION} = The name of the region which the command's being used on
+#  {SENDER} = The username of the player executing the command
+#  {SUBCOMMANDS} = A list of valid subcommands
+#  {TARGET} = The username of the player who the command's being used on
+#  {WORLD} = The name of the world which the command's being used on
+#  {VERSION} = Plugin version
+
+#  You can add text placeholders here. Remember the formatting! E.G: For the placeholder "tag", you'll
+#  have to write {TAG} when you want to use it in a message (See default messages as an example)
+
+custom-placeholders:
+  tag: "&5[&d&lSPEC&5]"
+
+
+#
+#    GENERAL OUTPUT
+#
+
+#  This message shows when a player attempts the execute a command they don't have permission for
+#  Placeholders: {PERMISSION}
+no-permission: "{TAG} &cYou don't have permission for that command!"
+
+#  This message shows when a player attempts to run a command with an invalid subcommand
+#  (E.G: "/specpoint delete")
+#  Placeholders: {SUBCOMMANDS}
+valid-subcommands: "{TAG} &cValid subcommands: {SUBCOMMANDS}"
+
+#  This message is sent to players when they're put into spectate mode by a different player
+#  Placeholders: {SENDER}, {TARGET}
+force-enabled: "{TAG} &7Another player has put you in spectate mode!"
+
+#  This message is sent to players when they're put into spectate mode by a different player
+#  Placeholders: {SENDER}, {TARGET}
+force-disabled: "{TAG} &7Another player has taken you out of spectate mode!"
+
+
+#
+#    SPECTATE AND UNSPECTATE SUCCESS MESSAGES
+#
+
+#  This message shows when a player enables spectate mode for themself
+#  Placeholders: {SENDER}
+enabled: "{TAG} &7Spectate mode &a&lENABLED&7!"
+
+#  This message shows when a player disables spectate mode for themself
+#  Placeholders: {SENDER}
+disabled: "{TAG} &7Spectate mode &c&lDISABLED&7!"
+
+#  This message shows when a player enables spectate mode for another player
+#  Placeholders: {TARGET}
+enabled-for: "{TAG} &7Spectate mode &a&lENABLED&7 for &f{TARGET}&7!"
+
+#  This message shows when a player disables spectate mode for another player
+#  Placeholders: {TARGET}
+disabled-for: "{TAG} &7Spectate mode &c&lDISABLED&7 for &f{TARGET}&7!"
+
+#  This message shows when a player enables spectate mode for a group of players
+#  Placeholders: {GROUP}, {COUNT}
+enabled-group: "{TAG} &7Enabled spectate mode for &a&l{COUNT}&7 players in the group &f{GROUP}&7!"
+
+#  This message shows when a player disables spectate mode for a group of players
+#  Placeholders: {GROUP}, {COUNT}
+disabled-group: "{TAG} &7Disabled spectate mode for &c&l{COUNT}&7 players in the group &f{GROUP}&7!"
+
+#  This message shows when a player enables spectate mode for all players
+#  Placeholders: {COUNT}
+enabled-all: "{TAG} &7Enabled spectate mode for &a&l{COUNT}&7 players!"
+
+#  This message shows when a player disables spectate mode for all players
+#  Placeholders: {COUNT}
+disabled-all: "{TAG} &7Disabled spectate mode for &c&l{COUNT}&7 players!"
+
+
+#
+#    SPECTATE AND UNSPECTATE ERROR MESSAGES
+#
+
+#  This message shows when a player attempts to enable spectate mode for themself but is already in
+#  spectate mode
+already-enabled: "{TAG} &cYou're already in spectator mode!"
+
+#  This message shows when a player attempts to disable spectate mode for themself but isn't in
+#  spectate mode
+already-disabled: "{TAG} &cYou're not currently in spectator mode!"
+
+#  This messages shows when a player attempts to enable or disable spectate mode for a target that's
+#  not an online player
+#  Placeholders: {TARGET}
+not-player: "{TAG} &c'{TARGET}' is not an online player!"
+
+#  This messages shows when a player attempts to enable or disable spectate mode for a group that
+#  doesn't exist
+#  Placeholders: {GROUP}
+not-group: "{TAG} &c'{GROUP}' is not a valid group!"
+
+#  This message shows when a player attempts to enable spectate mode for another player who's already
+#  in spectate mode
+#  Placeholders: {TARGET}
+already-enabled-for: "{TAG} &c{TARGET} is already in spectator mode!"
+
+#  This message shows when a player attempts to disable spectate mode for another player who isn't
+#  in spectate mode
+#  Placeholders: {TARGET}
+already-disabled-for: "{TAG} &c{TARGET} isn't currently in spectator mode!"
+
+
+#
+#    SPECPOINT AND UNSPECPOINT MESSAGES
+#
+
+#  This message shows when a player sets the global spec point
+point-set: "{TAG} &aThe global spectate point has been set to your current location!"
+
+#  This message shows when a player sets the global unspec point
+unpoint-set: "{TAG} &aThe unspectate point has been set to your current location!"
+
+#  This message shows when a player sets a world's spec point
+#  Placeholders: {WORLD}
+world-point-set: "{TAG} &aThe spectate point for world {WORLD} has been set to your current location!"
+
+#  This message shows when a player sets a world's unspec point
+#  Placeholders: {WORLD}
+world-unpoint-set: "{TAG} &aThe unspectate point for world {WORLD} has been set to your current location!"
+
+#  This message shows when a player clears the global spec point
+point-cleared: "{TAG} &aThe spectate point has been cleared!"
+
+#  This message shows when a player clears the global unspec point
+unpoint-cleared: "{TAG} &aThe unspectate point has been cleared!"
+
+#  This message shows when a player clears the global spec point
+#  Placeholders: {WORLD}
+world-point-cleared: "{TAG} &aThe spectate point has been cleared for world {WORLD}!"
+
+#  This message shows when a player clears the global unspec point
+#  Placeholders: {WORLD}
+world-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for world {WORLD}!"
+
+#  This message shows when a player attempts to clear the global spec point but it isn't set
+no-point: "{TAG} &cThere's no existing spectate point to clear!"
+
+#  This message shows when a player attempts to clear a local spec point that isn't set
+#  Placeholders: {WORLD}
+no-world-point: "{TAG} &cThere's no existing spectate point to clear!"
+
+#  This message shows when a player attempts to clear the global unspec point but it isn't set
+no-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
+
+#  This message shows when a player attempts to clear a local unspec point that isn't set
+#  Placeholders: {WORLD}
+no-world-unpoint: "{TAG} &cThere's no existing unspectate point to clear!"
+
+#  This message shows when a player attempts to set or clear the spec/unspec point for a world
+#  that doesn't exist
+#  Placeholders: {WORLD}
+not-world: "{TAG} &cCouldn't find the world '{WORLD}'"
+
+
+#
+#    WORLD GUARD MESSAGES
+#
+
+#  This message shows when a player sets a region's spec point
+#  Placeholders: {REGION}
+wg-point-set: "{TAG} &aThe spectate point for region {REGION} has been set to your current location!"
+
+#  This message shows when a player sets a region's unspec point
+#  Placeholders: {REGION}
+wg-unpoint-set: "{TAG} &aThe unspectate point for region {REGION} has been set to your current location!"
+
+#  This message shows when a player clears a region's spec point
+#  Placeholders: {REGION}
+wg-point-cleared: "{TAG} &aThe spectate point has been cleared for region {REGION}!"
+
+#  This message shows when a player clears a region's unspec point
+#  Placeholders: {REGION}
+wg-unpoint-cleared: "{TAG} &aThe unspectate point has been cleared for region {REGION}!"
+
+#  This message shows when a player attempts to set or clear the spec/unspec point for a region
+#  that doesn't exist
+#  Placeholders: {REGION}
+wg-not-region: "{TAG} &cCouldn't find the region '{REGION}'"
+
+#  This message shows when a player attempts to clear the global spec point but it isn't set
+#  Placeholders: {REGION}
+wg-no-point: "{TAG} &cThe region {REGION} has no existing spectate point to clear!"
+
+#  This message shows when a player attempts to clear the global unspec point but it isn't set
+#  Placeholders: {REGION}
+wg-no-unpoint: "{TAG} &cThe region {REGION} has no existing unspectate point to clear!"
+
+#
+#    HELP, INFO AND RELOAD MESSAGES
+#
+
+#  This is the banner above the help command feedback
+help-message: "&5|=================[ &l&nHELP&5 ]=================|"
+
+#  This is the banner above the info command feedback
+info-message: "&5|====[ &l&nINFO&5 ]====|"
+
+#  This message shows when a player reloads the plugin
+reload-message: "{TAG} &aSuccessfully reloaded configs!"
+
+#  This is the format commands appear in the help command feedback
+#  Placeholders: {COMMAND}, {DESCRIPTION}
+help-format: "&d{COMMAND} &5- &7{DESCRIPTION}"
+
+#  This is the format of the version message in the info command feedback
+#  Placeholders: {VERSION}
+version: "&dVersion &8- &5&l{VERSION}"
+
+#  This is the format of the message in the info command feedback that tells you whether or not a
+#  dependency has been found
+#  Placeholders: {DEPENDENCY}, {FOUND}
+dependency: "&d{DEPENDENCY} &8- &5&l{FOUND}"
