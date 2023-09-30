@@ -1,10 +1,12 @@
 package me.alfiejay.spectatesafety;
 
+import me.alfiejay.spectatesafety.command.Command;
 import me.alfiejay.spectatesafety.command.SpecCommand;
 import me.alfiejay.spectatesafety.command.UnspecCommand;
 import me.alfiejay.spectatesafety.config.ConfigManager;
 import me.alfiejay.spectatesafety.message.MessageManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public final class SpectateSafety extends JavaPlugin {
 
@@ -24,8 +26,12 @@ public final class SpectateSafety extends JavaPlugin {
     }
 
     private void registerCommands() {
-        this.getServer().getCommandMap().register("spectatesafety", new SpecCommand(this));
-        this.getServer().getCommandMap().register("spectatesafety", new UnspecCommand(this));
+        registerCommand(new SpecCommand(this));
+        registerCommand(new UnspecCommand(this));
+    }
+
+    private void registerCommand(@NotNull final Command command) {
+        this.getServer().getCommandMap().register("spectatesafety", command);
     }
 
     /**
