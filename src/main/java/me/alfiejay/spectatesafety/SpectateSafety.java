@@ -10,13 +10,15 @@ import org.jetbrains.annotations.NotNull;
 
 public final class SpectateSafety extends JavaPlugin {
 
+    private Manager manager;
     private MessageManager messageManager;
     private ConfigManager configManager;
 
     @Override
     public void onEnable() {
-        this.messageManager = new MessageManager(this);
-        this.configManager = new ConfigManager(this);
+        manager = new Manager();
+        messageManager = new MessageManager(this);
+        configManager = new ConfigManager(this);
         registerCommands();
     }
 
@@ -40,6 +42,8 @@ public final class SpectateSafety extends JavaPlugin {
     public void reload() {
         messageManager.load();
     }
+
+    public Manager getManager() { return manager; }
 
     public ConfigManager getConfigManager() { return configManager; }
 }
