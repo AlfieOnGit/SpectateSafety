@@ -45,6 +45,12 @@ public abstract class Command extends BukkitCommand implements TabCompleter {
             throw new CommandException(message.toString(), var11);
         }
 
-        return completions == null ? new ArrayList<>() : completions;
+        List<String> out = new ArrayList<>();
+        if (completions != null)
+            for (String s : completions)
+                if (s.toLowerCase().startsWith(args[args.length - 1].toLowerCase()))
+                    out.add(s);
+
+        return out;
     }
 }
