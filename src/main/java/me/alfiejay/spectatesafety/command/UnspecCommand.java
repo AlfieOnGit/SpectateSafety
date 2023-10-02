@@ -67,8 +67,7 @@ public final class UnspecCommand extends Command {
             return;
         }
 
-        boolean result = manager.takeOutOfSpectate(player);
-        if (result) player.sendMessage(Message.DISABLED.get(player.getName()));
+        if (manager.takeOutOfSpectate(player)) player.sendMessage(Message.DISABLED.get(player.getName()));
         else player.sendMessage(Message.ALREADY_DISABLED.get());
     }
 }

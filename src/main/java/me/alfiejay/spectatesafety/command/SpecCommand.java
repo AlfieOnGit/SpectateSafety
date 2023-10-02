@@ -67,8 +67,7 @@ public final class SpecCommand extends Command {
             return;
         }
 
-        boolean result = manager.putInSpectate(player);
-        if (result) player.sendMessage(Message.ENABLED.get(player.getName()));
+        if (manager.putInSpectate(player)) player.sendMessage(Message.ENABLED.get(player.getName()));
         else player.sendMessage(Message.ALREADY_ENABLED.get());
     }
 }
