@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 public enum Message {
 
     NO_PERMISSION("{PERMISSION}"),
+    CANNOT_TELEPORT,
     VALID_SUBCOMMANDS("{SUBCOMMANDS}"),
     FORCE_ENABLED("{SENDER]", "{TARGET}"),
     FORCE_DISABLED("{SENDER}", "{TARGET}"),

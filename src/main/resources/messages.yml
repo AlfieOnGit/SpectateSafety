@@ -49,6 +49,10 @@ custom-placeholders:
 #  Placeholders: {PERMISSION}
 no-permission: "{TAG} &cYou don't have permission for that command!"
 
+#  This message shows when a player attempts to teleport in spectate mode when they don't have the
+#  "spectatesafety.teleport" permission
+cannot-teleport: "{TAG} &cYou don't have permission to teleport in spectate mode!"
+
 #  This message shows when a player attempts to run a command with an invalid subcommand
 #  (E.G: "/specpoint delete")
 #  Placeholders: {SUBCOMMANDS}

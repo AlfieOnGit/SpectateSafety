@@ -36,12 +36,22 @@ public final class Manager {
     }
 
     /**
-     * Get Spectator instance from Player instance
+     * Get spectator instance from player
      * @param player Player instance
      * @return Spectator instance or NULL if not found
      */
     private @Nullable Spectator getSpectator(@NotNull final Player player) {
         for (Spectator s : spectators) if (s.getPlayer() == player) return s;
         return null;
+    }
+
+    /**
+     * Check if player is in spectate mode
+     * @param player Player instance
+     * @return TRUE if player in spectate mode, FALSE if not
+     */
+    public boolean isInSpec(@NotNull final Player player) {
+        for (Spectator s : spectators) if (s.getPlayer() == player) return true;
+        return false;
     }
 }

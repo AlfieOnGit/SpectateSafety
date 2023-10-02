@@ -4,6 +4,7 @@ import me.alfiejay.spectatesafety.command.Command;
 import me.alfiejay.spectatesafety.command.SpecCommand;
 import me.alfiejay.spectatesafety.command.UnspecCommand;
 import me.alfiejay.spectatesafety.config.ConfigManager;
+import me.alfiejay.spectatesafety.listener.Listener;
 import me.alfiejay.spectatesafety.message.MessageManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ public final class SpectateSafety extends JavaPlugin {
         messageManager = new MessageManager(this);
         configManager = new ConfigManager(this);
         registerCommands();
+        getServer().getPluginManager().registerEvents(new Listener(this), this);
     }
 
     @Override
