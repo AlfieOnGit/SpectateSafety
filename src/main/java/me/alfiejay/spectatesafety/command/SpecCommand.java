@@ -24,12 +24,17 @@ public final class SpecCommand extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] args) {
-        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-            reload(sender);
-            return true;
-        }
-
         if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("reload")) {
+                reload(sender);
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("info")) {
+                info(sender);
+                return true;
+            }
+
             specTarget(sender, args[0]);
             return true;
         }
@@ -56,6 +61,13 @@ public final class SpecCommand extends Command {
 
         plugin.reload();
         sender.sendMessage(Message.RELOAD_MESSAGE.get());
+    }
+
+    @SuppressWarnings("deprecation") // Until Paper make getPluginMeta() not "experimental", we're using getDescription()
+    private void info(@NotNull final CommandSender sender) {
+        sender.sendMessage(Message.INFO_MESSAGE.get());
+        sender.sendMessage(Message.VERSION.get(plugin.getDescription().getVersion()));
+        // TODO: Dependencies
     }
 
     private void specTarget(@NotNull final CommandSender sender, @NotNull final String playerName) {
