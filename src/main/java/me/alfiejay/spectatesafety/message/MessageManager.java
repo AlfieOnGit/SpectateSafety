@@ -18,10 +18,16 @@ public final class MessageManager extends FileManager {
         load();
     }
 
+    @Override
+    public void reload() {
+        super.reload();
+        load();
+    }
+
     /**
      * Load messages.yml into the manager
      */
-    public void load() {
+    private void load() {
         loadCustomPlaceholders();
         loadMessages();
     }

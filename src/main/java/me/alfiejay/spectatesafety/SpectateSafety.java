@@ -1,26 +1,24 @@
 package me.alfiejay.spectatesafety;
 
-import me.alfiejay.spectatesafety.command.Command;
-import me.alfiejay.spectatesafety.command.SpecCommand;
-import me.alfiejay.spectatesafety.command.UnspecCommand;
+import me.alfiejay.spectatesafety.command.CommandManager;
 import me.alfiejay.spectatesafety.config.ConfigManager;
 import me.alfiejay.spectatesafety.listener.Listener;
 import me.alfiejay.spectatesafety.message.MessageManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 
 public final class SpectateSafety extends JavaPlugin {
 
     private Manager manager;
     private MessageManager messageManager;
     private ConfigManager configManager;
+    private CommandManager commandManager;
 
     @Override
     public void onEnable() {
         manager = new Manager();
         messageManager = new MessageManager(this);
         configManager = new ConfigManager(this);
-        registerCommands();
+        commandManager = new CommandManager(this);
         getServer().getPluginManager().registerEvents(new Listener(this), this);
     }
 
@@ -29,20 +27,13 @@ public final class SpectateSafety extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    private void registerCommands() {
-        registerCommand(new SpecCommand(this));
-        registerCommand(new UnspecCommand(this));
-    }
-
-    private void registerCommand(@NotNull final Command command) {
-        this.getServer().getCommandMap().register("spectatesafety", command);
-    }
-
     /**
      * Reload plugin config files
      */
     public void reload() {
-        messageManager.load();
+        messageManager.reload();
+        configManager.reload();
+        commandManager.reload();
     }
 
     public Manager getManager() { return manager; }

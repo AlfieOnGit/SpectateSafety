@@ -13,11 +13,24 @@ import java.util.List;
 
 public abstract class Command extends BukkitCommand implements TabCompleter {
 
+    private @NotNull final String commandName;
+
     protected Command(@NotNull final SpectateSafety plugin, @NotNull final String commandName) {
         super(plugin.getConfigManager().getAliases(commandName).get(0));
+        this.commandName = commandName;
         List<String> hold = plugin.getConfigManager().getAliases(commandName);
         hold.remove(0);
         this.setAliases(hold);
+    }
+
+    /**
+     * Reload the command aliases
+     * @param plugin SpectateSafety instance
+     */
+    public void reload(@NotNull final SpectateSafety plugin) {
+        List<String> hold = plugin.getConfigManager().getAliases(commandName);
+        setName(hold.remove(0));
+        setAliases(hold);
     }
 
     @Override

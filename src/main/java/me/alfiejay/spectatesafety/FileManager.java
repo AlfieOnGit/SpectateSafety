@@ -2,6 +2,7 @@ package me.alfiejay.spectatesafety;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -51,9 +52,21 @@ public abstract class FileManager {
     }
 
     /**
+     * Reload the contents of the yml into the config attribute
+     */
+    public void reload() {
+        try {
+            config.load(file);
+        } catch (IOException | InvalidConfigurationException e) {
+            plugin.getLogger().severe(Component.text("Error while reloading" + fileName).color(NamedTextColor.RED).content());
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Load resource file content into file
      */
-    public void loadResource() {
+    private void loadResource() {
         InputStream inputStream = plugin.getResource(fileName);
 
         try {
