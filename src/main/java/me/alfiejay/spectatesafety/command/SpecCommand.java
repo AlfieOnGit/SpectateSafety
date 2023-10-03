@@ -13,15 +13,22 @@ import java.util.List;
 
 public final class SpecCommand extends Command {
 
+    private final SpectateSafety plugin;
     private final Manager manager;
 
     public SpecCommand(@NotNull final SpectateSafety plugin) {
         super(plugin, "spec");
+        this.plugin = plugin;
         manager = plugin.getManager();
     }
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] args) {
+        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+            reload(sender);
+            return true;
+        }
+
         if (args.length == 1) {
             specTarget(sender, args[0]);
             return true;
@@ -39,6 +46,16 @@ public final class SpecCommand extends Command {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, org.bukkit.command.@NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         return null;
+    }
+
+    private void reload(@NotNull final CommandSender sender) {
+        if (!sender.hasPermission("spectatesafety.reload")) {
+            sender.sendMessage(Message.NO_PERMISSION.get("spectatesafety.reload"));
+            return;
+        }
+
+        plugin.reload();
+        sender.sendMessage(Message.RELOAD_MESSAGE.get());
     }
 
     private void specTarget(@NotNull final CommandSender sender, @NotNull final String playerName) {
